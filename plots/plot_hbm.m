@@ -97,7 +97,6 @@ for i_novelty = 1:numbers.nb_novelties
     subplot(1,numbers.nb_novelties,i_novelty);
     hold on;
     
-    this_subdata = nan(1,16);
     this_moddata = nan(1,16);
 
     for i_trial = 1:16
@@ -111,6 +110,37 @@ for i_novelty = 1:numbers.nb_novelties
     plot(ones(1,16)  ,'linewidth',1,'linestyle','-','color','k');
     plot(this_moddata,'linewidth',2,'linestyle','-','color',c(i_novelty));
     ylim([0 36]);
+    xlim([1 numbers.nb_trials]);
+    set(gca,'fontsize',16,'fontname','Arial');
+end
+
+%% probabilities plot
+
+%figure
+figure('color',[1 1 1]);
+c = 'rg';
+
+for i_novelty = 1:numbers.nb_novelties
+
+    % figure
+    subplot(1,numbers.nb_novelties,i_novelty);
+    hold on;
+    
+    this_moddata = nan(1,16);
+    this_truedata = nan(1,16);
+
+    for i_trial = 1:16
+        % index
+        ii_index = (sdata.trial==i_trial & sdata.cuenovelty==numbers.u_novelty(i_novelty));
+        % data
+        this_moddata(i_trial) = mean(sdata.Mbayes_pr(ii_index));
+        this_truedata(i_trial) = mean(sdata.newtarget(ii_index));
+    end
+    
+    % plot
+    plot(this_truedata,'linewidth',1,'linestyle','-','color','k');
+    plot(this_moddata,'linewidth',2,'linestyle','-','color',c(i_novelty));
+    ylim([0 1]);
     xlim([1 numbers.nb_trials]);
     set(gca,'fontsize',16,'fontname','Arial');
 end
