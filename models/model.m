@@ -7,5 +7,7 @@ function varargout = model(varargin)
             [varargout{1:nargout}] = model_gvalue( varargin{:} );
         case 'thresh'
             [varargout{1:nargout}] = model_thresh( varargin{:} );
+        case 'hbm'
+            [varargout{1:nargout}] = model_hbm( varargin{:} );
     end
 end
