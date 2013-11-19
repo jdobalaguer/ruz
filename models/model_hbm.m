@@ -8,7 +8,8 @@ function data = model_hbm(codez,attside,target,k)
     modelrules = ones(6,6);
     modeltargets = nan(6,6);
     if k==2
-        modelrules(4:6,4:6) = 0;
+        modelrules(:,4:6) = 0;
+        modelrules(4:6,:) = 0;
     end
     
     % log variables
