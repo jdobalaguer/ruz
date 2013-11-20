@@ -2,11 +2,10 @@
 % run a hierarchical bayesian model
 %
 
-clc;
-clear all;
-
 %% sdata
-load_alldata;
+if ~exist('sdata','var')
+    load_alldata;
+end
 
 %% numbers
 if ~exist('numbers','var')

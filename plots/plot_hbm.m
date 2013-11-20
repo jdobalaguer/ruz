@@ -1,5 +1,6 @@
 
 %% fit model
+load_twoparams;
 run_hbm_model;
 
 %% performance plot
@@ -16,6 +17,7 @@ for i_novelty = 1:numbers.nb_novelties
     
     this_subdata = nan(1,16);
     this_moddata = nan(1,16);
+    this_optdata = nan(1,16);
 
     for i_trial = 1:16
         % index
@@ -23,11 +25,13 @@ for i_novelty = 1:numbers.nb_novelties
         % data
         this_subdata(i_trial) = mean(sdata.Mhuman_cr(ii_index));
         this_moddata(i_trial) = mean(sdata.Mbayes_cr(ii_index));
+        this_optdata(i_trial) = mean(sdata.Mopt_cor(ii_index));
     end
     
     % plot
     plot(this_subdata, 'o','markerfacecolor','k','markeredgecolor','k','markersize',10);
-    plot(this_moddata,'linewidth',2,'linestyle','-','color',c(i_novelty));
+    plot(this_moddata,'linewidth',2,'linestyle','--','color',c(i_novelty));
+    plot(this_optdata,'linewidth',2,'linestyle','-','color',c(i_novelty));
     ylim([0 1]);
     xlim([1 numbers.nb_trials]);
     set(gca,'fontsize',16,'fontname','Arial');
@@ -47,6 +51,7 @@ for i_novelty = 1:numbers.nb_novelties
     
     this_subdata = nan(1,16);
     this_moddata = nan(1,16);
+    this_optdata = nan(1,16);
 
     for i_trial = 1:16
         % index
@@ -54,11 +59,13 @@ for i_novelty = 1:numbers.nb_novelties
         % data
         this_subdata(i_trial) = mean(sdata.Mhuman_ch(ii_index));
         this_moddata(i_trial) = mean(sdata.Mbayes_ch(ii_index));
+        this_optdata(i_trial) = mean(sdata.Mopt_ch(ii_index));
     end
     
     % plot
     plot(this_subdata, 'o','markerfacecolor','k','markeredgecolor','k','markersize',10);
-    plot(this_moddata,'linewidth',2,'linestyle','-','color',c(i_novelty));
+    plot(this_moddata,'linewidth',2,'linestyle','--','color',c(i_novelty));
+    plot(this_optdata,'linewidth',2,'linestyle','-','color',c(i_novelty));
     ylim([0 1]);
     xlim([1 numbers.nb_trials]);
     set(gca,'fontsize',16,'fontname','Arial');
