@@ -17,6 +17,8 @@ function data = model_hbm(codez,attside,target,k)
     modelprobs = [];
     modelchoice = [];
     modelcor   = [];
+    modelhleft = [];
+    modelhright = [];
     
     %% for each trial
     for i=1:nb_trials
@@ -43,6 +45,18 @@ function data = model_hbm(codez,attside,target,k)
         modelchoice(i) = (modelprobs(i)>=0.5);
         modelcor(i)    = (target(i))==modelchoice(i);
         
+        sleft = sum(modelrules,1);
+        pleft = sleft/sum(sleft);
+        lleft = log2(pleft); lleft(~pleft) = 0;
+        hleft = -sum(lleft.*pleft);
+        modelhleft(i)  = hleft;
+        
+        sright = sum(modelrules,2);
+        pright = sright/sum(sright);
+        lright = log2(pright); lright(~pright) = 0;
+        hright = -sum(lright.*pright);
+        modelhright(i)  = hright;
+        
         % update modelrules
         modelrules(modeltargets(:)~=target(i)) = 0;
     end
@@ -52,5 +66,7 @@ function data = model_hbm(codez,attside,target,k)
     data.modelprobs     = modelprobs;
     data.modelchoice    = modelchoice;
     data.modelcor       = modelcor;
+    data.modelhleft     = modelhleft;
+    data.modelhright    = modelhright;
 
 end

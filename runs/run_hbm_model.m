@@ -9,14 +9,25 @@ clear all;
 load_alldata;
 
 %% numbers
-numbers = struct();
-numbers.u_subject = unique(sdata.sub);
-numbers.u_block = unique(sdata.block);
-numbers.u_trial = unique(sdata.trial);
+if ~exist('numbers','var')
+    numbers = struct();
+    numbers.u_subject = unique(sdata.sub);
+    numbers.u_block = unique(sdata.block);
+    numbers.u_trial = unique(sdata.trial);
+    numbers.u_novelty = 0:1;
 
-numbers.nb_subjects = length(numbers.u_subject);
-numbers.nb_blocks = length(numbers.u_block);
-numbers.nb_trials = length(numbers.u_trial);
+    numbers.u_propabs   = .6;
+    numbers.u_propang   = 0:0.005:1;
+    numbers.u_thresh    = 0:0.005:1;
+    
+    numbers.nb_subjects = length(numbers.u_subject);
+    numbers.nb_blocks = length(numbers.u_block);
+    numbers.nb_trials = length(numbers.u_trial);
+    numbers.nb_novelties = length(numbers.u_novelty);
+    numbers.nb_propabss = length(numbers.u_propabs);
+    numbers.nb_propangs = length(numbers.u_propang);
+    numbers.nb_threshs  = length(numbers.u_thresh);
+end
 
 %% run models
 % relevant rows for this block in sdata.codez
@@ -55,8 +66,10 @@ for i_subject = 1:numbers.nb_subjects
         sdata.Mbayes_pr(indx) = odata.modelprobs;
         sdata.Mbayes_ch(indx) = odata.modelchoice;
         sdata.Mbayes_cr(indx) = odata.modelcor;
+        sdata.Mbayes_hl(indx) = odata.modelhleft;
+        sdata.Mbayes_hr(indx) = odata.modelhright;
     end
 end
 fprintf(['\n']);
 
-clearvars -except sdata;
+clearvars -except sdata numbers;
