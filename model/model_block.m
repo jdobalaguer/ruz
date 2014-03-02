@@ -13,6 +13,11 @@ function [mdata] = model_block(model,vb_stimord,vb_novel,vb_target,vb_rules)
             run('models/hbm.m');
             return;
             
+        case 'alcove'
+            %% alcove model (kruschke 1992)
+            run('models/alcove.m');
+            return;
+            
         otherwise
             %% unknown
             error('model_block: error. model "%s" unknown',model.name);

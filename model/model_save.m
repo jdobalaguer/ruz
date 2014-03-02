@@ -27,6 +27,10 @@ function model_save(model,mdata)
             models.(model.name).entropy_right = mdata.entropy_right;
             save('data/sdata.mat','-append','models');
             
+        case 'alcove'
+            %% alcove (kruschke 1992)
+            save('data/sdata.mat','-append','models');
+            
         otherwise
             error('model_save: error. model "%s" unknown',model.name);
     end

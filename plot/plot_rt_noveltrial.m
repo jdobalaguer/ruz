@@ -1,5 +1,5 @@
 
-function plot_rt()
+function plot_rt_noveltrial()
     
     %% load
     load('data/sdata');
@@ -30,11 +30,12 @@ function plot_rt()
         for i_subject = 1:nb_subject
             for i_trial = 1:nb_trial
                 % index
+                ii_resp    = (models.human.rt>0);
                 ii_novel = (sdata.vb_novel == u_novel(i_novel));
                 ii_subject = (sdata.exp_subject == u_subject(i_subject));
                 ii_trial = (sdata.exp_trial == u_trial(i_trial));
                 % value
-                rt(i_subject,i_trial) = mean(models.human.rt(ii_novel & ii_subject & ii_trial));
+                rt(i_subject,i_trial) = mean(models.human.rt(ii_resp & ii_novel & ii_subject & ii_trial));
             end
         end
 

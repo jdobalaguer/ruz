@@ -1,5 +1,5 @@
 
-function plot_rt_correct_choice()
+function plot_rt_novelcorrectchoice()
     
     %% load
     load('data/sdata');
@@ -20,7 +20,9 @@ function plot_rt_correct_choice()
     f = figure();
     
     % colour
-    colour = fig_color('white')./255;
+    % colour
+    colour        = fig_color('green')./255;
+    colour(:,:,2) = fig_color('red')./255;
     
     % titles
     titles = {'FAMILIAR','NOVEL'};
@@ -33,13 +35,14 @@ function plot_rt_correct_choice()
             for i_correct = 1:nb_correct
                 for i_choice = 1:nb_choice
                     % index
+                    ii_resp    = (models.human.rt>0);
                     ii_novel   = (sdata.vb_novel        == u_novel(i_novel));
                     ii_correct = (models.human.correct  == u_correct(i_correct));
                     ii_choice  = (models.human.choice   == u_choice(i_choice));
                     ii_subject = (sdata.exp_subject     == u_subject(i_subject));
                     ii_trial   = (sdata.exp_trial       <12);
                     % value
-                    rt(i_subject,i_correct,i_choice) = -1000 + 1000*mean(models.human.rt(ii_subject & ii_novel & ii_correct & ii_choice & ii_trial));
+                    rt(i_subject,i_correct,i_choice) = -1000 + 1000*mean(models.human.rt(ii_resp & ii_subject & ii_novel & ii_correct & ii_choice & ii_trial));
                 end
             end
         end
@@ -51,15 +54,16 @@ function plot_rt_correct_choice()
         % barweb
         y = squeeze(mean(rt));
         e = squeeze(tools_ste(rt));
+        c = squeeze(colour(:,:,i_novel));
         web = fig_barweb(   y,e,...                                                height and error
                             [],...                                                 width
                             {'wrong','correct'},...                                group names
                             titles{i_novel},...                                    title
                             [],...                                                 xlabel
                             'reaction time (ms)',...                               ylabel
-                            colour,...                                             colour
+                            c,...                                                  colour
                             [],...                                                 grid
-                            {'not','choice'},...                             legend
+                            {'not','choice'},...                                   legend
                             [],...                                                 error sides (1, 2)
                             'axis'...                                              legend ('plot','axis')
                             );
