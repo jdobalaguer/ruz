@@ -1,8 +1,12 @@
 
 function model_assert(model)
     switch(model.name)
+        case 'god'
+            %% god (perfect)
+            % no conditions
+            
         case 'hbm'
-            %% hierarchical bayesian model
+            %% hierarchical bayesian model (optimal)
             % no conditions
             
         case 'reinforcer'
@@ -12,6 +16,6 @@ function model_assert(model)
             
         otherwise
             %% unknown
-            error(sprintf('model_assert: error. model "%s" unknown',model.name));
+            error('model_assert: error. model "%s" unknown',model.name);
     end
 end

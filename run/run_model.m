@@ -8,10 +8,7 @@ function run_model(model)
 
     %% run
     % parallel toolbox
-    if exist('matlabpool','builtin') && ~matlabpool('size')
-        pctconfig('portrange', [31000,32000]);
-        matlabpool('janmanager');
-    end
+    tools_startparallel;
 
     % store results
     mdata = cell(numbers.shared.nb_subject,numbers.shared.nb_block);
@@ -29,8 +26,9 @@ function run_model(model)
         vb_novel   = unique(sdata.vb_novel(ii_case));
         vb_stimord = sdata.vb_stimord(ii_case,:);
         vb_target  = sdata.vb_target(ii_case);
+        vb_rules   = sdata.vb_rules(ii_case,:);
         % model
-        mdata{i_case} = model_block(model,vb_stimord,vb_novel,vb_target);
+        mdata{i_case} = model_block(model,vb_stimord,vb_novel,vb_target,vb_rules);
     end
     
     %% unify data

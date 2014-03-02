@@ -20,38 +20,38 @@ function plot_rt()
     hold('on');
     
     % colour
-    colour = jet(2);
+    colour = [0,1,0;1,0,0];
     
     % loop (novel)
     for i_novel = 1:nb_novel
-        ii_novel = (sdata.vb_novel == u_novel(i_novel));
-        
-        % subplot
         
         % loop (subject, trial)
-        choice = nan(nb_subject,nb_trial);
+        rt = nan(nb_subject,nb_trial);
         for i_subject = 1:nb_subject
-            ii_subject = (sdata.exp_subject == u_subject(i_subject));
             for i_trial = 1:nb_trial
+                % index
+                ii_novel = (sdata.vb_novel == u_novel(i_novel));
+                ii_subject = (sdata.exp_subject == u_subject(i_subject));
                 ii_trial = (sdata.exp_trial == u_trial(i_trial));
-                choice(i_subject,i_trial) = mean(models.human.rt(ii_novel & ii_subject & ii_trial));
+                % value
+                rt(i_subject,i_trial) = mean(models.human.rt(ii_novel & ii_subject & ii_trial));
             end
         end
 
         % plot
-        mean_choice = mean(choice);
-        ster_choice = std(choice)./sqrt(nb_subject);
-        hdl_plot    = fig_plot(u_trial,mean_choice,ster_choice,colour(i_novel,:));
+        mean_rt = mean(rt);
+        ster_rt = tools_ste(rt);
+        hdl_plot    = fig_plot(u_trial,mean_rt,ster_rt,colour(i_novel,:));
         hdl(end+1)  = hdl_plot.line;
     end
     
     % axis
-    sa.title    = 'REACTION TIME FOR FAMILIAR/NOVEL';
+    sa.title    = 'REACTION TIME OVER TRIALS';
     sa.ilegend  = hdl;
     sa.tlegend  = {'familiar','novel'};
     sa.xlabel   = 'trial';
     sa.ylabel   = 'reaction time (sec)';
-    sa.xtick    = [1,4,8,12,16];
+    sa.xtick    = [4,8,12,16];
     sa.xlim     = [1,16];
     sa.ytick    = 1:.1:1.5;
     sa.ylim     = [1,1.5];
