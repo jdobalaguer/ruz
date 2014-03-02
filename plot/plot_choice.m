@@ -1,5 +1,5 @@
 
-function plot_correct()
+function plot_choice()
     
     %% load
     load('data/sdata');
@@ -7,13 +7,11 @@ function plot_correct()
     %% numbers
     u_novel     = numbers.shared.u_novel;
     u_subject   = numbers.shared.u_subject;
-    u_block     = numbers.shared.u_block;
     u_trial     = numbers.shared.u_trial;
     u_model     = fieldnames(models);
     
     nb_novel    = numbers.shared.nb_novel;
     nb_subject  = numbers.shared.nb_subject;
-    nb_block    = numbers.shared.nb_block;
     nb_trial    = numbers.shared.nb_trial;
     nb_model    = length(u_model);
     
@@ -38,7 +36,7 @@ function plot_correct()
         for i_model = 1:nb_model
             model = models.(u_model{i_model});
             
-            % loop (subject, block, trial)
+            % loop (subject, trial)
             choice = nan(nb_subject,nb_trial);
             for i_subject = 1:nb_subject
                 ii_subject = (sdata.exp_subject == u_subject(i_subject));
