@@ -1,6 +1,6 @@
 function percent = tools_parforprogress(N)
 %tools_parforprogress Progress monitor (progress bar) that works with parfor.
-%   tools_parforprogress works by creating a file called tools_parforprogress.txt in
+%   tools_parforprogress works by creating a file called .progress in
 %   your working directory, and then keeping track of the parfor loop's
 %   progress within that file. This workaround is necessary because parfor
 %   workers cannot communicate with one another so there is no simple way
@@ -12,7 +12,7 @@ function percent = tools_parforprogress(N)
 %   tools_parforprogress updates the progress inside your parfor loop and
 %   displays an updated progress bar.
 %
-%   tools_parforprogress(0) deletes tools_parforprogress.txt and finalizes progress
+%   tools_parforprogress(0) deletes .progress and finalizes progress
 %   bar.
 %
 %   To suppress output from any of these functions, just ask for a return
@@ -43,7 +43,7 @@ percent = 0;
 w = 50; % Width of progress bar
 
 if N > 0
-    f = fopen('tools_parforprogress.txt', 'w');
+    f = fopen('.progress', 'w');
     if f<0
         error('Do you have write permissions for %s?', pwd);
     end
@@ -54,22 +54,22 @@ if N > 0
         disp(['  0%[>', repmat(' ', 1, w), ']']);
     end
 elseif N == 0
-    delete('tools_parforprogress.txt');
+    delete('.progress');
     percent = 100;
     
     if nargout == 0
         disp([repmat(char(8), 1, (w+9)), char(10), '100%[', repmat('=', 1, w+1), ']']);
     end
 else
-    if ~exist('tools_parforprogress.txt', 'file')
-        error('tools_parforprogress.txt not found. Run tools_parforprogress(N) before tools_parforprogress to initialize tools_parforprogress.txt.');
+    if ~exist('.progress', 'file')
+        error('.progress not found. Run tools_parforprogress(N) before tools_parforprogress to initialize .progress.');
     end
     
-    f = fopen('tools_parforprogress.txt', 'a');
+    f = fopen('.progress', 'a');
     fprintf(f, '1\n');
     fclose(f);
     
-    f = fopen('tools_parforprogress.txt', 'r');
+    f = fopen('.progress', 'r');
     progress = fscanf(f, '%d');
     fclose(f);
     percent = (length(progress)-1)/progress(1)*100;

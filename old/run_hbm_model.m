@@ -61,12 +61,15 @@ for i_subject = 1:numbers.nb_subjects
         % run model
         odata = model_hbm(codez,attside,target,k);
         % log model
-        sdata.Mbayes_nc(indx) = odata.modelcands;
-        sdata.Mbayes_pr(indx) = odata.modelprobs;
-        sdata.Mbayes_ch(indx) = odata.modelchoice;
-        sdata.Mbayes_cr(indx) = odata.modelcor;
-        sdata.Mbayes_hl(indx) = odata.modelhleft;
-        sdata.Mbayes_hr(indx) = odata.modelhright;
+        for iindx = indx
+            sdata.Mbayes_ru(:,iindx) = odata.modelrules(:);
+        end
+        sdata.Mbayes_nc(indx)   = odata.modelcands;
+        sdata.Mbayes_pr(indx)   = odata.modelprobs;
+        sdata.Mbayes_ch(indx)   = odata.modelchoice;
+        sdata.Mbayes_cr(indx)   = odata.modelcor;
+        sdata.Mbayes_hl(indx)   = odata.modelhleft;
+        sdata.Mbayes_hr(indx)   = odata.modelhright;
     end
 end
 fprintf(['\n']);
