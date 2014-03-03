@@ -6,12 +6,12 @@ function run_batch(modelname)
         case 'god'
             %% god (perfect)
             model.name = 'god';
-            run_model(model);
+            run('models/god_batch.m');
             
         case 'hbm'
             %% hierarchical bayesian model (optimal)
             model.name = 'hbm';
-            run_model(model);
+            run('models/hbm_batch');
             
         case 'alcove'
             %% alcove model (kruschke 1992)

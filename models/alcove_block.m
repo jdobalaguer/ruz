@@ -1,4 +1,13 @@
 
+%{
+    input variables:
+    > model
+    > vb_novel
+    > vb_target
+    > vb_stimord
+    > vb_rules
+%}
+
 %% define
 nb_trial = length(vb_target);
 

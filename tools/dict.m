@@ -69,7 +69,6 @@ classdef dict < handle
                 % User trying to access a property or method.
                 
                 % Property access
-                warning off MATLAB:structOnObject
                 props = fieldnames(struct(obj));
                 if ismember(ref(1).subs,props)
                    val = obj.(ref.subs);
@@ -164,7 +163,6 @@ classdef dict < handle
             %
             
             disp(' Dictionary:');
-            warning off MATLAB:structOnObject
             disp(struct(obj));
         end % disp
         

@@ -1,5 +1,5 @@
 
-function run_model(model)
+function mdata = run_model(model)
     %% assert model
     model_assert(model);
 
@@ -37,8 +37,4 @@ function run_model(model)
     mdata = mdata';
     mdata = mdata(:);
     mdata = tools_cell2struct(mdata);
-    
-    %% save
-    model_save(model,mdata);
-
 end

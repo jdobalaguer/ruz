@@ -1,4 +1,17 @@
-function data = model_minmaxratio(codez,attside,target,k,prop_abs,prop_ang,minmaxratio)
+
+%{
+    input variables:
+    > model
+    > vb_novel
+    > vb_target
+    > vb_stimord
+    > vb_rules
+%}
+
+%% define
+nb_trials = length(vb_target);
+
+%% task variables
 
 Ho = zeros(4,3);
 prop_1 = + prop_abs * cos(.5 * pi * prop_ang);
@@ -14,55 +27,55 @@ minaVcAS    = nan(nb_trials,1);
 maxaVcAS    = nan(nb_trials,1);
 mmaVcAS     = nan(nb_trials,1);
 
-for i=1:nb_trials
+for i_trial = 1:nb_trials
     
-    AS = attside(1:k,i)';
+    AS = attside(1:k,i_trial)';
 
     % currently, if we have no hypothesis, we assume that the currently
     % availabel stim is a target. but we don't have to do this.
     for side=AS;  % check each side in turn
         if ~sum(Ho(side,:))  % if you currently have no hypothesis about that side
-            dHo                    = (1-Ho(side,codez(side,i)));
-            Ho(side,codez(side,i)) = Ho(side,codez(side,i));%+(dHo*prop_1);
+            dHo                    = (1-Ho(side,codez(side,i_trial)));
+            Ho(side,codez(side,i_trial)) = Ho(side,codez(side,i_trial));%+(dHo*prop_1);
         end
     end
     
     % get action values from hypothesis
     for side = AS;  % check each side in turn...
-        aVc(i,side)=Ho(side,codez(side,i));
+        aVc(i_trial,side)=Ho(side,codez(side,i_trial));
     end
 
     % combination rule
-     aVcAS(i,1:k) = aVc(i,AS);
-     minaVcAS(i) = min(aVcAS(i,1:k));
-     maxaVcAS(i) = max(aVcAS(i,1:k));
-     mmaVcAS(i) = minmaxratio*minaVcAS(i) + (1-minmaxratio)*maxaVcAS(i);
-     modelchoice(i) = double(mmaVcAS(i) >=0);
-     modelcor(i) = (target(i))==modelchoice(i);  % would the model have been correct or not?
+     aVcAS(i_trial,1:k) = aVc(i_trial,AS);
+     minaVcAS(i_trial) = min(aVcAS(i_trial,1:k));
+     maxaVcAS(i_trial) = max(aVcAS(i_trial,1:k));
+     mmaVcAS(i_trial) = minmaxratio*minaVcAS(i_trial) + (1-minmaxratio)*maxaVcAS(i_trial);
+     modelchoice(i_trial) = double(mmaVcAS(i_trial) >=0);
+     modelcor(i_trial) = (target(i_trial))==modelchoice(i_trial);  % would the model have been correct or not?
         
     % update hypotheses
-    if target(i)
+    if target(i_trial)
         for side = AS
-            dHo                    = (+1 - Ho(side,codez(side,i)));
-            Ho(side,codez(side,i)) = Ho(side,codez(side,i))+(dHo*prop_1);
+            dHo                    = (+1 - Ho(side,codez(side,i_trial)));
+            Ho(side,codez(side,i_trial)) = Ho(side,codez(side,i_trial))+(dHo*prop_1);
         end
     else
         for side = AS
-            dHo                    = (-1 - Ho(side,codez(side,i)));
-            Ho(side,codez(side,i)) = Ho(side,codez(side,i))+(dHo*prop_2);
+            dHo                    = (-1 - Ho(side,codez(side,i_trial)));
+            Ho(side,codez(side,i_trial)) = Ho(side,codez(side,i_trial))+(dHo*prop_2);
         end
     end
     
     % store
-    Hos(i,:,:) = Ho;
+    Hos(i_trial,:,:) = Ho;
 end
 
-% store
-data.aVc            = aVc;
-data.Ho             = Hos;
-data.aVcAS          = aVcAS;
-data.maxaVcAS       = maxaVcAS;
-data.minaVcAS       = minaVcAS;
-data.mmaVcAS        = mmaVcAS;
-data.modelchoice    = modelchoice;
-data.modelcor       = modelcor;
+%% save log
+mdata.aVc            = aVc;
+mdata.Ho             = Hos;
+mdata.aVcAS          = aVcAS;
+mdata.maxaVcAS       = maxaVcAS;
+mdata.minaVcAS       = minaVcAS;
+mdata.mmaVcAS        = mmaVcAS;
+mdata.modelchoice    = modelchoice;
+mdata.modelcor       = modelcor;

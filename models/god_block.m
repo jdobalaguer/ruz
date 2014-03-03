@@ -1,7 +1,15 @@
 
+%{
+    input variables:
+    > model
+    > vb_novel
+    > vb_target
+    > vb_stimord
+    > vb_rules
+%}
+
 %% define
 nb_trials = length(vb_target);
-
 
 % log variables
 mdata.choice        = nan(nb_trials,1);

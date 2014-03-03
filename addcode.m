@@ -1,4 +1,7 @@
 
+%% warnings
+warning off MATLAB:structOnObject;
+
 %% add code
 addpath(genpath([pwd,filesep,'model']));
 addpath(genpath([pwd,filesep,'plot']));
