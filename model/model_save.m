@@ -21,15 +21,11 @@ function model_save(model,mdata)
             
         case 'hbm'
             %% hierarchical bayesian model (optimal)
-            models.(model.name).nb_candidates = mdata.nb_candidates;
-            models.(model.name).prob_target   = mdata.prob_target;
-            models.(model.name).entropy_left  = mdata.entropy_left;
-            models.(model.name).entropy_right = mdata.entropy_right;
-            save('data/sdata.mat','-append','models');
+            run('models/hbm_save.m');
             
         case 'alcove'
             %% alcove (kruschke 1992)
-            save('data/sdata.mat','-append','models');
+            run('models/alcove_save.m');
             
         otherwise
             error('model_save: error. model "%s" unknown',model.name);

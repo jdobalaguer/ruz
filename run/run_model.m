@@ -15,7 +15,7 @@ function run_model(model)
 
     % parallel loop
     nb_cases = numel(numbers.shared.xx_subject);
-    for i_case = 1:nb_cases
+    parfor i_case = 1:nb_cases
         % case indexes
         i_subject  = numbers.shared.xx_subject(i_case);
         i_block    = numbers.shared.xx_block(i_case);

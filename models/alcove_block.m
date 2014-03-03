@@ -14,11 +14,12 @@ if vb_novel; a = [1,1,1,1]; nb_a = 4;
 else         a = [1,1,0,0]; nb_a = 2; end
 
 % associative weights
-w = zeros(2,81);
+w = ones(2,81);
 
 % log variables
 mdata.choice  = nan(nb_trial,1);
 mdata.correct = nan(nb_trial,1);
+mdata.r       = nan(nb_trial,2);
 
 %% for each trial
 for i_trial = 1:nb_trial
@@ -35,10 +36,11 @@ for i_trial = 1:nb_trial
     % generalization gradient
     s = exp(-model.specificity .* d);
     % response strength
-    r     = w * s;
-    exp_r = exp(model.mapping .* r);
+    r = w * s;
+    e = exp(model.mapping .* (r - max(r)));
     % conditional probability
-    prob_target = exp_r(2) ./ sum(exp_r);
+    prob_target = e(2) ./ sum(e);
+    %assert(~isnan(prob_target),'alcove: error. isnan(prob_target)');
     
     %% choice and feedback
     % choice
@@ -60,7 +62,8 @@ for i_trial = 1:nb_trial
     end
     
     %% save log
-    mdata.choice(i_trial)  = choice;
-    mdata.correct(i_trial) = correct;
+    mdata.choice(i_trial)   = choice;
+    mdata.correct(i_trial)  = correct;
+    mdata.r(i_trial,:)      = r;
     
 end

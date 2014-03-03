@@ -1,10 +1,9 @@
 
-function plot_rt_noveliticorrectchoice()
+function rts = plot_rt_noveliticorrectchoice()
     
     %% load
     load('data/sdata');
-    sdata.vb_slowiti = tools_discretize(sdata.time_iti,5);
-    sdata.vb_slowiti(sdata.vb_slowiti>3) = 3;
+    sdata.vb_slowiti = tools_discretize(sdata.time_iti,3);
     
     %% numbers
     u_slowiti   = unique(sdata.vb_slowiti);
@@ -32,6 +31,7 @@ function plot_rt_noveliticorrectchoice()
     
     % loop (novel, slow)
     j_subplot = 0;
+    rts = nan(nb_slowiti,nb_novel,nb_subject,nb_correct,nb_choice);
     for i_slowiti = 1:nb_slowiti
         for i_novel = 1:nb_novel
         
@@ -47,7 +47,7 @@ function plot_rt_noveliticorrectchoice()
                         ii_correct = (models.human.correct  == u_correct(i_correct));
                         ii_choice  = (models.human.choice   == u_choice(i_choice));
                         ii_subject = (sdata.exp_subject     == u_subject(i_subject));
-                        ii_trial   = (sdata.exp_trial       >1);
+                        ii_trial   = (sdata.exp_trial       >1) & (sdata.exp_trial       <6);
                         % value
                         rt(i_subject,i_correct,i_choice) = -1000 + 1000*mean(models.human.rt(ii_resp & ii_novel & ii_slowiti & ii_correct & ii_choice & ii_subject & ii_trial));
                     end
@@ -78,10 +78,12 @@ function plot_rt_noveliticorrectchoice()
                                 'axis'...                                              legend ('plot','axis')
                                 );
             % axis
-            sa.ytick      =    0:100: 500;
-            sa.yticklabel = 1000:100:1500;
-            sa.ylim       = [0,500];
+            sa.ytick      =    0:100: 700;
+            sa.yticklabel = 1000:100:1700;
+            sa.ylim       = [0,       700];
             fig_axis(sa);
+            
+            rts(i_slowiti,i_novel,:) = rt(:);
         end
     end
     

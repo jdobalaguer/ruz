@@ -5,17 +5,17 @@ function [mdata] = model_block(model,vb_stimord,vb_novel,vb_target,vb_rules)
     switch model.name
         case 'god'
             %% god (perfect)
-            run('models/god.m');
+            run('models/god_block.m');
             return;
             
         case 'hbm'
             %% hierarchical bayesian model (optimal)
-            run('models/hbm.m');
+            run('models/hbm_block.m');
             return;
             
         case 'alcove'
             %% alcove model (kruschke 1992)
-            run('models/alcove.m');
+            run('models/alcove_block.m');
             return;
             
         otherwise
