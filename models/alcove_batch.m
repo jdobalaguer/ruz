@@ -53,8 +53,10 @@ end
 end
 tools_parforprogress(0);
 
-%% fitting
-% to do
+%% fitting (TODO)
+% models.alcove.choice  = 
+% models.alcove.correct =
+% models.alcove.df      = 4;
 
 %% save
     % models

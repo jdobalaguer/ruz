@@ -15,4 +15,5 @@ mdata = run_model(model);
     % sdata
 models.god.choice  = mdata.choice;
 models.god.correct = mdata.correct;
+models.god.df      = 0;
 save('data/sdata.mat','-append','models');

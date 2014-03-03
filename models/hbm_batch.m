@@ -19,6 +19,7 @@ mdata = run_model(model);
     % sdata
 models.hbm.choice  = mdata.choice;
 models.hbm.correct = mdata.correct;
+models.hbm.df      = 0;
 save('data/sdata.mat','-append','models');
     % models
 hbm.nb_candidates = mdata.nb_candidates;
