@@ -25,7 +25,7 @@ for a_step      = u_astep
     
     %% set key
     model.key = [mapping,specificity,w_step,a_step];
-    %fprintf('alcove_batch: key[%.2f,%.2f,%.2f,%.2f] \n',model.key);
+    fprintf('alcove_batch: key[%.2f,%.2f,%.2f,%.2f] \n',model.key);
     
     %% run
     load('data/models_alcove.mat','alcove');

@@ -4,6 +4,8 @@ function run_model(model)
     model_assert(model);
 
     %% load
+    sdata   = struct();
+    numbers = struct();
     load('data/sdata.mat','sdata','numbers');
 
     %% run
