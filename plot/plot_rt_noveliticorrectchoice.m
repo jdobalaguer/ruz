@@ -1,5 +1,5 @@
 
-function rts = plot_rt_noveliticorrectchoice()
+function varargout = plot_rt_noveliticorrectchoice()
     
     %% load
     load('data/sdata');
@@ -88,4 +88,8 @@ function rts = plot_rt_noveliticorrectchoice()
     end
     
     fig_figure(f);
+    
+    %% return
+    if nargout; varargout = {rts}; end
+    
 end

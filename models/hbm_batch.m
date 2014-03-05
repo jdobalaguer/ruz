@@ -5,25 +5,21 @@ cd('..');
 %% load
     % sdata
 load('data/sdata.mat','models');
-    % models
-if exist('data/models_hbm.mat','file'); load('data/sdata.mat');
-else                                    hbm = struct();
-end
 
 %% variables
 
 %% run
-mdata = run_model(model);
+this_mdata = run_model(model);
 
 %% save
     % sdata
-models.hbm.choice  = mdata.choice;
-models.hbm.correct = mdata.correct;
+models.hbm.choice  = this_mdata.choice;
+models.hbm.correct = this_mdata.correct;
 models.hbm.df      = 0;
 save('data/sdata.mat','-append','models');
     % models
-hbm.nb_candidates = mdata.nb_candidates;
-hbm.prob_target   = mdata.prob_target;
-hbm.entropy_left  = mdata.entropy_left;
-hbm.entropy_right = mdata.entropy_right;
-save('data/models_hbm.mat','hbm');
+mdata.nb_candidates = this_mdata.nb_candidates;
+mdata.prob_target   = this_mdata.prob_target;
+mdata.entropy_left  = this_mdata.entropy_left;
+mdata.entropy_right = this_mdata.entropy_right;
+save('data/models_hbm.mat','mdata');

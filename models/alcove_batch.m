@@ -9,7 +9,7 @@ load('data/sdata.mat','models');
 if exist('data/models_alcove.mat','file')
     load('data/models_alcove.mat');
 else
-    alcove = dict();
+    mdata = dict();
 end
 
 %% variables
@@ -36,12 +36,12 @@ for a_step      = u_astep
     model.key = [mapping,specificity,w_step,a_step];
     %fprintf('alcove_batch: key[%.2f,%.2f,%.2f,%.2f] \n',model.key);
     
-    if ~alcove.iskey(model.key)
+    if ~mdata.iskey(model.key)
         % run
-        mdata = run_model(model);
+        this_mdata = run_model(model);
         
         % save
-        alcove(model.key) = mdata;
+        mdata(model.key) = this_mdata;
     end
     
     
@@ -60,4 +60,4 @@ tools_parforprogress(0);
 
 %% save
     % models
-save('data/models_alcove.mat','alcove');
+save('data/models_alcove.mat','mdata');

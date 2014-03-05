@@ -1,4 +1,4 @@
-
+%#ok<*NODEF>
 
 function varargout = run_bic(criterion)
     %%
@@ -6,13 +6,16 @@ function varargout = run_bic(criterion)
     %
     % syntax:       run_bic([criterion])
     % description:  estimates de bayesian information criterion for each model
-    % input:        criterion: criterion to use
-    %                          default "@(ch,cor) ch"
+    % arguments:    criterion: criterion to use
+    % 
+    % examples:     run_bic()
+    % examples:     run_bic(@(ch,co)ch)
+    % examples:     run_bic(@(ch,co)co)
+    % 
     
     %% criterion
     if ~exist('criterion','var')
-        fprintf('run_bic: criterion "choice" \n');
-        criterion = @(choice,correct) choice;
+        criterion = @(ch,co) ch;
     end
     
     %% load
@@ -38,7 +41,6 @@ function varargout = run_bic(criterion)
         % human
         human       = models.human;
         human.value = criterion(human.choice,human.correct);
-        if strcmp(u_model{i_model},'human'); model = human; end
                 
         % likelihood
         model.like = nan(1,nb_condition);
@@ -71,9 +73,19 @@ function varargout = run_bic(criterion)
     end
     
     %% print
+    varargout = {};
+    
+    % criterion
+    fprintf('\n');
+    fprintf('run_bic: criterion "%s" \n',func2str(criterion));
+    fprintf('\n');
+    
+    % BIC
     for i_model = 1:nb_model
-        fprintf('BIC(%s) = %.2f \n',u_model{i_model},models.(u_model{i_model}).bic);
+        str_mod = sprintf('BIC(%s)',u_model{i_model});
+        str_mod(end+1:15) = ' ';
+        str_bic = sprintf('= %.2f \n',models.(u_model{i_model}).bic);
+        fprintf([str_mod,str_bic]);
     end
     fprintf('\n');
-    varargout = {};
 end
