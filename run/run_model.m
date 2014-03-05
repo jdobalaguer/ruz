@@ -1,12 +1,7 @@
 
-function mdata = run_model(model)
+function mdata = run_model(model,sdata,numbers)
     %% assert model
     model_assert(model);
-
-    %% load
-    sdata   = struct();
-    numbers = struct();
-    load('data/sdata.mat','sdata','numbers');
 
     %% run
     % parallel toolbox
