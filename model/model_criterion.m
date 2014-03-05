@@ -1,4 +1,4 @@
 
 function criterion = model_criterion()
-    criterion = @(ch,co) ch;
+    criterion = @(ch,co) co;
 end
