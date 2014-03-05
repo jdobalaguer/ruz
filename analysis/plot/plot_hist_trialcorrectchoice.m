@@ -1,5 +1,6 @@
 
 function plot_hist_trialcorrectchoice()
+    if ~usejava('swing'); return; end
     
     %% load
     load('data/sdata');

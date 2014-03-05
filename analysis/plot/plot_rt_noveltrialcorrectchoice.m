@@ -1,5 +1,6 @@
 
 function plot_rt_noveltrialcorrectchoice()
+    if ~usejava('swing'); return; end
     
     %% load
     load('data/sdata');

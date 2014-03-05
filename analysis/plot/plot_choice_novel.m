@@ -1,5 +1,6 @@
 
 function plot_choice_novel()
+    if ~usejava('swing'); return; end
     
     %% load
     load('data/sdata');

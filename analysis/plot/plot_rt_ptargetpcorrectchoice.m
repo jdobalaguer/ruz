@@ -1,6 +1,7 @@
 %#ok<*NODEF>
 
 function plot_rt_ptargetpcorrectchoice()
+    if ~usejava('swing'); return; end
     
     %% load
     load('data/sdata');

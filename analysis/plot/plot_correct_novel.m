@@ -1,5 +1,6 @@
 
 function plot_correct_novel()
+    if ~usejava('swing'); return; end
     
     %% load
     load('data/sdata');

@@ -1,5 +1,6 @@
 
 function varargout = plot_rt_noveliticorrectchoice()
+    if ~usejava('swing'); return; end
     
     %% load
     load('data/sdata');

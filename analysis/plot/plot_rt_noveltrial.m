@@ -1,5 +1,6 @@
 
 function plot_rt_noveltrial()
+    if ~usejava('swing'); return; end
     
     %% load
     load('data/sdata');

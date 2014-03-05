@@ -1,6 +1,7 @@
 %#ok<*NODEF>
 
 function plot_correct_ptargetpcorrectchoice(u_model)
+    if ~usejava('swing'); return; end
     
     %% load
     load('data/sdata');
