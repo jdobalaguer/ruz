@@ -26,20 +26,20 @@ else         a = [1,1,0,0]; nb_a = 2; end
 w = ones(2,81);
 
 % log variables
-mdata.ff      = nan( 0,81, 4);
-mdata.d       = nan( 0,81, 1);
-mdata.s       = nan( 0,81, 1);
-mdata.r       = nan( 0, 2, 1);
-mdata.e       = nan( 0, 2, 1);
-mdata.p       = nan( 0, 1, 1);
-mdata.t       = nan( 0, 2, 1);
-mdata.d_w     = nan( 0, 2,81);
-mdata.d_a     = nan( 0, 1, 4);
-mdata.w       = nan( 0, 2,81);
-mdata.a       = nan( 0, 1, 4);
+%mdata.ff      = nan( 0,81, 4);
+%mdata.d       = nan( 0,81, 1);
+%mdata.s       = nan( 0,81, 1);
+%mdata.r       = nan( 0, 2, 1);
+%mdata.e       = nan( 0, 2, 1);
+%mdata.p       = nan( 0, 1, 1);
+%mdata.t       = nan( 0, 2, 1);
+%mdata.d_w     = nan( 0, 2,81);
+%mdata.d_a     = nan( 0, 1, 4);
+%mdata.w       = nan( 0, 2,81);
+%mdata.a       = nan( 0, 1, 4);
 
-mdata.choice  = nan( 0, 1, 1);
-mdata.correct = nan( 0, 1, 1);
+mdata.choice  = nan(nb_trial, 1);
+mdata.correct = nan(nb_trial, 1);
 
 %% for each trial
 for i_trial = 1:nb_trial
@@ -91,20 +91,19 @@ for i_trial = 1:nb_trial
     a = a + d_a;
     
     %% save log
-    mdata.ff(   i_trial,:,:) = ff;
-    mdata.d(    i_trial,:,:) = d;
-    mdata.s(    i_trial,:,:) = s;
-    mdata.r(    i_trial,:,:) = r;
-    mdata.e(    i_trial,:,:) = e;
-    mdata.p(    i_trial,:,:) = p;
-    mdata.t(    i_trial,:,:) = t;
-    mdata.d_w(  i_trial,:,:) = d_w;
-    mdata.d_a(  i_trial,:,:) = d_a;
-    mdata.w(    i_trial,:,:) = w;
-    mdata.a(    i_trial,:,:) = a;
+ %   mdata.ff(   i_trial,:,:) = ff;
+ %   mdata.d(    i_trial,:,:) = d;
+ %   mdata.s(    i_trial,:,:) = s;
+ %   mdata.r(    i_trial,:,:) = r;
+ %   mdata.e(    i_trial,:,:) = e;
+ %   mdata.p(    i_trial,:,:) = p;
+ %   mdata.t(    i_trial,:,:) = t;
+ %   mdata.d_w(  i_trial,:,:) = d_w;
+ %   mdata.d_a(  i_trial,:,:) = d_a;
+ %   mdata.w(    i_trial,:,:) = w;
+ %   mdata.a(    i_trial,:,:) = a;
     
-    mdata.choice( i_trial,:,:) = choice;
-    mdata.correct(i_trial,:,:) = correct;
-    
+    mdata.choice(i_trial)  = choice;
+    mdata.correct(i_trial) = correct;
     
 end
