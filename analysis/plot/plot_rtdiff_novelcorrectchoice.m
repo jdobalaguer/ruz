@@ -1,5 +1,5 @@
 
-function plot_rtdiff_novelcorrectchoice()
+function rts = plot_rtdiff_novelcorrectchoice()
     if ~usejava('swing'); return; end
     
     %% load
@@ -36,6 +36,7 @@ function plot_rtdiff_novelcorrectchoice()
     
     % loop (novel)
     j_subplot = 0;
+    rts = cell(nb_novel,nb_trial);
     for i_novel = 1:nb_novel
     for i_trial = 1:nb_trial
         %% values
@@ -44,22 +45,23 @@ function plot_rtdiff_novelcorrectchoice()
         for i_subject = 1:nb_subject
             for i_correct = 1:nb_correct
                 for i_choice = 1:nb_choice
-                    % index
+                    % frame
                     ii_resp    = (models.human.rt>0.2);
+                    ii_nend    =~(sdata.exp_end);
                     ii_novel   = (sdata.vb_novel        == u_novel(i_novel));
+                    ii_trial   = (sdata.exp_trial       == u_trial(i_trial));
+                    ii_subject = (sdata.exp_subject     == u_subject(i_subject));
+                    ii_frame   = (ii_resp & ii_nend & ii_novel & ii_trial & ii_subject);
+                    % index
                     ii_correct = (models.human.correct  == u_correct(i_correct));
                     ii_choice  = (models.human.choice   == u_choice(i_choice));
-                    ii_subject = (sdata.exp_subject     == u_subject(i_subject));
-                    ii_trial   = (sdata.exp_trial       == u_trial(i_trial));
-                    ii_nstart  =~(sdata.exp_start);
-                    ii_nend    =~(sdata.exp_end);
-                    ii1        = (ii_resp & ii_subject & ii_novel & ii_correct & ii_choice & ii_trial);
-                    ii2        = logical([0 ; ii1(1:end-1)]);
+                    ii_1        = (ii_frame & ii_correct & ii_choice);
+                    ii_2        = logical([0 ; ii_1(1:end-1)]);
                     % value
-                    rt1 = models.human.rt(ii1 & ii_nend);
-                    rt2 = models.human.rt(ii2 & ii_nstart);
-                    ss(i_subject,i_correct,i_choice) = sum(ii1);
-                    rt(i_subject,i_correct,i_choice) = 1000*mean(rt2 - rt1);
+                    rt_frame = mean(models.human.rt(ii_frame));
+                    rt_2     = models.human.rt(ii_2);
+                    ss(i_subject,i_correct,i_choice) = sum(ii_1);
+                    rt(i_subject,i_correct,i_choice) = 1000*mean(rt_2 - rt_frame);
                 end
             end
         end
@@ -85,13 +87,13 @@ function plot_rtdiff_novelcorrectchoice()
                             c,...                                                  colour
                             [],...                                                 grid
                             {'not','choice'},...                                   legend
-                            [],...                                                 error sides (1, 2)
+                            2,...                                                  error sides (1, 2)
                             'plot'...                                              legend ('plot','axis')
                             );
         % axis (rt)
-        sa.ytick      =    -500:100:+500;
-        sa.yticklabel =    -500:100:+500;
-        sa.ylim       =    [-500,   +500];
+        sa.ytick      =    -200:50:+200;
+        sa.yticklabel =    -200:50:+200;
+        sa.ylim       =   [-200,   +200];
         fig_axis(sa);
         
         %% figure ss
@@ -114,15 +116,17 @@ function plot_rtdiff_novelcorrectchoice()
                             c,...                                                  colour
                             [],...                                                 grid
                             {'not','choice'},...                                   legend
-                            [],...                                                 error sides (1, 2)
+                            1,...                                                   error sides (1, 2)
                             'plot'...                                              legend ('plot','axis')
                             );
         % axis (rt)
-        sa.ytick      =    0:20:+100;
-        sa.yticklabel =    0:20:+100;
-        sa.ylim       =    [0,+100];
+        sa.ytick      =    0:20:+80;
+        sa.yticklabel =    0:20:+80;
+        sa.ylim       =    [0,+80];
         fig_axis(sa);
         
+        %% return
+        rts{i_novel,i_trial} = rt;
     end
     end
     
