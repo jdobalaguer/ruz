@@ -2,6 +2,9 @@
 function bic = model_bic(model,human,ii_frame)
     %% load
     load('data/sdata.mat','sdata','numbers');
+    sdata.exp_trial = tools_discretize(sdata.exp_trial,4);
+    numbers.shared.u_trial  = unique(sdata.exp_trial);
+    numbers.shared.nb_trial = length(numbers.shared.u_trial);
     
     %% default
     if ~exist('ii_frame','var')
