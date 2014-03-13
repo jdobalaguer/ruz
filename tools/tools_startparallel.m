@@ -1,5 +1,19 @@
 
+
 if exist('matlabpool','file') && ~matlabpool('size')
-    pctconfig('portrange', [31000,32000]);
-    matlabpool('janmanager');
+    
+    % profiles
+    [~,profiles] = defaultParallelConfig();
+    
+    % janmanager
+    if ismember('janmanager',profiles)
+        matlabpool('janmanager');
+        pctconfig('portrange', [31000,32000]);
+    % local
+    else
+        matlabpool();
+    end
+    
+    % clean
+    clear('profiles');
 end

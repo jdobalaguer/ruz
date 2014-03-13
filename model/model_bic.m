@@ -27,5 +27,5 @@ function bic = model_bic(model,human,ii_frame)
     end
 
     %% BIC
-    bic    = -2 * log(prod(model_like)) + (model.df)*log(nb_condition);
+    bic    = -2 * log(prod(model_like)) + (model.df)*log(nb_trial);
 end
