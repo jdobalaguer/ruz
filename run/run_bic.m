@@ -19,30 +19,33 @@ function varargout = run_bic(criterion)
     end
     
     %% load
-    load('data/sdata.mat','models');
+    load('data/sdata.mat');
     
     %% numbers
     u_model         = fieldnames(models);
     nb_model        = length(u_model);
+    u_novel         = numbers.shared.u_novel;
+    nb_novel        = numbers.shared.nb_novel;
     
     %% bayesian information criterion
-    bic = nan(1,nb_model);
+    bic = nan(nb_model,nb_novel);
     for i_model = 1:nb_model
-        
-        % model
-        model       = models.(u_model{i_model});
-        model.value = criterion(model.choice,model.correct);
-        
-        % human
-        human       = models.human;
-        human.value = criterion(human.choice,human.correct);
-                
-        % bic
-        model.bic    = model_bic(model,human);
-        bic(i_model) = model.bic;
-        
-        % save
-        models.(u_model{i_model}) = model;
+        for i_novel = 1:nb_novel
+
+            % model
+            model       = models.(u_model{i_model});
+            model.value = criterion(model.choice,model.correct);
+
+            % human
+            human       = models.human;
+            human.value = criterion(human.choice,human.correct);
+            
+            % frame
+            ii_novel    = (sdata.vb_novel == u_novel(i_novel));
+
+            % bic
+            bic(i_model,i_novel) = model_bic(model,human,ii_novel);
+        end
     end
     
     %% return
@@ -63,8 +66,11 @@ function varargout = run_bic(criterion)
     for i_model = 1:nb_model
         str_mod = sprintf('BIC(%s)',u_model{i_model});
         str_mod(end+1:15) = ' ';
-        str_bic = sprintf('= %.2f \n',models.(u_model{i_model}).bic);
-        fprintf([str_mod,str_bic]);
+        str_bif = sprintf('= %.2f',bic(i_model,1));
+        str_bif(end+1:10) = ' ';
+        str_bin = sprintf('= %.2f',bic(i_model,2));
+        str_bin(end+1:10) = ' ';
+        fprintf([str_mod,str_bif,str_bin,'\n']);
     end
     fprintf('\n');
 end
