@@ -21,7 +21,8 @@ function plot_rt_noveltrial()
     hold('on');
     
     % colour
-    colour = [0,1,0;1,0,0];
+    rgb_colour = [0,1,0;1,0,0];
+    str_colour = 'gr';
     
     % loop (novel)
     for i_novel = 1:nb_novel
@@ -43,8 +44,9 @@ function plot_rt_noveltrial()
         % plot
         mean_rt = mean(rt);
         ster_rt = tools_ste(rt);
-        hdl_plot    = fig_plot(u_trial,mean_rt,ster_rt,colour(i_novel,:));
+        hdl_plot    = fig_plot(u_trial,mean_rt,ster_rt,rgb_colour(i_novel,:));
         hdl(end+1)  = hdl_plot.line;
+        plot(u_trial,mean_rt,[str_colour(i_novel),'x']);
     end
     
     % axis

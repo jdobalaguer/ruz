@@ -18,6 +18,16 @@ function run_batch(modelname)
             model.name = 'alcove';
             run('models/alcove_batch.m');
             
+        case 'doubt'
+            %% doubt (uncertainty) model
+            model.name = 'doubt';
+            run('models/doubt_batch.m');
+            
+        case 'ruz'
+            %% ruz model
+            model.name = 'ruz';
+            run('models/ruz_batch.m');
+            
         otherwise
             %% unknown
             error('model_block: error. model "%s" unknown',modelname);

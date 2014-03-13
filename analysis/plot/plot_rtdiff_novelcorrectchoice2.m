@@ -33,45 +33,41 @@ function rt = plot_rtdiff_novelcorrectchoice()
     j_subplot = 0;
     for i_novel = 1:nb_novel
         %% values
-%         rt = nan(nb_subject,nb_correct,nb_choice,nb_correct,nb_choice);
-        rt = nan(nb_subject,nb_correct,nb_choice,nb_correct);
+        rt = nan(nb_subject,nb_correct,nb_choice,nb_trial,nb_correct,nb_choice);
         for i_subject = 1:nb_subject
             for i_correct = 1:nb_correct
                 for i_choice = 1:nb_choice
-                    for j_correct = 1:nb_correct
-%                         for j_choice = 1:nb_choice
-                            % this
-                            this_CH    = [0;models.human.choice(1:end-1)];
-                            this_CO    = [0;models.human.correct(1:end-1)];
-                            % next
-                            next_RT    = [0;models.human.rt(1:end-1)];
-                            next_CH    = [0;models.human.choice(1:end-1)];
-                            next_CO    = [0;models.human.correct(1:end-1)];
-                            % index
-                            ii_choice  = (this_CH == u_choice(i_choice));
-                            ii_correct = (this_CO == u_correct(i_correct));
-%                             jj_choice  = (next_CH == u_choice(i_choice));
-                            jj_correct = (next_CO == u_correct(i_correct));
-                            % frame
-                            ii_resp    = (models.human.rt>0.2);
-                            ii_novel   = (sdata.vb_novel        == u_novel(i_novel));
-                            ii_subject = (sdata.exp_subject     == u_subject(i_subject));
-%                             ii_frame   = (ii_resp & ii_novel & ii_subject & jj_choice & jj_correct);
-                            ii_frame   = (ii_resp & ii_novel & ii_subject & jj_correct);
-                            % value
-                            rt_frame   = nanmean(next_RT(ii_frame));
-                            rt_2       = next_RT(ii_frame & ii_choice & ii_correct);
-%                             rt(i_subject,i_correct,i_choice,j_correct,j_choice) = 1000*mean(rt_2 - rt_frame);
-                            rt(i_subject,i_correct,i_choice,j_correct) = 1000*mean(rt_2 - rt_frame);
-%                         end
+                    for i_trial = 1:nb_trial
+                        for j_correct = 1:nb_correct
+                            for j_choice = 1:nb_choice
+                                % frame
+                                ii_resp    = (models.human.rt>0.2);
+                                ii_novel   = (sdata.vb_novel        == u_novel(i_novel));
+                                ii_subject = (sdata.exp_subject     == u_subject(i_subject));
+                                ii_FRAME   = (ii_resp & ii_novel & ii_subject);
+                                % next trial
+                                ii_nstart  =~(sdata.exp_start);
+                                ii_nend    =~(sdata.exp_end);
+                                ii_trial   = (sdata.exp_trial       == u_trial(i_trial));
+                                % next
+                                % choice & correct
+                                ii_CORRECT = (models.human.correct  == u_correct(i_correct));
+                                ii_CHOICE  = (models.human.choice   == u_choice(i_choice));
+                                % 
+                                next_RT    = [0;models.human.rt(1:end-1)];
+                                % value
+                                rt_frame   = nanmean(models.human.rt(ii_FRAME & ii_NEXT));
+                                rt_2       = models.human.rt(ii_CHOICE & ii_CORRECT & ii_FRAME & ii_NEXT);
+                                rt(i_subject,i_correct,i_choice,i_trial,j_correct,j_choice) = 1000*mean(rt_2 - rt_frame);
+                            end
+                        end
                     end
                 end
             end
         end
         
         %% average
-%         rt = squeeze(nanmean(rt,5)); % over choice
-        rt = squeeze(nanmean(rt,4)); % over correct
+        rt = nanmean(rt,4); % over trials
         
         %% figure rt
         figure(f_rt);

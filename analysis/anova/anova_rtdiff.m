@@ -24,19 +24,20 @@ function anova_rtdiff()
         for i_choice = 1:nb_choice
             % frame
             ii_resp    = (models.human.rt>0.2);
-            ii_nend    =~(sdata.exp_end);
             ii_novel   = (sdata.vb_novel        == 0);
             ii_correct = (models.human.correct  == 1);
-            ii_trial   = (sdata.exp_trial       == u_trial(end));
             ii_subject = (sdata.exp_subject     == u_subject(i_subject));
-            ii_frame   = (ii_resp & ii_nend & ii_novel & ii_correct & ii_trial & ii_subject);
-            % index
-            ii_choice  = (models.human.choice   == u_choice(i_choice));
-            ii_1       = (ii_frame & ii_choice);
-            ii_2       = logical([0 ; ii_1(1:end-1)]);
+            ii_FRAME   = (ii_resp & ii_novel & ii_correct & ii_subject);
+            % next trial
+            ii_nstart  =~(sdata.exp_start);
+            ii_nend    =~(sdata.exp_end);
+            ii_trial   = (sdata.exp_trial       == u_trial(end));
+            ii_NEXT    = logical([0 ; ii_trial(1:end-1)]) & ii_nstart & ii_nend;
+            % choice
+            ii_CHOICE  = (models.human.choice   == u_choice(i_choice));
             % value
-            rt_frame   = nanmean(models.human.rt(ii_frame));
-            rt_2       = models.human.rt(ii_2);
+            rt_frame   = nanmean(models.human.rt(ii_FRAME & ii_NEXT));
+            rt_2       = models.human.rt(ii_CHOICE & ii_FRAME & ii_NEXT);
             rt(i_subject,i_choice) = 1000*nanmean(rt_2 - rt_frame);
         end
     end

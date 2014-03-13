@@ -65,8 +65,8 @@ function plot_correct_novel()
         sa.ylabel  = 'performance (% correct)';
         sa.xtick   = [4,8,12,16];
         sa.xlim    = [1,16];
-        sa.ytick   = 0.5:.25:1;
-        sa.ylim    = [0.5,1];
+        sa.ytick   = 0:.25:1;
+        sa.ylim    = [0,1];
         fig_axis(sa);
     end
     

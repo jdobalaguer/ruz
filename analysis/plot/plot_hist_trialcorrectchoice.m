@@ -54,7 +54,7 @@ function plot_hist_trialcorrectchoice()
             % axis
             sa.title   = titles{i_correct,i_choice};
             sa.xlabel  = 'trial';
-            sa.ylabel  = 'reaction time (ms)';
+            sa.ylabel  = '# times';
             sa.xtick   = [4,8,12,16];
             sa.xlim    = [1,16];
             %sa.ytick   = 800:200:1600;

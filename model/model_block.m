@@ -18,6 +18,16 @@ function [mdata] = model_block(model,vb_stimord,vb_novel,vb_target,vb_rules)
             run('models/alcove_block.m');
             return;
             
+        case 'doubt'
+            %% doubt (uncertainty) model
+            run('models/doubt_block.m');
+            return;
+            
+        case 'ruz'
+            %% ruz model
+            run('models/ruz_block.m');
+            return;
+            
         otherwise
             %% unknown
             error('model_block: error. model "%s" unknown',model.name);
