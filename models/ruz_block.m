@@ -31,6 +31,7 @@ end
 %% for each trial
 for i_trial = 1:nb_trial    
     %% decision-making
+    
     aVc = nan(1,nb_side);
     for i_side = 1:nb_side
         i_stim = vb_stimord(i_trial,i_side);
