@@ -11,12 +11,21 @@ if exist('data/models_ruz.mat','file')
 else
     mdata = dict();
     mbic  = dict();
+    save('-v7.3','data/models_ruz.mat','mdata','mbic');
 end
 
 %% variables
-u_alphat   =  0.00 : 0.10 : +1.00; % in [0,1]
-u_alphan   =  0.00 : 0.10 : +1.00; % in [0,1]
-u_tau      =  0.00 : 0.10 : +1.00; % in [0,1]
+u_alphat   = linspace(0,1,5);
+u_alphan   = linspace(0,1,5);
+u_tau      = linspace(0,1,5);
+u_subject  = numbers.shared.u_subject;
+u_novel    = numbers.shared.u_novel;
+
+nb_alphat  = length(u_alphat);
+nb_alphan  = length(u_alphan);
+nb_tau     = length(u_tau);
+nb_subject = length(u_subject);
+nb_novel   = length(u_novel);
 
 %% parallel
 tools_startparallel;
@@ -31,7 +40,7 @@ if nb_loops ~= length(mdata.keys)
     tools_parforprogress(nb_loops);
     for alpha_t = u_alphat
     for alpha_n = u_alphan
-    for tau      = u_tau
+    for tau     = u_tau
 
         % set model
         model.alpha_t      = alpha_t;
@@ -54,74 +63,69 @@ if nb_loops ~= length(mdata.keys)
     tools_parforprogress(0);
 
     % save models
-    save('data/models_ruz.mat','mdata','mbic');
+    save('-v7.3','data/models_ruz.mat','-append','mdata');
 end
 
 %% fitting
 fprintf('ruz_batch: fitting \n');
 
-% initialise
-bic             = nan(numbers.shared.nb_subject,numbers.shared.nb_novel,mdata.length);
-model_keys      = mdata.keys;
-model_values    = mdata.values;
-criterion       = model_criterion();
-human           = models.human;
-human.value     = criterion(human.choice,human.correct);
+if ~exist('greed_bic','var') || ...
+   ~isfield(numbers,'ruz')   || ...
+   ~isfield(numbers.ruz,'u_alphat')        || ~isfield(numbers.ruz,'u_alphan')        || ~isfield(numbers.ruz,'u_tau')     || ...
+   ~isequal(u_alphat,numbers.ruz.u_alphat) || ~isequal(u_alphan,numbers.ruz.u_alphan) || ~isequal(u_tau,numbers.ruz.u_tau)
 
-nb_loops = numel(bic);
-if nb_loops ~= length(mbic.keys)
+    % initialise
+    greed_bic       = nan(nb_alphat,nb_alphan,nb_tau,nb_subject,nb_novel);
+    criterion       = model_criterion();
+    human           = models.human;
+    human.value     = criterion(human.choice,human.correct);
 
     % loop
+    nb_loops = numel(greed_bic);
     tools_parforprogress(nb_loops);
-    for i_model   = 1:mdata.length
-    for i_subject = 1:numbers.shared.nb_subject
-    for i_novel   = 1:numbers.shared.nb_novel
+    for i_alphat   = 1:nb_alphat
+        for i_alphan   = 1:nb_alphan
+            for i_tau      = 1:nb_tau
+                for i_subject = 1:nb_subject
+                    for i_novel   = 1:nb_novel
 
-        % key
-        key = [model_keys{i_model}, i_subject, i_novel];
+                        % keys
+                        mdata_key = [u_alphat(i_alphat),u_alphan(i_alphan),u_tau(i_tau)];
+                        mbic_key  = [mdata_key,u_subject(i_subject),u_novel(i_novel)];
 
-        % bic
-        if ~mbic.iskey(key)
+                        % bic
+                        if ~mbic.iskey(mbic_key)
 
-            % criterion
-            model       = model_values{i_model};
-            model.df    = 3;
-            model.value = criterion(model.choice,model.correct);
+                            % model
+                            model       = mdata(mdata_key);
+                            model.value = criterion(model.choice,model.correct);
+                            model.df    = 3;
 
-            % frame
-            ii_subject = (sdata.exp_subject == numbers.shared.u_subject(i_subject));
-            ii_novel   = (sdata.vb_novel    == numbers.shared.u_novel(i_novel));
-            ii_frame   = (ii_subject & ii_novel);
+                            % frame
+                            ii_subject = (sdata.exp_subject == u_subject(i_subject));
+                            ii_novel   = (sdata.vb_novel    == u_novel(i_novel));
+                            ii_frame   = (ii_subject & ii_novel);
 
-            % bic
-            mbic(key) = model_bic(model, human, ii_frame);
+                            % bic
+                            mbic(mbic_key) = model_bic(model, human, ii_frame);
 
+                        end
+
+                        % save
+                        greed_bic(i_alphat,i_alphan,i_tau,i_subject,i_novel) = mbic(mbic_key);
+
+                        % progress
+                        tools_parforprogress;
+                    end
+                end
+            end
         end
-
-        % save
-        bic(i_subject,i_novel,i_model) = mbic(key);
-
-        % progress
-        tools_parforprogress;
-    end
-    end
     end
     tools_parforprogress(0);
 
     % save models
-    save('data/models_ruz.mat','mdata','mbic');
+    save('-v7.3','data/models_ruz.mat','-append','mbic','greed_bic');
     
-    
-    % minimise bic
-    [~,i_model] = min(bic,[],3);
-    
-    % save sdata
-    models.ruz.df      = 3;
-    models.ruz.bic     = bic;
-    models.ruz.keys    = i_model;
-    save('data/sdata.mat','-append','models');
-else
-    i_model = models.ruz.keys;
 end
 
 %% sdata
@@ -130,20 +134,32 @@ fprintf('ruz_batch: sdata \n');
 % initialise
 models.ruz.choice  = nan(size(sdata.exp_subject));
 models.ruz.correct = nan(size(sdata.exp_subject));
+model_keys         = mdata.keys();
+model_values       = mdata.values();
+fittings           = nan(nb_subject,nb_novel,3);
+
+% minimise bic
+greed_bic   = shiftdim(greed_bic,3);
+greed_bic   = reshape(greed_bic,[nb_subject,nb_novel,nb_alphat*nb_alphan*nb_tau]);
+[~,min_greedbic] = min(greed_bic,[],3);
 
 % loop
-tools_parforprogress(numel(i_model));
-for i_subject = 1:numbers.shared.nb_subject
-for i_novel   = 1:numbers.shared.nb_novel
+tools_parforprogress(numel(min_greedbic));
+for i_subject = 1:nb_subject
+for i_novel   = 1:nb_novel
     
     % frame
     ii_subject = (sdata.exp_subject == numbers.shared.u_subject(i_subject));
     ii_novel   = (sdata.vb_novel    == numbers.shared.u_novel(i_novel));
     ii_frame   = (ii_subject & ii_novel);
     
+    % keys
+    key = model_keys{min_greedbic(i_subject,i_novel)};
+    fittings(i_subject,i_novel,:) = key;
+    
     % values
-    models.ruz.choice(ii_frame)  = model_values{i_model(i_subject,i_novel)}.choice(ii_frame);
-    models.ruz.correct(ii_frame) = model_values{i_model(i_subject,i_novel)}.correct(ii_frame);
+    models.ruz.choice(ii_frame)  = model_values{min_greedbic(i_subject,i_novel)}.choice(ii_frame);
+    models.ruz.correct(ii_frame) = model_values{min_greedbic(i_subject,i_novel)}.correct(ii_frame);
     
     % progress
     tools_parforprogress;
@@ -151,5 +167,21 @@ end
 end
 tools_parforprogress(0);
 
+% degrees of freedom
+models.ruz.df       = 3;
+models.ruz.fittings = fittings;
+
 % save sdata
 save('data/sdata.mat','-append','models');
+
+%% numbers
+
+numbers.ruz.u_alphat    = u_alphat;
+numbers.ruz.u_alphan    = u_alphan;
+numbers.ruz.u_tau       = u_tau;
+numbers.ruz.nb_alphat   = nb_alphat;
+numbers.ruz.nb_alphan   = nb_alphan;
+numbers.ruz.nb_tau      = nb_tau;
+
+% save sdata
+save('data/sdata.mat','-append','numbers');

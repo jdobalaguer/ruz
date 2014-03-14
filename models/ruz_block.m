@@ -15,7 +15,6 @@ nb_trial = length(vb_target);
 % log variables
 mdata.choice        = nan(nb_trial, 1);
 mdata.correct       = nan(nb_trial, 1);
-mdata.uncertainty   = nan(nb_trial, 1);
 
 %% model variables
 Ho          = zeros(nb_side,nb_value);
