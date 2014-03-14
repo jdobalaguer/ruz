@@ -26,6 +26,7 @@ fprintf('ruz_batch: run \n');
 
 nb_loops = length(u_alphat) * length(u_alphan) * length(u_tau);
 if nb_loops ~= length(mdata.keys)
+
     % loop
     tools_parforprogress(nb_loops);
     for alpha_t = u_alphat
@@ -51,6 +52,9 @@ if nb_loops ~= length(mdata.keys)
     end
     end
     tools_parforprogress(0);
+
+    % save models
+    save('data/models_ruz.mat','mdata','mbic');
 end
 
 %% fitting
@@ -66,6 +70,7 @@ human.value     = criterion(human.choice,human.correct);
 
 nb_loops = numel(bic);
 if nb_loops ~= length(mbic.keys)
+
     % loop
     tools_parforprogress(nb_loops);
     for i_model   = 1:mdata.length
@@ -102,20 +107,29 @@ if nb_loops ~= length(mbic.keys)
     end
     end
     tools_parforprogress(0);
+
+    % save models
+    save('data/models_ruz.mat','mdata','mbic');
+    
+    
+    % minimise bic
+    [~,i_model] = min(bic,[],3);
+    
+    % save sdata
+    models.ruz.df      = 3;
+    models.ruz.bic     = bic;
+    models.ruz.keys    = i_model;
+    save('data/sdata.mat','-append','models');
+else
+    i_model = models.ruz.keys;
 end
 
 %% sdata
 fprintf('ruz_batch: sdata \n');
 
-% minimise bic
-[~,i_model] = min(bic,[],3);
-
 % initialise
 models.ruz.choice  = nan(size(sdata.exp_subject));
 models.ruz.correct = nan(size(sdata.exp_subject));
-models.ruz.df      = 3;
-models.ruz.bic     = bic;
-models.ruz.keys    = i_model;
 
 % loop
 tools_parforprogress(numel(i_model));
@@ -137,8 +151,5 @@ end
 end
 tools_parforprogress(0);
 
-%% save
-    % sdata
+% save sdata
 save('data/sdata.mat','-append','models');
-    % models
-save('data/models_ruz.mat','mdata','mbic');
