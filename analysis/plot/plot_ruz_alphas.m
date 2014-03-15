@@ -11,8 +11,8 @@ function plot_ruz_alphas()
     
     %% get fittings
     fittings = models.ruz.fittings;
-    alpha_t  = fittings(:,:,1)
-    alpha_n  = fittings(:,:,2)
+    alpha_t  = fittings(:,:,1);
+    alpha_n  = fittings(:,:,2);
     
     %% plot landscape
     

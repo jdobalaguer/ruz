@@ -4,6 +4,7 @@
 tmp*
 
 data/*
+data copy/*
 !data/sdata.mat
 !data/sdata_backup.mat
 

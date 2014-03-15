@@ -15,9 +15,9 @@ else
 end
 
 %% variables
-u_alphat   = linspace(0,1,5);
-u_alphan   = linspace(0,1,5);
-u_tau      = linspace(0,1,5);
+u_alphat   = linspace(0,1,3);
+u_alphan   = linspace(0,1,3);
+u_tau      = linspace(0,1,3);
 u_subject  = numbers.shared.u_subject;
 u_novel    = numbers.shared.u_novel;
 
@@ -64,6 +64,8 @@ if nb_loops ~= length(mdata.keys)
 
     % save models
     save('-v7.3','data/models_ruz.mat','-append','mdata');
+else
+    tools_parforprogress(0);
 end
 
 %% fitting
@@ -84,48 +86,50 @@ if ~exist('greed_bic','var') || ...
     nb_loops = numel(greed_bic);
     tools_parforprogress(nb_loops);
     for i_alphat   = 1:nb_alphat
-        for i_alphan   = 1:nb_alphan
-            for i_tau      = 1:nb_tau
-                for i_subject = 1:nb_subject
-                    for i_novel   = 1:nb_novel
+    for i_alphan   = 1:nb_alphan
+    for i_tau      = 1:nb_tau
+        for i_subject = 1:nb_subject
+        for i_novel   = 1:nb_novel
 
-                        % keys
-                        mdata_key = [u_alphat(i_alphat),u_alphan(i_alphan),u_tau(i_tau)];
-                        mbic_key  = [mdata_key,u_subject(i_subject),u_novel(i_novel)];
+            % keys
+            mdata_key = [u_alphat(i_alphat),u_alphan(i_alphan),u_tau(i_tau)];
+            mbic_key  = [mdata_key,u_subject(i_subject),u_novel(i_novel)];
 
-                        % bic
-                        if ~mbic.iskey(mbic_key)
+            % bic
+            if ~mbic.iskey(mbic_key)
 
-                            % model
-                            model       = mdata(mdata_key);
-                            model.value = criterion(model.choice,model.correct);
-                            model.df    = 3;
+                % model
+                model       = mdata(mdata_key);
+                model.value = criterion(model.choice,model.correct);
+                model.df    = 3;
 
-                            % frame
-                            ii_subject = (sdata.exp_subject == u_subject(i_subject));
-                            ii_novel   = (sdata.vb_novel    == u_novel(i_novel));
-                            ii_frame   = (ii_subject & ii_novel);
+                % frame
+                ii_subject = (sdata.exp_subject == u_subject(i_subject));
+                ii_novel   = (sdata.vb_novel    == u_novel(i_novel));
+                ii_frame   = (ii_subject & ii_novel);
 
-                            % bic
-                            mbic(mbic_key) = model_bic(model, human, ii_frame);
+                % bic
+                mbic(mbic_key) = model_bic(model, human, ii_frame);
 
-                        end
-
-                        % save
-                        greed_bic(i_alphat,i_alphan,i_tau,i_subject,i_novel) = mbic(mbic_key);
-
-                        % progress
-                        tools_parforprogress;
-                    end
-                end
             end
+
+            % save
+            greed_bic(i_alphat,i_alphan,i_tau,i_subject,i_novel) = mbic(mbic_key);
+
+            % progress
+            tools_parforprogress;
         end
+        end
+    end
+    end
     end
     tools_parforprogress(0);
 
     % save models
     save('-v7.3','data/models_ruz.mat','-append','mbic','greed_bic');
     
+else
+    tools_parforprogress(0);
 end
 
 %% sdata
@@ -175,6 +179,7 @@ models.ruz.fittings = fittings;
 save('data/sdata.mat','-append','models');
 
 %% numbers
+fprintf('ruz_batch: numbers \n');
 
 numbers.ruz.u_alphat    = u_alphat;
 numbers.ruz.u_alphan    = u_alphan;
@@ -182,6 +187,9 @@ numbers.ruz.u_tau       = u_tau;
 numbers.ruz.nb_alphat   = nb_alphat;
 numbers.ruz.nb_alphan   = nb_alphan;
 numbers.ruz.nb_tau      = nb_tau;
+
+% progress
+tools_parforprogress(0);
 
 % save sdata
 save('data/sdata.mat','-append','numbers');
