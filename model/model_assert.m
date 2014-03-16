@@ -15,16 +15,7 @@ function model_assert(model)
             assert(isfield(model,'specificity'), 'model_assert: error. alcove. specificity field missing');
             assert(isfield(model,'w_step'),      'model_assert: error. alcove. w_step field missing');
             assert(isfield(model,'a_step'),      'model_assert: error. alcove. a_step field missing');
-            
-        case 'doubt'
-            %% doubt (uncertainty) model
-            assert(isfield(model,'alpha_tw'),     'model_assert: error. doubt. alpha_tw field missing');
-            assert(isfield(model,'alpha_tc'),     'model_assert: error. doubt. alpha_tc field missing');
-            assert(isfield(model,'alpha_nw'),     'model_assert: error. doubt. alpha_nw field missing');
-            assert(isfield(model,'alpha_nc'),     'model_assert: error. doubt. alpha_nc field missing');
-            assert(isfield(model,'tau'),          'model_assert: error. doubt.  tau field missing');
-            assert(isfield(model,'theta'),        'model_assert: error. doubt. theta field missing');
-            
+
         case 'ruz'
             %% ruz model
             assert(isfield(model,'alpha_t'),     'model_assert: error. doubt. alpha_t field missing');

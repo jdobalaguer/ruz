@@ -1,4 +1,6 @@
 
-if exist('matlabpool','builtin') && matlabpool('size')
-    matlabpool('close');
+function tools_stopparallel()
+    if exist('matlabpool','file') && matlabpool('size')
+        matlabpool('close');
+    end
 end

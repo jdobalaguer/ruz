@@ -41,7 +41,7 @@
 
 % Written by: Doug Harriman (doug <dot> harriman <at> gmail <dot> com)
 % 25-Apr-08 - Added RENAME.
-% 20-Apr-08 - '.' access to methods working.  Allethods have help text.
+% 20-Apr-08 - '.' access to methods working.  All methods have help text.
 %             Added '+' and '-' methods to composite DICT's.
 % 03-Apr-08 - More methods to make more similar to Python dict object.
 % 02-Apr-08 - Initial version.
@@ -56,7 +56,17 @@ classdef dict < handle
         
     end % properties - protected
     
-    methods 
+    methods
+        
+        function obj = dict(key,value)
+            if exist('key','var') && exist('value','var')
+                assert(iscell(key),'dict: error. key is not a cell');
+                assert(iscell(value),'dict: error. value is not a cell');
+                assert(length(key)==length(value),'dict: error. different lengths for key and value');
+                obj.key = key;
+                obj.value = value;
+            end
+        end
 
         function val = subsref(obj,ref)
             %DICT/SUBSREF Subscript referencing for DICT objects.

@@ -5,28 +5,19 @@ function run_batch(modelname)
     switch modelname
         case 'god'
             %% god (perfect)
-            model.name = 'god';
-            run('models/god_batch.m');
+            god_batch();
             
         case 'hbm'
             %% hierarchical bayesian model (optimal)
-            model.name = 'hbm';
-            run('models/hbm_batch');
+            hbm_batch();
             
         case 'alcove'
             %% alcove model (kruschke 1992)
-            model.name = 'alcove';
-            run('models/alcove_batch.m');
-            
-        case 'doubt'
-            %% doubt (uncertainty) model
-            model.name = 'doubt';
-            run('models/doubt_batch.m');
+            alcove_batch();
             
         case 'ruz'
             %% ruz model
-            model.name = 'ruz';
-            run('models/ruz_batch.m');
+            ruz_batch();
             
         otherwise
             %% unknown

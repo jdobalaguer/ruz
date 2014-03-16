@@ -2,6 +2,7 @@
 .DS_Store
 .progress
 tmp*
+*~
 
 data/*
 data copy/*

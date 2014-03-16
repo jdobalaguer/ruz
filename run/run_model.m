@@ -4,15 +4,12 @@ function mdata = run_model(model,sdata,numbers)
     model_assert(model);
 
     %% run
-    % parallel toolbox
-    tools_startparallel;
-
     % store results
     mdata = cell(numbers.shared.nb_subject,numbers.shared.nb_block);
 
     % parallel loop
     nb_cases = numel(numbers.shared.xx_subject);
-    parfor i_case = 1:nb_cases
+    for i_case = 1:nb_cases
         % case indexes
         i_subject  = numbers.shared.xx_subject(i_case);
         i_block    = numbers.shared.xx_block(i_case);
