@@ -17,7 +17,7 @@ function bic = model_bic(model,human,ii_frame)
     
     %% likelihood
     model.like = nan(1,nb_trial);
-    parfor i_trial = 1:nb_trial
+    for i_trial = 1:nb_trial
         ii_trial                = (sdata.exp_trial == u_trial(i_trial));    ... index
         ii_condition            = (ii_frame & ii_trial);
         frame_sum               =  sum(ii_condition);                       ... values
