@@ -1,9 +1,9 @@
 
 function ruz_batch()
     %% variables
-    u_alphat   = linspace(0,1,11);
-    u_alphan   = linspace(0,1,11);
-    u_tau      = linspace(0,1,11);
+    u_alphat   = linspace(0,1,21);
+    u_alphan   = linspace(0,1,21);
+    u_tau      = linspace(0,1,21);
     
     %% parallel
     tools_startparallel();

@@ -32,8 +32,9 @@ function plot_ruz_fitscape()
         hold on;
         
         % plot
-        % !!!! see "help countourf"
-        imagesc(greed_bic(:,:,i_novel));
+        [c,h] = contour(greed_bic(:,:,i_novel), [44,45,48,52,60,80,100,150]);
+        clabel(c, h);
+        colormap(fig_color('jet',9)./255);
         
         % fig_axis
         sa = struct();
