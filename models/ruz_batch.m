@@ -15,9 +15,9 @@ else
 end
 
 %% variables
-u_alphat   = linspace(0,1,3);
-u_alphan   = linspace(0,1,3);
-u_tau      = linspace(0,1,3);
+u_alphat   = linspace(0,1,21);
+u_alphan   = linspace(0,1,21);
+u_tau      = linspace(0,1,21);
 u_subject  = numbers.shared.u_subject;
 u_novel    = numbers.shared.u_novel;
 
@@ -65,7 +65,7 @@ if nb_loops ~= length(mdata.keys)
     % save models
     save('-v7.3','data/models_ruz.mat','-append','mdata');
 else
-    tools_parforprogress(0);
+    tools_parforprogress(1);tools_parforprogress(0);
 end
 
 %% fitting
@@ -129,7 +129,7 @@ if ~exist('greed_bic','var') || ...
     save('-v7.3','data/models_ruz.mat','-append','mbic','greed_bic');
     
 else
-    tools_parforprogress(0);
+    tools_parforprogress(1);tools_parforprogress(0);
 end
 
 %% sdata
@@ -189,7 +189,7 @@ numbers.ruz.nb_alphan   = nb_alphan;
 numbers.ruz.nb_tau      = nb_tau;
 
 % progress
-tools_parforprogress(0);
+tools_parforprogress(1);tools_parforprogress(0);
 
 % save sdata
 save('data/sdata.mat','-append','numbers');
