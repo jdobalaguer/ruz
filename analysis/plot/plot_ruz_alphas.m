@@ -1,19 +1,54 @@
 
 function plot_ruz_alphas()
-    %% load
-    load('data/models_ruz.mat','mdata');
+    %% figure 1
+    % load
     load('data/sdata.mat','numbers','models');
-    mdata_keys = mdata.keys();
     
-    %% numbers
+    % numbers
     nb_novel   = numbers.shared.nb_novel;
     nb_subject = numbers.shared.nb_subject;
     
-    %% get fittings
+    % get fittings
     fittings = models.ruz.fittings;
     alpha_t  = fittings(:,:,1);
     alpha_n  = fittings(:,:,2);
     
+    %% plot mean
+    
+    y = [mean(alpha_t) ; mean(alpha_n)];
+    e = [ste(alpha_t)  ; ste(alpha_n)];
+    
+    % figure
+    figure();
+    
+    % colours
+    colours = [0,1,0;1,0,0];
+    
+    fig_barweb(         y,e,...                                                height and error
+                        [],...                                                 width
+                        {'alpha_T','alpha_N'},...                              group names
+                        [],...                                                 title
+                        [],...                                                 xlabel
+                        [],...                                                 ylabel
+                        colours,...                                            colour
+                        [],...                                                 grid
+                        {'familiar','novel'},...                               legend
+                        [],...                                                 error sides (1, 2)
+                        'axis'...                                              legend ('plot','axis')
+                        );
+    
+    % fig_axis
+    sa = struct();
+    sa.title   = 'AVERAGE FITTING PARAMETERS';
+    fig_axis(sa);
+        
+    % fig_figure
+    fig_figure(gcf());
+    
+    %% figure 2
+    load('data/models_ruz.mat','mdata');
+    mdata_keys = mdata.keys();
+
     %% plot landscape
     
     % fig_figure
@@ -48,37 +83,5 @@ function plot_ruz_alphas()
         sa.ylim    = [0,1];
         fig_axis(sa);
     end
-    
-    %% plot mean
-    
-    y = [mean(alpha_t) ; mean(alpha_n)];
-    e = [ste(alpha_t)  ; ste(alpha_n)];
-    
-    % figure
-    figure();
-    
-    % colours
-    colours = [0,1,0;1,0,0];
-    
-    fig_barweb(         y,e,...                                                height and error
-                        [],...                                                 width
-                        {'alpha_T','alpha_N'},...                              group names
-                        [],...                                                 title
-                        [],...                                                 xlabel
-                        [],...                                                 ylabel
-                        colours,...                                            colour
-                        [],...                                                 grid
-                        {'familiar','novel'},...                               legend
-                        [],...                                                 error sides (1, 2)
-                        'axis'...                                              legend ('plot','axis')
-                        );
-    
-    % fig_axis
-    sa = struct();
-    sa.title   = 'AVERAGE FITTING PARAMETERS';
-    fig_axis(sa);
-        
-    % fig_figure
-    fig_figure(gcf());
     
 end

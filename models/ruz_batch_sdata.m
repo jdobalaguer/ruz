@@ -24,16 +24,15 @@ function ruz_batch_sdata(u_alphat,u_alphan,u_tau)
     model_values       = mdata.values();
     
     % minimise bic
-    greed_bic   = shiftdim(greed_bic,3);
-    greed_bic   = reshape(greed_bic,[nb_subject,nb_novel,nb_alphat*nb_alphan*nb_tau]);
-    [~,min_greedbic] = min(greed_bic,[],3);
+    greed_bic        = reshape(greed_bic,[nb_alphat*nb_alphan*nb_tau,nb_subject,nb_novel);
+    [~,min_greedbic] = min(greed_bic,[],1);
+    greed_bic        = squeeze(greed_bic);
     
     %% sdata
     % initialise
     models.ruz.choice  = nan(size(models.human.choice));
     models.ruz.correct = nan(size(models.human.correct));
     fittings           = nan(nb_subject,nb_novel,3);
-
 
     % loop
     tools_parforprogress(numel(min_greedbic));
