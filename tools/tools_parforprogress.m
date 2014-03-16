@@ -51,14 +51,14 @@ if N > 0
     fclose(f);
     
     if nargout == 0
-        disp(['  0%[>', repmat(' ', 1, w), ']']);
+        fprintf(['  0%%[>', repmat(' ', 1, w), ']\n']);
     end
 elseif N == 0
     delete('.progress');
     percent = 100;
     
     if nargout == 0
-        disp([repmat(char(8), 1, (w+9)), char(10), '100%[', repmat('=', 1, w+1), ']']);
+        fprintf([repmat(char(8), 1, (w+8)), '100%%[', repmat('=', 1, w+1), ']\n']);
     end
 else
     if ~exist('.progress', 'file')
@@ -75,7 +75,8 @@ else
     percent = (length(progress)-1)/progress(1)*100;
     
     if nargout == 0
-        perc = sprintf('%3.0f%%', percent); % 4 characters wide, percentage
-        disp([repmat(char(8), 1, (w+9)), char(10), perc, '[', repmat('=', 1, round(percent*w/100)), '>', repmat(' ', 1, w - round(percent*w/100)), ']']);
+        perc = sprintf('%3.0f%%%%', percent); % 4 characters wide, percentage
+        fprintf([repmat('\b', 1, (w+8)), perc, '[', repmat('=', 1, round(percent*w/100)), '>', repmat(' ', 1, w - round(percent*w/100)), ']\n']);
+        drawnow('update');
     end
 end

@@ -1,25 +1,26 @@
 
 function [mkey,mdata] = ruz_batch_run_par(sdata,numbers,mdata_keys,alpha_t,alpha_n,tau)
 
-    % set model
+    %% variables
+    % model
     model.name         = 'ruz';
     model.alpha_t      = alpha_t;
     model.alpha_n      = alpha_n;
     model.tau          = tau;
+    % key
+    mkey = [alpha_t,alpha_n,tau];
 
-    % set key
-    model.key = [alpha_t,alpha_n,tau];
-
-    % run & save
-    if isempty(cell2mat(mdata_keys)) || ~ismember(model.key,cell2mat(mdata_keys),'rows')
+    %% mkey, mdata
+    if isempty(mdata_keys) || ~ismember(mkey,cell2mat(mdata_keys),'rows')
+        %% run
         mdata = run_model(model,sdata,numbers);
-        mkey  = model.key;
     else
+        %% already exists
         mdata = struct();
         mkey  = [nan,nan,nan];
     end
 
-    % progress
+    %% progress
     tools_parforprogress();
 
 end

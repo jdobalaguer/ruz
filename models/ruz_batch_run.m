@@ -1,12 +1,10 @@
 
 function ruz_batch_run(u_alphat,u_alphan,u_tau)
     %% load
-        % sdata
     sdata   = struct();
     numbers = struct();
     mdata   = dict();
     load('data/sdata.mat','sdata','numbers');
-        % models
     if exist('data/models_ruz.mat','file')
         load('data/models_ruz.mat','mdata');
     else
@@ -15,15 +13,13 @@ function ruz_batch_run(u_alphat,u_alphan,u_tau)
         clear mbic;
     end
 
-    %% variables
+    %% numbers
     u_subject  = numbers.shared.u_subject;
     u_novel    = numbers.shared.u_novel;
 
     nb_alphat  = length(u_alphat);
     nb_alphan  = length(u_alphan);
     nb_tau     = length(u_tau);
-    nb_subject = length(u_subject);
-    nb_novel   = length(u_novel);
 
     %% run
     nb_loop = nb_alphat * nb_alphan * nb_tau;
@@ -74,9 +70,10 @@ function ruz_batch_run(u_alphat,u_alphan,u_tau)
         clear i_alphat i_alphan i_tau;
         clear ii_nan;
 
-        % save models
+        %% save
         save('data/models_ruz.mat','-append','mdata');
     else
+        %% skip
         tools_parforprogress(1);tools_parforprogress(0);
     end
 end
