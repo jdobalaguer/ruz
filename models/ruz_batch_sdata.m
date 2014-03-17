@@ -24,10 +24,18 @@ function ruz_batch_sdata(u_alphat,u_alphan,u_tau)
     model_values       = mdata.values();
     
     % minimise bic
-    greed_bic        = reshape(greed_bic,[nb_alphat*nb_alphan*nb_tau,nb_subject,nb_novel);
+    greed_bic        = reshape(greed_bic,[nb_alphat*nb_alphan*nb_tau,nb_subject,nb_novel]);
     [~,min_greedbic] = min(greed_bic,[],1);
-    greed_bic        = squeeze(greed_bic);
+    min_greedbic = squeeze(min_greedbic)
     
+    % parameters
+    xx_alphat = nan(nb_alphat,nb_alphan,nb_tau);
+    xx_alphan = nan(nb_alphat,nb_alphan,nb_tau);
+    xx_tau    = nan(nb_alphat,nb_alphan,nb_tau);
+    for i_alphat = 1:nb_alphat, xx_alphat(i_alphat,:,:) = u_alphat(i_alphat);   end
+    for i_alphan = 1:nb_alphat, xx_alphan(:,i_alphan,:) = u_alphan(i_alphan);   end
+    for i_tau = 1:nb_tau,       xx_tau(:,:,i_tau)       = u_tau(i_tau);         end
+
     %% sdata
     % initialise
     models.ruz.choice  = nan(size(models.human.choice));
@@ -45,12 +53,16 @@ function ruz_batch_sdata(u_alphat,u_alphan,u_tau)
         ii_frame   = (ii_subject & ii_novel);
 
         % keys
-        key = model_keys{min_greedbic(i_subject,i_novel)};
+        alpha_t = xx_alphat(min_greedbic(i_subject,i_novel));
+        alpha_n = xx_alphan(min_greedbic(i_subject,i_novel));
+        tau     = xx_tau(min_greedbic(i_subject,i_novel));
+        key     = [alpha_t,alpha_n,tau];
         fittings(i_subject,i_novel,:) = key;
 
         % values
-        models.ruz.choice(ii_frame)  = model_values{min_greedbic(i_subject,i_novel)}.choice(ii_frame);
-        models.ruz.correct(ii_frame) = model_values{min_greedbic(i_subject,i_novel)}.correct(ii_frame);
+        model = mdata(key);
+        models.ruz.choice(ii_frame)  = model.choice(ii_frame);
+        models.ruz.correct(ii_frame) = model.correct(ii_frame);
 
         % progress
         tools_parforprogress();
@@ -65,3 +77,4 @@ function ruz_batch_sdata(u_alphat,u_alphan,u_tau)
     %% save
     save('data/sdata.mat','-append','models');
 end
+

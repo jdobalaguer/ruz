@@ -12,11 +12,12 @@ function plot_ruz_alphas()
     fittings = models.ruz.fittings;
     alpha_t  = fittings(:,:,1);
     alpha_n  = fittings(:,:,2);
+    tau      = fittings(:,:,3);
     
     %% plot mean
     
-    y = [mean(alpha_t) ; mean(alpha_n)];
-    e = [ste(alpha_t)  ; ste(alpha_n)];
+    y = [mean(alpha_t) ; mean(alpha_n) ; mean(tau)];
+    e = [ste(alpha_t)  ; ste(alpha_n)  ; ste(tau) ];
     
     % figure
     figure();
@@ -26,7 +27,7 @@ function plot_ruz_alphas()
     
     fig_barweb(         y,e,...                                                height and error
                         [],...                                                 width
-                        {'alpha_T','alpha_N'},...                              group names
+                        {'alpha_T','alpha_N','tau'},...                        group names
                         [],...                                                 title
                         [],...                                                 xlabel
                         [],...                                                 ylabel

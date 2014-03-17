@@ -1,11 +1,12 @@
-*.swp
-.DS_Store
-.progress
-tmp*
 *~
+*.swp
+.*
+tmp*
+
+!.gitignore
 
 data/*
 data copy/*
 !data/sdata.mat
-!data/sdata_backup.mat
+!data/sdata_human.mat
 
