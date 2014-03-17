@@ -13,8 +13,8 @@ nb_side  = 4;
 nb_value = 3;
 nb_trial = length(vb_target);
 % log variables
-mdata.choice        = nan(nb_trial, 1);
-mdata.correct       = nan(nb_trial, 1);
+mdata.choice        = false(nb_trial, 1);
+mdata.correct       = false(nb_trial, 1);
 
 %% model variables
 Ho          = zeros(nb_side,nb_value);
