@@ -18,6 +18,11 @@ function [mdata] = model_block(model,vb_stimord,vb_novel,vb_target,vb_rules)
             choice_block;
             return;
             
+        case 'choice2'
+            %% choice model (2 parameters)
+            choice2_block;
+            return;
+            
         case 'correct'
             %% correct model
             correct_block;
