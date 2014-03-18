@@ -11,7 +11,7 @@ function [mkey,mbic] = choice2_batch_fitting_par(u_subject,u_novel,human,sdata,m
     criterion  = model_criterion();
     % model
     model      = mdata(mkey);
-    model.value = criterion(model.choice2,model.correct);
+    model.value = criterion(model.choice,model.correct);
     model.df    = 3;
 
     %% mkey, mbic

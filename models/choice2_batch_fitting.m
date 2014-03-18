@@ -37,7 +37,7 @@ function choice2_batch_fitting(u_alphat,u_alphan,u_tau)
         % variables
         criterion       = model_criterion();
         human           = models.human;
-        human.value     = criterion(human.choice2,human.correct);
+        human.value     = criterion(human.choice,human.correct);
 
         % parameters
         xx_alphat = nan(nb_alphat,nb_alphan,nb_tau);
