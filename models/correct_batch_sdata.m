@@ -33,7 +33,7 @@ function correct_batch_sdata(u_alphac,u_alphaw,u_tau)
     xx_alphaw = nan(nb_alphat,nb_alphaw,nb_tau);
     xx_tau    = nan(nb_alphat,nb_alphaw,nb_tau);
     for i_alphat = 1:nb_alphat, xx_alphat(i_alphat,:,:) = u_alphac(i_alphat);   end
-    for i_alphaw = 1:nb_alphat, xx_alphaw(:,i_alphaw,:) = u_alphaw(i_alphaw);   end
+    for i_alphaw = 1:nb_alphaw, xx_alphaw(:,i_alphaw,:) = u_alphaw(i_alphaw);   end
     for i_tau = 1:nb_tau,       xx_tau(:,:,i_tau)       = u_tau(i_tau);         end
 
     %% sdata

@@ -33,7 +33,7 @@ function choice2_batch_sdata(u_alphat,u_alphan,u_tau)
     xx_alphan = nan(nb_alphat,nb_alphan,nb_tau);
     xx_tau    = nan(nb_alphat,nb_alphan,nb_tau);
     for i_alphat = 1:nb_alphat, xx_alphat(i_alphat,:,:) = u_alphat(i_alphat);   end
-    for i_alphan = 1:nb_alphat, xx_alphan(:,i_alphan,:) = u_alphan(i_alphan);   end
+    for i_alphan = 1:nb_alphan, xx_alphan(:,i_alphan,:) = u_alphan(i_alphan);   end
     for i_tau = 1:nb_tau,       xx_tau(:,:,i_tau)       = u_tau(i_tau);         end
 
     %% sdata
