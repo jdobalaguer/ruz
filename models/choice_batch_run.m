@@ -1,15 +1,15 @@
 
-function ruz_batch_run(u_alphat,u_alphan,u_tau)
+function choice_batch_run(u_alphat,u_alphan,u_tau)
     %% load
     sdata   = struct();
     numbers = struct();
     mdata   = dict();
     load('data/sdata.mat','sdata','numbers');
-    if exist('data/models_ruz.mat','file')
-        load('data/models_ruz.mat','mdata');
+    if exist('data/models_choice.mat','file')
+        load('data/models_choice.mat','mdata');
     else
         mbic  = dict();
-        save('-v7.3','data/models_ruz.mat','mdata','mbic');
+        save('-v7.3','data/models_choice.mat','mdata','mbic');
         clear mbic;
     end
 
@@ -43,7 +43,7 @@ function ruz_batch_run(u_alphat,u_alphan,u_tau)
         parfor i_loop = 1:nb_loop
             [   new_keys{i_loop} ,      ...
                 new_vals{i_loop} ] =    ...
-                                    ruz_batch_run_par(  sdata, ...
+                                    choice_batch_run_par(  sdata, ...
                                                         numbers, ...
                                                         mdata_keys, ...
                                                         xx_alphat(i_loop), ...
@@ -71,7 +71,7 @@ function ruz_batch_run(u_alphat,u_alphan,u_tau)
         clear ii_nan;
 
         %% save
-        save('data/models_ruz.mat','-append','mdata');
+        save('data/models_choice.mat','-append','mdata');
     else
         %% skip
         tools_parforprogress(1);tools_parforprogress(0);

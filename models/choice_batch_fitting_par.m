@@ -1,6 +1,6 @@
 
 
-function [mkey,mbic] = ruz_batch_fitting_par(u_subject,u_novel,human,sdata,mdata,mbic_keys,mbic_vals,alpha_t,alpha_n,tau)
+function [mkey,mbic] = choice_batch_fitting_par(u_subject,u_novel,human,sdata,mdata,mbic_keys,mbic_vals,alpha_t,alpha_n,tau)
     %% variables
     % numbers
     nb_subject = length(u_subject);

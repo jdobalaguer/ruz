@@ -1,14 +1,14 @@
 
-function [mkey,mdata] = ruz_batch_run_par(sdata,numbers,mdata_keys,alpha_t,alpha_n,tau)
+function [mkey,mdata] = correct_batch_run_par(sdata,numbers,mdata_keys,alpha_c,alpha_w,tau)
 
     %% variables
     % model
-    model.name         = 'ruz';
-    model.alpha_t      = alpha_t;
-    model.alpha_n      = alpha_n;
+    model.name         = 'correct';
+    model.alpha_c      = alpha_c;
+    model.alpha_w      = alpha_w;
     model.tau          = tau;
     % key
-    mkey = [alpha_t,alpha_n,tau];
+    mkey = [alpha_c,alpha_w,tau];
 
     %% mkey, mdata
     if isempty(mdata_keys) || ~ismember(mkey,cell2mat(mdata_keys),'rows')

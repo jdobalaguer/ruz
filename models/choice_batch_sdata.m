@@ -1,5 +1,5 @@
 
-function ruz_batch_sdata(u_alphat,u_alphan,u_tau)
+function choice_batch_sdata(u_alphat,u_alphan,u_tau)
     %% load
     sdata     = struct();
     models    = struct();
@@ -7,7 +7,7 @@ function ruz_batch_sdata(u_alphat,u_alphan,u_tau)
     mdata     = dict();
     greed_bic = [];
     load('data/sdata.mat');
-    load('data/models_ruz.mat','mdata','greed_bic');
+    load('data/models_choice.mat','mdata','greed_bic');
     
     %% numbers
     u_subject  = numbers.shared.u_subject;
@@ -26,7 +26,7 @@ function ruz_batch_sdata(u_alphat,u_alphan,u_tau)
     % minimise bic
     greed_bic        = reshape(greed_bic,[nb_alphat*nb_alphan*nb_tau,nb_subject,nb_novel]);
     [~,min_greedbic] = min(greed_bic,[],1);
-    min_greedbic = squeeze(min_greedbic)
+    min_greedbic = squeeze(min_greedbic);
     
     % parameters
     xx_alphat = nan(nb_alphat,nb_alphan,nb_tau);
@@ -38,8 +38,8 @@ function ruz_batch_sdata(u_alphat,u_alphan,u_tau)
 
     %% sdata
     % initialise
-    models.ruz.choice  = nan(size(models.human.choice));
-    models.ruz.correct = nan(size(models.human.correct));
+    models.choice.choice  = nan(size(models.human.choice));
+    models.choice.correct = nan(size(models.human.correct));
     fittings           = nan(nb_subject,nb_novel,3);
 
     % loop
@@ -61,8 +61,8 @@ function ruz_batch_sdata(u_alphat,u_alphan,u_tau)
 
         % values
         model = mdata(key);
-        models.ruz.choice(ii_frame)  = model.choice(ii_frame);
-        models.ruz.correct(ii_frame) = model.correct(ii_frame);
+        models.choice.choice(ii_frame)  = model.choice(ii_frame);
+        models.choice.correct(ii_frame) = model.correct(ii_frame);
 
         % progress
         tools_parforprogress();
@@ -71,8 +71,8 @@ function ruz_batch_sdata(u_alphat,u_alphan,u_tau)
     tools_parforprogress(0);
 
     % degrees of freedom
-    models.ruz.df       = 3;
-    models.ruz.fittings = fittings;
+    models.choice.df       = 3;
+    models.choice.fittings = fittings;
 
     %% save
     save('data/sdata.mat','-append','models');

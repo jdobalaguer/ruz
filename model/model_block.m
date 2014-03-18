@@ -13,14 +13,14 @@ function [mdata] = model_block(model,vb_stimord,vb_novel,vb_target,vb_rules)
             hbm_block;
             return;
             
-        case 'alcove'
-            %% alcove model (kruschke 1992)
-            alcove_block;
+        case 'choice'
+            %% choice model
+            choice_block;
             return;
             
-        case 'ruz'
-            %% ruz model
-            ruz_block;
+        case 'correct'
+            %% correct model
+            correct_block;
             return;
             
         otherwise

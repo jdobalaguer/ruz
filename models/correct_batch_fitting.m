@@ -1,5 +1,5 @@
 
-function ruz_batch_fitting(u_alphat,u_alphan,u_tau)
+function correct_batch_fitting(u_alphac,u_alphaw,u_tau)
     %% load
     sdata     = struct();
     models    = struct();
@@ -8,31 +8,31 @@ function ruz_batch_fitting(u_alphat,u_alphan,u_tau)
     mbic      = dict();
     greed_bic = [];
     load('data/sdata.mat');
-    load('data/models_ruz.mat');
+    load('data/models_correct.mat');
 
     %% variables
     u_subject  = numbers.shared.u_subject;
     u_novel    = numbers.shared.u_novel;
 
-    nb_alphat  = length(u_alphat);
-    nb_alphan  = length(u_alphan);
+    nb_alphac  = length(u_alphac);
+    nb_alphaw  = length(u_alphaw);
     nb_tau     = length(u_tau);
     nb_subject = length(u_subject);
     nb_novel   = length(u_novel);
 
     %% fitting
-    nb_loop = nb_alphat * nb_alphan * nb_tau;
+    nb_loop = nb_alphac * nb_alphaw * nb_tau;
     if isempty(greed_bic) || ...
-       ~isfield(numbers,'ruz')   || ...
-       ~isfield(numbers.ruz,'u_alphat')        || ~isfield(numbers.ruz,'u_alphan')        || ~isfield(numbers.ruz,'u_tau')     || ...
-       ~isequal(u_alphat,numbers.ruz.u_alphat) || ~isequal(u_alphan,numbers.ruz.u_alphan) || ~isequal(u_tau,numbers.ruz.u_tau)
+       ~isfield(numbers,'correct')   || ...
+       ~isfield(numbers.correct,'u_alphac')        || ~isfield(numbers.correct,'u_alphaw')        || ~isfield(numbers.correct,'u_tau')     || ...
+       ~isequal(u_alphac,numbers.correct.u_alphac) || ~isequal(u_alphaw,numbers.correct.u_alphaw) || ~isequal(u_tau,numbers.correct.u_tau)
 
         % initialise
         mbic_keys = mbic.keys();
         mbic_vals = mbic.values();
         new_keys   = cell(nb_loop,1);
         new_vals   = cell(nb_loop,1);
-        greed_bic  = nan(nb_alphat*nb_alphan*nb_tau,nb_subject,nb_novel);
+        greed_bic  = nan(nb_alphac*nb_alphaw*nb_tau,nb_subject,nb_novel);
         
         % variables
         criterion       = model_criterion();
@@ -40,11 +40,11 @@ function ruz_batch_fitting(u_alphat,u_alphan,u_tau)
         human.value     = criterion(human.choice,human.correct);
 
         % parameters
-        xx_alphat = nan(nb_alphat,nb_alphan,nb_tau);
-        xx_alphan = nan(nb_alphat,nb_alphan,nb_tau);
-        xx_tau    = nan(nb_alphat,nb_alphan,nb_tau);
-        for i_alphat = 1:nb_alphat, xx_alphat(i_alphat,:,:) = u_alphat(i_alphat);   end
-        for i_alphan = 1:nb_alphat, xx_alphan(:,i_alphan,:) = u_alphan(i_alphan);   end
+        xx_alphac = nan(nb_alphac,nb_alphaw,nb_tau);
+        xx_alphaw = nan(nb_alphac,nb_alphaw,nb_tau);
+        xx_tau    = nan(nb_alphac,nb_alphaw,nb_tau);
+        for i_alphac = 1:nb_alphac, xx_alphac(i_alphac,:,:) = u_alphac(i_alphac);   end
+        for i_alphaw = 1:nb_alphac, xx_alphaw(:,i_alphaw,:) = u_alphaw(i_alphaw);   end
         for i_tau = 1:nb_tau,       xx_tau(:,:,i_tau)       = u_tau(i_tau);         end
 
         % parallel loop
@@ -52,22 +52,22 @@ function ruz_batch_fitting(u_alphat,u_alphan,u_tau)
         parfor i_loop = 1:nb_loop
             [   new_keys{i_loop} ,      ...
                 new_vals{i_loop} ] =    ...
-                                     ruz_batch_fitting_par( u_subject,  ...
+                                     correct_batch_fitting_par( u_subject,  ...
                                                             u_novel, ...
                                                             human, ...
                                                             sdata, ...
                                                             mdata, ...
                                                             mbic_keys, ...
                                                             mbic_vals, ...
-                                                            xx_alphat(i_loop), ...
-                                                            xx_alphan(i_loop), ...
+                                                            xx_alphac(i_loop), ...
+                                                            xx_alphaw(i_loop), ...
                                                             xx_tau(i_loop));
             greed_bic(i_loop,:,:) = new_vals{i_loop};
         end
         tools_parforprogress(0);
 
         % reshape greed_bic
-        greed_bic = reshape(greed_bic,[nb_alphat,nb_alphan,nb_tau,nb_subject,nb_novel]);
+        greed_bic = reshape(greed_bic,[nb_alphac,nb_alphaw,nb_tau,nb_subject,nb_novel]);
 
         % remove empty simulations
         ii_nan           = any(isnan(cell2mat(new_keys)),2);
@@ -82,12 +82,12 @@ function ruz_batch_fitting(u_alphat,u_alphan,u_tau)
         % clean
         clear new_keys new_vals;
         clear mbic_keys mbic_vals;
-        clear xx_alphat xx_alphan xx_tau;
-        clear i_alphat i_alphan i_tau;
+        clear xx_alphac xx_alphaw xx_tau;
+        clear i_alphac i_alphaw i_tau;
         clear ii_nan;
 
         %% save
-        save('data/models_ruz.mat','-append','mbic','greed_bic');
+        save('data/models_correct.mat','-append','mbic','greed_bic');
 
     else
         %% skip

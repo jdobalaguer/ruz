@@ -11,13 +11,13 @@ function run_batch(modelname)
             %% hierarchical bayesian model (optimal)
             hbm_batch();
             
-        case 'alcove'
-            %% alcove model (kruschke 1992)
-            alcove_batch();
+        case 'choice'
+            %% choice model
+            choice_batch();
             
-        case 'ruz'
-            %% ruz model
-            ruz_batch();
+        case 'correct'
+            %% correct model
+            correct_batch();
             
         otherwise
             %% unknown
