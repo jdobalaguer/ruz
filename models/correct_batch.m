@@ -1,9 +1,9 @@
 
 function correct_batch()
     %% variables
-    u_alphac   = linspace(0,1,3);
-    u_alphaw   = linspace(0,1,3);
-    u_tau      = linspace(0,1,3);
+    u_alphac   = linspace(0,1,21);
+    u_alphaw   = linspace(0,1,21);
+    u_tau      = linspace(0,1,21);
     
     %% parallel
     tools_startparallel();
