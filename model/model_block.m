@@ -28,6 +28,16 @@ function [mdata] = model_block(model,vb_stimord,vb_novel,vb_target,vb_rules)
             correct_block;
             return;
             
+        case 'ratio'
+            %% ratio model
+            ratio_block;
+            return;
+            
+        case 'ratio2'
+            %% ratio model (2 parameters)
+            ratio2_block;
+            return;
+            
         otherwise
             %% unknown
             error('model_block: error. model "%s" unknown',model.name);

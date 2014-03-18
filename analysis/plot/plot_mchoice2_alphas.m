@@ -47,7 +47,7 @@ function plot_mchoice2_alphas()
     fig_figure(gcf());
     
     %% figure 2
-    load('data/models_choice.mat','mdata');
+    load('data/models_choice2.mat','mdata');
     mdata_keys = mdata.keys();
 
     %% plot landscape
