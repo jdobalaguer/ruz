@@ -44,7 +44,7 @@ function correct_batch_fitting(u_alphac,u_alphaw,u_tau)
         xx_alphaw = nan(nb_alphac,nb_alphaw,nb_tau);
         xx_tau    = nan(nb_alphac,nb_alphaw,nb_tau);
         for i_alphac = 1:nb_alphac, xx_alphac(i_alphac,:,:) = u_alphac(i_alphac);   end
-        for i_alphaw = 1:nb_alphac, xx_alphaw(:,i_alphaw,:) = u_alphaw(i_alphaw);   end
+        for i_alphaw = 1:nb_alphaw, xx_alphaw(:,i_alphaw,:) = u_alphaw(i_alphaw);   end
         for i_tau = 1:nb_tau,       xx_tau(:,:,i_tau)       = u_tau(i_tau);         end
 
         % parallel loop
