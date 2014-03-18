@@ -14,6 +14,10 @@ function run_batch(modelname)
         case 'choice'
             %% choice model
             choice_batch();
+
+	case 'choice2'
+	    %% choice model (2 parameters)
+            choice2_batch();
             
         case 'correct'
             %% correct model
