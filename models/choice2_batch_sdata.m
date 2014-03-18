@@ -38,7 +38,7 @@ function choice2_batch_sdata(u_alphat,u_alphan,u_tau)
 
     %% sdata
     % initialise
-    models.choice2.choice2  = nan(size(models.human.choice2));
+    models.choice2.choice  = nan(size(models.human.choice));
     models.choice2.correct = nan(size(models.human.correct));
     fittings           = nan(nb_subject,nb_novel,3);
 
@@ -61,7 +61,7 @@ function choice2_batch_sdata(u_alphat,u_alphan,u_tau)
 
         % values
         model = mdata(key);
-        models.choice2.choice2(ii_frame)  = model.choice2(ii_frame);
+        models.choice2.choice(ii_frame)  = model.choice(ii_frame);
         models.choice2.correct(ii_frame) = model.correct(ii_frame);
 
         % progress
