@@ -1,8 +1,8 @@
 %#ok<*NODEF>
 
-function plot_ruz_fitscape()
+function plot_model_fitscape(model)
     %% load
-    load('data/models_ruz.mat','greed_bic');
+    load(['data/models_',model,'.mat'],'greed_bic');
     load('data/sdata.mat','numbers','models');
     
     %% numbers

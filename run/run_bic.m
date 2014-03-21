@@ -28,7 +28,8 @@ function varargout = run_bic(criterion)
     nb_novel        = numbers.shared.nb_novel;
     
     %% bayesian information criterion
-    bic = nan(nb_model,nb_novel);
+    bic_ch = nan(nb_model,nb_novel);
+    bic_co = nan(nb_model,nb_novel);
     for i_model = 1:nb_model
         for i_novel = 1:nb_novel
 
@@ -44,9 +45,11 @@ function varargout = run_bic(criterion)
             ii_novel    = (sdata.vb_novel == u_novel(i_novel));
 
             % bic
-            bic(i_model,i_novel) = model_bic(model,human,ii_novel);
+            bic_ch(i_model,i_novel) = model_bic(model.df, model.choice ,human.choice, ii_novel);
+            bic_co(i_model,i_novel) = model_bic(model.df, model.correct,human.correct,ii_novel);
         end
     end
+    bic = criterion(bic_ch,bic_co);
     
     %% return
     if nargout

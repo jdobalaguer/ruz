@@ -1,8 +1,8 @@
 
 function ratio2_batch()
     %% variables
-    u_alpham   = 0.5;
-    u_alphar   = linspace(0,1,21);
+    u_alpham   = linspace(0,1,21);
+    u_alphar   = 0.5;
     u_tau      = linspace(0,1,21);
     
     %% parallel

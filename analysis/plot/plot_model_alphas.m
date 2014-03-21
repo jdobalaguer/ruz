@@ -1,5 +1,5 @@
 
-function plot_mratio2_alphas()
+function plot_model_alphas(model)
     %% figure 1
     % load
     load('data/sdata.mat','numbers','models');
@@ -9,7 +9,7 @@ function plot_mratio2_alphas()
     nb_subject = numbers.shared.nb_subject;
     
     % get fittings
-    fittings = models.ratio2.fittings;
+    fittings = models.(model).fittings;
     alpha_t  = fittings(:,:,1);
     alpha_n  = fittings(:,:,2);
     tau      = fittings(:,:,3);
@@ -47,7 +47,7 @@ function plot_mratio2_alphas()
     fig_figure(gcf());
     
     %% figure 2
-    load('data/models_ratio2.mat','mdata');
+    load(['data/models_',model,'.mat'],'mdata');
     mdata_keys = mdata.keys();
 
     %% plot landscape

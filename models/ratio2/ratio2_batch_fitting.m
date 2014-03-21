@@ -1,3 +1,4 @@
+%#ok<*NASGU>
 
 function ratio2_batch_fitting(u_alpham,u_alphar,u_tau)
     %% load
@@ -30,14 +31,14 @@ function ratio2_batch_fitting(u_alpham,u_alphar,u_tau)
         % initialise
         mbic_keys = mbic.keys();
         mbic_vals = mbic.values();
-        new_keys   = cell(nb_loop,1);
-        new_vals   = cell(nb_loop,1);
-        greed_bic  = nan(nb_alpham*nb_alphar*nb_tau,nb_subject,nb_novel);
+        new_keys  = cell(nb_loop,1);
+        new_vals  = cell(nb_loop,1);
+        greed_bic = nan(nb_alpham*nb_alphar*nb_tau,nb_subject,nb_novel);
         
         % variables
-        criterion       = model_criterion();
-        human           = models.human;
-        human.value     = criterion(human.choice,human.correct);
+        criterion   = @(x,y)x;
+        criterion   = model_criterion();
+        human       = models.human;
 
         % parameters
         xx_alpham = nan(nb_alpham,nb_alphar,nb_tau);
@@ -50,6 +51,7 @@ function ratio2_batch_fitting(u_alpham,u_alphar,u_tau)
         % parallel loop
         tools_parforprogress(nb_loop);
         parfor i_loop = 1:nb_loop
+            % LTM dict
             [   new_keys{i_loop} ,      ...
                 new_vals{i_loop} ] =    ...
                                      ratio2_batch_fitting_par( u_subject,  ...
@@ -62,7 +64,9 @@ function ratio2_batch_fitting(u_alpham,u_alphar,u_tau)
                                                             xx_alpham(i_loop), ...
                                                             xx_alphar(i_loop), ...
                                                             xx_tau(i_loop));
-            greed_bic(i_loop,:,:) = new_vals{i_loop};
+            % STM tensor
+            greed_bic(i_loop,:,:) = criterion(  new_vals{i_loop}(:,:,1), ...
+                                                new_vals{i_loop}(:,:,2) );
         end
         tools_parforprogress(0);
 
