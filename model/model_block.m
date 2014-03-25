@@ -3,40 +3,25 @@
 
 function [mdata] = model_block(model,vb_stimord,vb_novel,vb_target,vb_rules) 
     switch model.name
+        %% god (perfect)
         case 'god'
-            %% god (perfect)
             god_block;
-            return;
             
+        %% hierarchical bayesian model (optimal)
         case 'hbm'
-            %% hierarchical bayesian model (optimal)
-            hbm_block;
-            return;
+            hbm_block;      
             
-        case 'choice'
-            %% choice model
-            choice_block;
-            return;
+        %% target model
+        case 'ta2'
+            ta2_block;
+        case 'ta3'
+            ta3_block;
             
-        case 'choice2'
-            %% choice model (2 parameters)
-            choice2_block;
-            return;
-            
-        case 'correct'
-            %% correct model
-            correct_block;
-            return;
-            
-        case 'ratio'
-            %% ratio model
-            ratio_block;
-            return;
-            
-        case 'ratio2'
-            %% ratio model (2 parameters)
-            ratio2_block;
-            return;
+        %% correct model
+        case 'co2'
+            co2_block;
+        case 'co3' 
+            co3_block;
             
         otherwise
             %% unknown

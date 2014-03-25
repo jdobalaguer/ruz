@@ -50,9 +50,9 @@ function plot_model_fitscape(model)
         hold on;
         
         % plot
-        [c,h] = contourf(u_par1,u_par2,greed_bic(:,:,i_novel));%, [44,45,48,52,60,80,100,150]);
+        [c,h] = contourf(u_par1,u_par2,greed_bic(:,:,i_novel));
         clabel(c, h);
-        colormap(fig_color('jet',9)./255);
+        colormap(fig_color('jet',20)./255);
         
         % fig_axis
         sa = struct();
