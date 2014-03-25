@@ -1,33 +1,47 @@
 
 function plot_model_alphas(model)
-    %% figure 1
-    % load
+    %% load
     load('data/sdata.mat','numbers','models');
+    if exist(['data/models_',model,'.mat'],'file')
+        load(['data/models_',model,'.mat'],'mdata');
+    end
     
+    %% model
+    switch(model)
+        case 'ratio'
+            dim_out = 3;
+            lab1        = 'alpha_M';
+            lab2        = 'alpha_R';
+            group_names = {'alpha_M','alpha_R','tau'};
+        case 'ratio2'
+            dim_out = 1;
+            lab1        = 'alpha_R';
+            lab2        = 'tau';
+            group_names = {'alpha_M','alpha_R','tau'};
+        otherwise
+            error('plot_model_fitscape: unknown model "%s"',model);
+    end
+    
+    
+    %% figure 1
     % numbers
     nb_novel   = numbers.shared.nb_novel;
     nb_subject = numbers.shared.nb_subject;
     
     % get fittings
     fittings = models.(model).fittings;
-    alpha_t  = fittings(:,:,1);
-    alpha_n  = fittings(:,:,2);
-    tau      = fittings(:,:,3);
-    
-    %% plot mean
-    
-    y = [mean(alpha_t) ; mean(alpha_n) ; mean(tau)];
-    e = [ste(alpha_t)  ; ste(alpha_n)  ; ste(tau) ];
+    y = squeeze(mean(fittings,1))';
+    e = squeeze(ste(fittings,1))';
     
     % figure
     figure();
     
     % colours
-    colours = [0,1,0;1,0,0];
+    colours = [1,0,0 ; 0,1,0];
     
     fig_barweb(         y,e,...                                                height and error
                         [],...                                                 width
-                        {'alpha_T','alpha_N','tau'},...                        group names
+                        group_names,...                                        group names
                         [],...                                                 title
                         [],...                                                 xlabel
                         [],...                                                 ylabel
@@ -47,11 +61,9 @@ function plot_model_alphas(model)
     fig_figure(gcf());
     
     %% figure 2
-    load(['data/models_',model,'.mat'],'mdata');
     mdata_keys = mdata.keys();
+    fittings(:,:,dim_out) = [];
 
-    %% plot landscape
-    
     % fig_figure
     fig_figure();
     
@@ -59,7 +71,7 @@ function plot_model_alphas(model)
     titles = {'FAMILIAR','NOVEL'};
     
     % colours
-    colours = 'gr';
+    colours = 'rg';
     
     for i_novel = 1:nb_novel
         
@@ -68,16 +80,18 @@ function plot_model_alphas(model)
         hold on;
         
         % plot
+        par1 = fittings(:,:,1);
+        par2 = fittings(:,:,2);
         for i_subject = 1:nb_subject
             plotmark = [colours(i_novel),'o'];
-            plot(alpha_t(i_subject,i_novel),alpha_n(i_subject,i_novel),plotmark);
+            plot(par1(i_subject,i_novel),par2(i_subject,i_novel),plotmark);
         end
         
         % fig_axis
         sa = struct();
         sa.title   = titles{i_novel};
-        sa.xlabel  = 'alpha_T';
-        sa.ylabel  = 'alpha_N';
+        sa.xlabel  = lab1;
+        sa.ylabel  = lab2;
         sa.xtick   = 0:0.2:1;
         sa.xlim    = [0,1];
         sa.ytick   = 0:0.2:1;

@@ -17,6 +17,7 @@ function [mkey,mbic] = ratio_batch_fitting_par(u_subject,u_novel,human,sdata,mda
     %% mkey, mbic
     if isempty(mbic_keys) || ~ismember(mkey,cell2mat(mbic_keys),'rows')
         %% fitting
+        mbic = uint8(nan(nb_subject,nb_novel,2));
         for i_subject = 1:nb_subject
         for i_novel   = 1:nb_novel
 
@@ -26,13 +27,14 @@ function [mkey,mbic] = ratio_batch_fitting_par(u_subject,u_novel,human,sdata,mda
             ii_frame   = (ii_subject & ii_novel);
 
             % bic
-            mbic(i_subject,i_novel) = model_bic(model, human, ii_frame);
+            mbic(i_subject,i_novel,1) = model_bic(model.df, model.choice,  human.choice,  ii_frame);
+            mbic(i_subject,i_novel,2) = model_bic(model.df, model.correct, human.correct, ii_frame);
 
         end
         end
     else
     %% already exists
-        [~,locb] = ismember(mkey,cell2mat(mbic_keys),'rows');
+        [~,locb]   = ismember(mkey,cell2mat(mbic_keys),'rows');
         mkey       = [nan,nan,nan];
         mbic       = mbic_vals{locb};
     end

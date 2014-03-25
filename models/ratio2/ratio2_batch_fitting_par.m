@@ -14,6 +14,7 @@ function [mkey,mbic] = ratio2_batch_fitting_par(u_subject,u_novel,human,sdata,md
     mbic = nan(nb_subject,nb_novel,2);
     if isempty(mbic_keys) || ~ismember(mkey,cell2mat(mbic_keys),'rows')
         %% fitting
+        mbic = uint8(nan(nb_subject,nb_novel,2));
         for i_subject = 1:nb_subject
         for i_novel   = 1:nb_novel
 
