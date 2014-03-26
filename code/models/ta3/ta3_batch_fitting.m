@@ -35,7 +35,7 @@ function ta3_batch_fitting(u_alpham,u_alphar,u_tau,model_file)
     new_bics   = cell(nb_loop,1);
     new_cors   = cell(nb_loop,1);
     greed_bic  = uint8(nan(nb_alpham*nb_alphar*nb_tau,nb_subject,nb_novel));
-    greed_cor  = single(nan(nb_alpham*nb_alphar*nb_tau,nb_subject,nb_novel));
+    greed_cor  = uint8(nan(nb_alpham*nb_alphar*nb_tau,nb_subject,nb_novel));
 
     % variables
     criterion   = @(x,y)x;

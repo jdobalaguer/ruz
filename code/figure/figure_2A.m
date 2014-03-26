@@ -43,6 +43,7 @@ function figure_2A()
     nb_novel   = numbers.shared.nb_novel;
     
     %% compress greed_bic
+    greed_cor   = double(greed_cor) ./ 255;  % uint rescaling
     greed_cor   = max(greed_cor,[],dim_out); % max (free param)
     greed_cor   = mean(greed_cor,4);         % mean (subject)
     greed_cor   = squeeze(greed_cor);

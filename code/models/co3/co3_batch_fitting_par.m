@@ -18,7 +18,7 @@ function [mkey,mbic,mcor] = co3_batch_fitting_par(u_subject,u_novel,human,sdata,
     if isempty(mbic_keys) || ~ismember(mkey,cell2mat(mbic_keys),'rows')
         %% fitting
         mbic = uint8(nan(nb_subject,nb_novel,2));
-        mcor = single(nan(nb_subject,nb_novel,2));
+        mcor = uint8(nan(nb_subject,nb_novel,2));
         for i_subject = 1:nb_subject
         for i_novel   = 1:nb_novel
 
@@ -31,8 +31,8 @@ function [mkey,mbic,mcor] = co3_batch_fitting_par(u_subject,u_novel,human,sdata,
             mbic(i_subject,i_novel,1) = model_bic(model.df, model.choice,  human.choice,  ii_frame);
             mbic(i_subject,i_novel,2) = model_bic(model.df, model.correct, human.correct, ii_frame);
 
-            mcor(i_subject,i_novel,1) = mean(model.choice(ii_frame));
-            mcor(i_subject,i_novel,2) = mean(model.correct(ii_frame));
+            mcor(i_subject,i_novel,1) = 255*mean(model.choice(ii_frame)); %uint8 rescaling
+            mcor(i_subject,i_novel,2) = 255*mean(model.correct(ii_frame));%uint8 rescaling
         end
         end
     else
