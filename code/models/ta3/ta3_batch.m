@@ -4,6 +4,8 @@ function ta3_batch()
     u_alpham   = linspace(0,1,21);
     u_alphar   = linspace(0,1,21);
     u_tau      = linspace(0,1,21);
+    model_name = 'ta3';
+    model_df   = 3;
     model_file = 'data/models_ta3.mat';
     
     %% parallel
@@ -19,10 +21,10 @@ function ta3_batch()
 
     %% sdata
     fprintf('ta3_batch: sdata \n');
-    ta3_batch_sdata(u_alpham,u_alphar,u_tau,model_file,3);
+    ta3_batch_sdata(u_alpham,u_alphar,u_tau,model_file,model_name,model_df);
 
     %% numbers
     fprintf('ta3_batch: numbers \n');
-    ta3_batch_numbers(u_alpham,u_alphar,u_tau,'ta3');
+    ta3_batch_numbers(u_alpham,u_alphar,u_tau,model_name);
 
 end

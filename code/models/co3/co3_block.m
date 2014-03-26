@@ -58,8 +58,8 @@ for i_trial = 1:nb_trial
     %% learning
     
     % step
-    if (~target); alpha = model.alpha_m * (1 - model.alpha_r); end
-    if ( target); alpha = model.alpha_m * (    model.alpha_r); end
+    if (~correct); alpha = model.alpha_m * (1 - model.alpha_r); end
+    if ( correct); alpha = model.alpha_m * (    model.alpha_r); end
     
     % boundary
     boundary = -1 + 2*target; % +1 if correct, -1 if wrong

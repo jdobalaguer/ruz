@@ -1,5 +1,5 @@
 
-function ta3_batch_sdata(u_alpham,u_alphar,u_tau,model_file,df)
+function ta3_batch_sdata(u_alpham,u_alphar,u_tau,model_file,model_name,df)
     %% load
     sdata     = struct();
     models    = struct();
@@ -7,7 +7,7 @@ function ta3_batch_sdata(u_alpham,u_alphar,u_tau,model_file,df)
     mdata     = dict();
     greed_bic = [];
     load('data/sdata.mat');
-    load(model_file,'mdata','greed_bic');
+    load(model_file,'mdata','greed_bic','greed_cor');
     
     %% numbers
     u_subject  = numbers.shared.u_subject;
@@ -38,8 +38,8 @@ function ta3_batch_sdata(u_alpham,u_alphar,u_tau,model_file,df)
 
     %% sdata
     % initialise
-    models.ta3.choice  = nan(size(models.human.choice));
-    models.ta3.correct = nan(size(models.human.correct));
+    models.(model_name).choice  = nan(size(models.human.choice));
+    models.(model_name).correct = nan(size(models.human.correct));
     fittings           = nan(nb_subject,nb_novel,3);
 
     % loop
@@ -66,8 +66,8 @@ function ta3_batch_sdata(u_alpham,u_alphar,u_tau,model_file,df)
         u_field = fieldnames(model);
         for i_field = 1:length(u_field)
             field = u_field{i_field};
-            if ~isfield(models.ta3,field), models.ta3.(field) = nan(size(ii_frame)); end
-            models.ta3.(field)(ii_frame) = model.(field)(ii_frame);
+            if ~isfield(models.(model_name),field), models.(model_name).(field) = nan(size(ii_frame)); end
+            models.(model_name).(field)(ii_frame) = model.(field)(ii_frame);
         end
 
     end
@@ -75,8 +75,8 @@ function ta3_batch_sdata(u_alpham,u_alphar,u_tau,model_file,df)
     tools_parforprogress(0);
 
     % degrees of freedom
-    models.ta3.df       = df;
-    models.ta3.fittings = fittings;
+    models.(model_name).df       = df;
+    models.(model_name).fittings = fittings;
 
     %% save
     save('data/sdata.mat','-append','models');
