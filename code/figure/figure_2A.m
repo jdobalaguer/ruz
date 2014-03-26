@@ -69,14 +69,14 @@ function figure_2A()
         
         % plot cor
         imagesc(u_par1,u_par2,greed_cor(:,:,i_novel));
-        [c,h] = contour(u_par1,u_par2,greed_cor(:,:,i_novel),...
+        [c,h] = contour(u_par1,u_par2,greed_cor(:,:,i_novel)',...
                         0.5:0.1:1.0, ...
                         'linewidth',2,'linecolor',[0,0,0]);
         clabel(c, h);
         colormap(fig_color('gray',21)./255);
         xlim([0,1]);
         ylim([0,1]);
-        caxis([0.5,1]);
+        caxis([0.4,1]);
         
         % plot parameters
         for i_subject = 1:nb_subject
@@ -90,6 +90,9 @@ function figure_2A()
         sa.ylabel  = t_par2;
         fig_axis(sa);
     end
+    
+    % fig_figure
+    fig_figure(gcf());
     
     % name
     set(gcf(),'Name',['fittings on ',model]);

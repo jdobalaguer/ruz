@@ -60,7 +60,7 @@ function co3_batch_sdata(u_alpham,u_alphar,u_tau,model_file,model_name,df)
         fittings(i_subject,i_novel,:) = key;
 
         % model
-        [~,model] = co3_batch_run_par(sdata,numbers,[],alpha_m,alpha_r,tau);
+        [~,model] = co3_batch_run_par(sdata,numbers,[],alpha_m,alpha_r,tau,false);
         
         % save fields
         u_field = fieldnames(model);

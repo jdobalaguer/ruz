@@ -1,7 +1,7 @@
 
 function figure_1B()
     %% defaults
-    model = 'ta3';
+    model = 'ta2';
     human = 'human';
     
     %% load

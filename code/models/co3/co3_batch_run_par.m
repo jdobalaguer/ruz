@@ -1,5 +1,5 @@
 
-function [mkey,mdata] = co3_batch_run_par(sdata,numbers,mdata_keys,alpha_m,alpha_r,tau)
+function [mkey,mdata] = co3_batch_run_par(sdata,numbers,mdata_keys,alpha_m,alpha_r,tau,choc)
 
     %% variables
     % model
@@ -22,5 +22,13 @@ function [mkey,mdata] = co3_batch_run_par(sdata,numbers,mdata_keys,alpha_m,alpha
 
     %% progress
     tools_parforprogress();
+    
+    %% choc
+    if choc
+        tdata = struct();
+        tdata.choice  = mdata.choice;
+        tdata.correct = mdata.correct;
+        mdata = tdata;
+    end
 
 end

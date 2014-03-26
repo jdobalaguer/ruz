@@ -3,7 +3,7 @@ function figure_SF1A()
     %% defaults
     human = 'human';
     hbm   = 'hbm';
-    model = 'ta3';
+    model = 'ta2';
     
     %% load
     sdata   = struct();
