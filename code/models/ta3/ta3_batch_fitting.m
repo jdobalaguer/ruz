@@ -71,8 +71,7 @@ function ta3_batch_fitting(u_alpham,u_alphar,u_tau,model_file)
         % STM tensors
         greed_bic(i_loop,:,:) = criterion(  new_bics{i_loop}(:,:,1), ...
                                             new_bics{i_loop}(:,:,2) );
-        greed_cor(i_loop,:,:) = criterion(  new_cors{i_loop}(:,:,1), ...
-                                            new_cors{i_loop}(:,:,2) );
+        greed_cor(i_loop,:,:) = new_cors{i_loop}(:,:,2);
     end
     tools_parforprogress(0);
 
