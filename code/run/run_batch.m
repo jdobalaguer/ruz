@@ -9,6 +9,13 @@
 function run_batch(modelname)
     
     switch modelname
+        case 'all'
+            run_batch god;
+            run_batch hbm;
+            run_batch ta3;
+            run_batch co3;
+            run_batch taco4;
+            
         %% god (perfect)
         case 'god'
             god_batch();
