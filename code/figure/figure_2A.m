@@ -17,25 +17,36 @@ function figure_2A()
     switch model
         case 'ta2'
             dim_out = 1;
+            dim_sub = 4;
             s_par1  = 'u_alphar';       s_par2  = 'u_tau';
             t_par1  = 'ALPHA';          t_par2  = 'TAU';
             l_par1  = {'not','target'}; l_par2  = {'max','min'};
         case 'ta3'
             dim_out = 3;
-            s_par1  = 'u_alpham'; s_par2  = 'u_alphar';
-            t_par1  = 'alpha_M';  t_par2  = 'alpha_R';
-            l_par1  = {'not','target'}; l_par2  = {'not','target'};
+            dim_sub = 4;
+            s_par1  = 'u_alpham';       s_par2  = 'u_alphar';
+            t_par1  = 'alpha_M';        t_par2  = 'alpha_R';
+            l_par1  = {'dont','learn'}; l_par2  = {'not','target'};
         case 'co2'
             dim_out = 1;
+            dim_sub = 4;
             s_par1  = 'u_alphar';       s_par2  = 'u_tau';
             t_par1  = 'ALPHA';          t_par2  = 'TAU';
             l_par1  = {'not','target'}; l_par2  = {'max','min'};
         case 'co3'
             dim_out = 3;
+            dim_sub = 4;
             s_par1  = 'u_alpham'; s_par2  = 'u_alphar';
             t_par1  = 'alpha_M';  t_par2  = 'alpha_R';
-            l_par1  = {'not','target'}; l_par2  = {'not','target'};
-        case 'taco3'
+            l_par1  = {'dont','learn'}; l_par2  = {'not','target'};
+        case 'taco4'
+            dim_out = [1,4];
+            dim_sub = 5;
+            s_par1  = 'u_alphart';      s_par2  = 'u_alpharc';
+            t_par1  = 'alpha_{RT}';     t_par2  = 'alpha_{RC}';
+            l_par1  = {'not','target'}; l_par2  = {'wrong','correct'};
+        otherwise
+            error('figure_2A: error. model "%s" does not exist',model);
     end
     
     %% load
@@ -58,8 +69,8 @@ function figure_2A()
     
     %% compress greed_bic
     greed_cor   = double(greed_cor) ./ 255;  % uint rescaling
-    greed_cor   = max(greed_cor,[],dim_out); % max (free param)
-    greed_cor   = mean(greed_cor,4);         % mean (subject)
+    for dim = dim_out, greed_cor   = max(greed_cor,[],dim); end % max (free param)
+    greed_cor   = mean(greed_cor,dim_sub);   % mean (subject)
     greed_cor   = squeeze(greed_cor);
 
     %% plot

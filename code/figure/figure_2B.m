@@ -10,13 +10,24 @@ function figure_2B()
     %% defaults
     fontname = 'Sans Serif';
     model = model_valid();
-    switch model(end)
-        case '2'
+    switch model
+        case 'ta2'
             dim_out = 1;
             labels  = {'alpha','tau'};
-        case '3'
+        case 'ta3'
             dim_out = [];
             labels  = {'alpha_M','alpha_R','tau'};
+        case 'co2'
+            dim_out = 1;
+            labels  = {'alpha','tau'};
+        case 'co3'
+            dim_out = [];
+            labels  = {'alpha_M','alpha_R','tau'};
+        case 'taco4'
+            dim_out = [];
+            labels  = {'alpha_M','alpha_RT','alpha_RC','tau'};
+        otherwise
+            error('figure_2B: error. model "%s" does not exist',model);
     end
     
     %% load

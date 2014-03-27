@@ -1,7 +1,7 @@
 
 function taco4_batch()
     %% variables
-    u_alpham   = linspace(0,1,11);
+    u_alpham   = linspace(0,4,11);
     u_alphart  = linspace(0,1,11);
     u_alpharc  = linspace(0,1,11);
     u_tau      = linspace(0,1,11);

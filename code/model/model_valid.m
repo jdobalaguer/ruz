@@ -1,5 +1,5 @@
 
 function model_name = model_valid()
-    model_name = 'ta3';
+    model_name = 'taco4';
 end
     

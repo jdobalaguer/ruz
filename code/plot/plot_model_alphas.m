@@ -28,8 +28,13 @@ function plot_model_alphas(model)
             lab1        = 'alpha_M';
             lab2        = 'alpha_R';
             group_names = {'alpha_M','alpha_R','tau'};
+        case 'taco4'
+            dim_out = [1,4];
+            lab1        = 'alpha_RT';
+            lab2        = 'alpha_RC';
+            group_names = {'alpha_RT','alpha_RC','tau'};
         otherwise
-            error('plot_model_fitscape: unknown model "%s"',model);
+            error('plot_model_alphas: error. unknown model "%s"',model);
     end
     
     
