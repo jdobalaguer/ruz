@@ -13,18 +13,18 @@ function co2_batch()
 
     %% run
     fprintf('co2_batch: run \n');
-    co2_batch_run(u_alpham,u_alphar,u_tau,model_file);
+    co3_batch_run(u_alpham,u_alphar,u_tau,model_file);
 
     %% fitting
     fprintf('co2_batch: fitting \n');
-    co2_batch_fitting(u_alpham,u_alphar,u_tau,model_file);
+    co3_batch_fitting(u_alpham,u_alphar,u_tau,model_file);
 
     %% sdata
     fprintf('co2_batch: sdata \n');
-    co2_batch_sdata(u_alpham,u_alphar,u_tau,model_file,model_name,model_df);
+    co3_batch_sdata(u_alpham,u_alphar,u_tau,model_file,model_name,model_df);
 
     %% numbers
     fprintf('co2_batch: numbers \n');
-    co2_batch_numbers(u_alpham,u_alphar,u_tau,model_name);
+    co3_batch_numbers(u_alpham,u_alphar,u_tau,model_name);
 
 end

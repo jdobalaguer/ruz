@@ -21,7 +21,7 @@ function plot_choice_novel()
     fig_figure();
     
     % colour
-    colour = fig_color('forever')./255;
+    colour = fig_color('jet',nb_model)./255;
     
     % title
     titles = {'familiar','novel'};

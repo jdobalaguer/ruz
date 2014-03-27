@@ -1,9 +1,10 @@
 
 function figure_SF1A()
     %% defaults
+    fontname = 'Sans Serif';
     human = 'human';
     hbm   = 'hbm';
-    model = 'ta2';
+    model = model_valid();
     
     %% load
     sdata   = struct();
@@ -47,6 +48,7 @@ function figure_SF1A()
     end
     
     %% plot
+    set(0, 'DefaultAxesFontName', fontname);
     
     % fig_figure
     figure();
@@ -76,6 +78,9 @@ function figure_SF1A()
     
     % fig_figure
     fig_figure(gcf());
+    
+    % font
+    fig_fontsize([],18);
     
     %% smaller figure
     % window position

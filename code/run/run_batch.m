@@ -29,6 +29,10 @@ function run_batch(modelname)
         case 'co3'
             co3_batch();
             
+        %% target & correct model
+        case 'taco4'
+            taco4_batch();
+            
         %% unknown
         otherwise
             error('run_batch: error. model "%s" unknown',modelname);

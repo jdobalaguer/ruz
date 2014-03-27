@@ -1,6 +1,7 @@
 
 function figure_SF1B()
     %% defaults
+    fontname = 'Sans Serif';
     hbm   = 'hbm';
     
     %% load
@@ -38,6 +39,7 @@ function figure_SF1B()
     end
     
     %% plot
+    set(0, 'DefaultAxesFontName', fontname);
     
     % fig_figure
     figure();
@@ -65,6 +67,9 @@ function figure_SF1B()
     
     % fig_figure
     fig_figure(gcf());
+    
+    % font
+    fig_fontsize([],18);
     
     %% smaller figure
     % window position

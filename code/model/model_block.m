@@ -23,6 +23,10 @@ function [mdata] = model_block(model,vb_stimord,vb_novel,vb_target,vb_rules)
         case 'co3' 
             co3_block;
             
+        %% target & correct model
+        case 'taco4'
+            taco4_block;
+            
         %% unknown
         otherwise
             error('model_block: error. model "%s" unknown',model.name);

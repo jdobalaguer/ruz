@@ -1,7 +1,8 @@
 
 function figure_1B()
     %% defaults
-    model = 'ta2';
+    fontname = 'Sans Serif';
+    model = model_valid();
     human = 'human';
     
     %% load
@@ -47,6 +48,7 @@ function figure_1B()
     end
     
     %% plot
+    set(0, 'DefaultAxesFontName', fontname);
     
     % fig_figure
     figure();
@@ -88,6 +90,9 @@ function figure_1B()
     % fig_figure
     fig_figure(gcf());
     
+    % font
+    fig_fontsize([],18);
+ 
     %% export
     mkdirp('docs/figures');
     fig_export('docs/figures/figure_1B.pdf');
