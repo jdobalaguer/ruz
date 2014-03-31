@@ -1,5 +1,5 @@
 
-function plot_model_alphas(model)
+function plot_model_alphopt(model)
     %% load
     load('data/sdata.mat','numbers','models');
     if exist(['data/models_',model,'.mat'],'file')
@@ -49,9 +49,9 @@ function plot_model_alphas(model)
     nb_subject = numbers.shared.nb_subject;
     
     % get fittings
-    fittings = models.(model).fittings;
-    y = squeeze(mean(fittings,1))';
-    e = squeeze(ste(fittings,1))';
+    optimals = models.(model).optimals;
+    y = squeeze(mean(optimals,1))';
+    e = squeeze(ste(optimals,1))';
     
     % figure
     figure();
@@ -86,7 +86,7 @@ function plot_model_alphas(model)
     
     %% figure 2
     mdata_keys = mdata.keys();
-    fittings(:,:,dim_out) = [];
+    optimals(:,:,dim_out) = [];
 
     % fig_figure
     fig_figure();
@@ -104,8 +104,8 @@ function plot_model_alphas(model)
         hold on;
         
         % plot
-        par1 = fittings(:,:,1);
-        par2 = fittings(:,:,2);
+        par1 = optimals(:,:,1);
+        par2 = optimals(:,:,2);
         for i_subject = 1:nb_subject
             plotmark = [colours(i_novel),'o'];
             plot(par1(i_subject,i_novel),par2(i_subject,i_novel),plotmark);

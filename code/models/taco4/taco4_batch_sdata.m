@@ -6,6 +6,7 @@ function taco4_batch_sdata(u_alpham,u_alphart,u_alpharc,u_tau,model_file,model_n
     numbers   = struct();
     mdata     = dict();
     greed_bic = [];
+    greed_cor = [];
     load('data/sdata.mat');
     load(model_file,'mdata','greed_bic','greed_cor');
     
@@ -29,6 +30,11 @@ function taco4_batch_sdata(u_alpham,u_alphart,u_alpharc,u_tau,model_file,model_n
     [~,min_greedbic] = min(greed_bic,[],1);
     min_greedbic = squeeze(min_greedbic);
     
+    % maximise correct
+    greed_cor        = reshape(greed_cor,[nb_alpham*nb_alphart*nb_alpharc*nb_tau,nb_subject,nb_novel]);
+    [~,max_greedcor] = max(greed_cor,[],1);
+    max_greedcor = squeeze(max_greedcor);
+    
     % parameters
     xx_alpham  = nan(nb_alpham,nb_alphart,nb_alpharc,nb_tau);
     xx_alphart = nan(nb_alpham,nb_alphart,nb_alpharc,nb_tau);
@@ -44,6 +50,7 @@ function taco4_batch_sdata(u_alpham,u_alphart,u_alpharc,u_tau,model_file,model_n
     models.(model_name).choice  = nan(size(models.human.choice));
     models.(model_name).correct = nan(size(models.human.correct));
     fittings           = nan(nb_subject,nb_novel,df);
+    optimals           = nan(nb_subject,nb_novel,df);
 
     % loop
     tools_parforprogress(numel(min_greedbic));
@@ -55,7 +62,15 @@ function taco4_batch_sdata(u_alpham,u_alphart,u_alpharc,u_tau,model_file,model_n
         ii_novel   = (sdata.vb_novel    == u_novel(i_novel));
         ii_frame   = (ii_subject & ii_novel);
 
-        % keys
+        % optimal
+        alpha_m  = xx_alpham(max_greedcor(i_subject,i_novel));
+        alpha_rt = xx_alphart(max_greedcor(i_subject,i_novel));
+        alpha_rc = xx_alpharc(max_greedcor(i_subject,i_novel));
+        tau      = xx_tau(max_greedcor(i_subject,i_novel));
+        key      = [alpha_m,alpha_rt,alpha_rc,tau];
+        optimals(i_subject,i_novel,:) = key;
+
+        % fittings
         alpha_m  = xx_alpham(min_greedbic(i_subject,i_novel));
         alpha_rt = xx_alphart(min_greedbic(i_subject,i_novel));
         alpha_rc = xx_alpharc(min_greedbic(i_subject,i_novel));
@@ -81,6 +96,7 @@ function taco4_batch_sdata(u_alpham,u_alphart,u_alpharc,u_tau,model_file,model_n
     % degrees of freedom
     models.(model_name).df       = df;
     models.(model_name).fittings = fittings;
+    models.(model_name).optimals = optimals;
 
     %% save
     save('data/sdata.mat','-append','models');

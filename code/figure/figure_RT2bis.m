@@ -2,10 +2,11 @@
 function figure_RT2()
     %% defaults
     fontname = 'Sans Serif';
+    n = 6;
     
     %% load
     load('data/sdata');
-    [mmmaVc,q_mmm] = jb_discretize(abs(models.taco4.mmmaVc) , 6);
+    [mmmaVc,q_mmm] = jb_discretize(abs(models.taco4.mmmaVc) , n);
     
     %% numbers
     u_subject   = numbers.shared.u_subject;
@@ -52,6 +53,9 @@ function figure_RT2()
     e =  nanste(rt,1);
 
     % fig_barweb
+    leg = repmat({''},1,n);
+    leg{1}   = 'null';
+    leg{end} = 'max';
     web = fig_barweb(m,e,...
                         [],...                                                 width
                         {''},...                                               group names
@@ -60,7 +64,7 @@ function figure_RT2()
                         [],...                                                 ylabel
                         fig_color('w',nb_mmm)./255,...                         colour
                         [],...                                                 grid
-                        {'null','','','','','max'},...                         legend
+                        leg,...                                                legend
                         [],...                                                 error sides (1, 2)
                         'axis'...                                              legend ('plot','axis')
                         );

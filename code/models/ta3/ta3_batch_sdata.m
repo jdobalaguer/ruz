@@ -6,6 +6,7 @@ function ta3_batch_sdata(u_alpham,u_alphar,u_tau,model_file,model_name,df)
     numbers   = struct();
     mdata     = dict();
     greed_bic = [];
+    greed_cor = [];
     load('data/sdata.mat');
     load(model_file,'mdata','greed_bic','greed_cor');
     
@@ -28,6 +29,11 @@ function ta3_batch_sdata(u_alpham,u_alphar,u_tau,model_file,model_name,df)
     [~,min_greedbic] = min(greed_bic,[],1);
     min_greedbic = squeeze(min_greedbic);
     
+    % maximise correct
+    greed_cor        = reshape(greed_cor,[nb_alpham*nb_alphar*nb_tau,nb_subject,nb_novel]);
+    [~,max_greedcor] = max(greed_cor,[],1);
+    max_greedcor = squeeze(max_greedcor);
+    
     % parameters
     xx_alpham = nan(nb_alpham,nb_alphar,nb_tau);
     xx_alphar = nan(nb_alpham,nb_alphar,nb_tau);
@@ -40,7 +46,8 @@ function ta3_batch_sdata(u_alpham,u_alphar,u_tau,model_file,model_name,df)
     % initialise
     models.(model_name).choice  = nan(size(models.human.choice));
     models.(model_name).correct = nan(size(models.human.correct));
-    fittings           = nan(nb_subject,nb_novel,3);
+    fittings           = nan(nb_subject,nb_novel,df);
+    optimals           = nan(nb_subject,nb_novel,df);
 
     % loop
     tools_parforprogress(numel(min_greedbic));
@@ -52,7 +59,14 @@ function ta3_batch_sdata(u_alpham,u_alphar,u_tau,model_file,model_name,df)
         ii_novel   = (sdata.vb_novel    == u_novel(i_novel));
         ii_frame   = (ii_subject & ii_novel);
 
-        % keys
+        % optimals
+        alpha_m = xx_alpham(max_greedcor(i_subject,i_novel));
+        alpha_r = xx_alphar(max_greedcor(i_subject,i_novel));
+        tau     = xx_tau(max_greedcor(i_subject,i_novel));
+        key     = [alpha_m,alpha_r,tau];
+        optimals(i_subject,i_novel,:) = key;
+
+        % fittings
         alpha_m = xx_alpham(min_greedbic(i_subject,i_novel));
         alpha_r = xx_alphar(min_greedbic(i_subject,i_novel));
         tau     = xx_tau(min_greedbic(i_subject,i_novel));
@@ -77,6 +91,7 @@ function ta3_batch_sdata(u_alpham,u_alphar,u_tau,model_file,model_name,df)
     % degrees of freedom
     models.(model_name).df       = df;
     models.(model_name).fittings = fittings;
+    models.(model_name).optimals = optimals;
 
     %% save
     save('data/sdata.mat','-append','models');

@@ -14,6 +14,8 @@ function figure_2A()
     %% defaults
     fontname = 'Sans Serif';
     model = model_valid();
+    
+    %% model
     switch model
         case 'ta2'
             dim_out = 1;
@@ -24,9 +26,9 @@ function figure_2A()
         case 'ta3'
             dim_out = 3;
             dim_sub = 4;
-            s_par1  = 'u_alpham';       s_par2  = 'u_alphar';
-            t_par1  = 'alpha_M';        t_par2  = 'alpha_R';
-            l_par1  = {'dont','learn'}; l_par2  = {'not','target'};
+            s_par1  = 'u_tau';          s_par2  = 'u_alphar';
+            t_par1  = 'TAU';            t_par2  = 'ALPHA_R';
+            l_par1  = {'max','min'};    l_par2  = {'not','target'};
         case 'co2'
             dim_out = 1;
             dim_sub = 4;
@@ -36,14 +38,14 @@ function figure_2A()
         case 'co3'
             dim_out = 3;
             dim_sub = 4;
-            s_par1  = 'u_alpham'; s_par2  = 'u_alphar';
-            t_par1  = 'alpha_M';  t_par2  = 'alpha_R';
-            l_par1  = {'dont','learn'}; l_par2  = {'not','target'};
+            s_par1  = 'u_tau';          s_par2  = 'u_alphar';
+            t_par1  = 'TAU';            t_par2  = 'ALPHA_R';
+            l_par1  = {'max','min'}; l_par2  = {'not','target'};
         case 'taco4'
             dim_out = [1,4];
             dim_sub = 5;
             s_par1  = 'u_alphart';      s_par2  = 'u_alpharc';
-            t_par1  = 'alpha_{RT}';     t_par2  = 'alpha_{RC}';
+            t_par1  = 'ALPHA_{RT}';     t_par2  = 'ALPHA_{RC}';
             l_par1  = {'not','target'}; l_par2  = {'wrong','correct'};
         otherwise
             error('figure_2A: error. model "%s" does not exist',model);
@@ -90,14 +92,14 @@ function figure_2A()
     for i_novel = 1:nb_novel
         
         % subplot
-        subplot(1, 2*nb_novel-1, 2*(i_novel-1)+1);
+        subplot(1, nb_novel, i_novel);
         hold on;
         
         % plot cor
-        %imagesc(u_par1,u_par2,greed_cor(:,:,i_novel));
-        [c,h] = contourf(u_par1,u_par2,greed_cor(:,:,i_novel)',0.5:0.05:1.0);
+        %imagesc(u_par1,u_par2,greed_cor(:,:,i_novel)');
+        [c,h] = contourf(u_par1,u_par2,greed_cor(:,:,i_novel)',0.5:0.04:1.0);
         [c,h] = contour(u_par1,u_par2,greed_cor(:,:,i_novel)',...
-                        0.5:0.05:1.0, ...
+                        0.5:0.04:1.0, ...
                         'linewidth',2,'linecolor',[0,0,0]);
         %clabel(c, h);
         colormap(fig_color('gray',21)./255);
@@ -116,9 +118,10 @@ function figure_2A()
         sa.xlabel  = t_par1;
         sa.xtick   = [0,1];
         sa.xticklabel = l_par1;
-        sa.ylabel  = t_par2;
+        if i_novel==1, sa.ylabel  = t_par2; end
         sa.ytick   = [0,1];
-        sa.yticklabel = l_par2;
+        if i_novel==1, sa.yticklabel = l_par2;
+        else           sa.yticklabel = {}; end
         fig_axis(sa);
     end
     
@@ -131,7 +134,6 @@ function figure_2A()
     %% smaller figure
     % window position
     pos = get(gcf(),'Position');
-    pos(3) = 1.7 .* pos(3);
     pos(4) = 0.6 .* pos(4);
     set(gcf(),'Position',pos);
     % paper size

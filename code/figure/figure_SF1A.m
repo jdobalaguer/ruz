@@ -1,3 +1,13 @@
+%% 
+% FIGURE_SF1A
+% 
+% Behavioural data from 18 human participants (dots) and predictions
+% of the reinforcement model (continued lines) and the hierarchical
+% Bayesian model (dotted lines). % accuracy over trials (1-16) is
+% shown for familiar cues (left panels; red) and novel cues (right
+% panels; green). Lines show the same data for the best-peformance
+% parametrisation of the model.
+%
 
 function figure_SF1A()
     %% defaults

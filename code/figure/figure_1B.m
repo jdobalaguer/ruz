@@ -1,3 +1,13 @@
+%% 
+% FIGURE_1B
+% 
+% Behavioural data from 18 human participants (dots) and predictions
+% of the model (lines). % acuracy (top panels) and % target choice
+% (bottom panels) over trials (1-16) are shown for familiar cues
+% (left panels; red) and novel cues (right panels; green). Lines
+% show the same data for the best-fitting parameterisation of the
+% model.
+%
 
 function figure_1B()
     %% defaults

@@ -1,3 +1,12 @@
+%% 
+% FIGURE_SF1B
+% 
+% Average number of candidate rules in the hierarchical bayesian
+% model across trials, both for familiar and novel blocks (red;
+% green). At the beginning of the block, 9 and 36 candidate rules
+% were used in familiar and novel bocks respectively. These values
+% decreased to 1 by the end of the block.
+%
 
 function figure_SF1B()
     %% defaults
