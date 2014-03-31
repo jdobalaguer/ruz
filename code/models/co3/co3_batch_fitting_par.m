@@ -28,8 +28,8 @@ function [mkey,mbic,mcor] = co3_batch_fitting_par(u_subject,u_novel,human,sdata,
             ii_frame   = (ii_subject & ii_novel);
 
             % bic
-            mbic(i_subject,i_novel,1) = model_bic(model.df, model.choice,  human.choice,  ii_frame);
-            mbic(i_subject,i_novel,2) = model_bic(model.df, model.correct, human.correct, ii_frame);
+            mbic(i_subject,i_novel,1) = model_bic(model.df, model.choice,  human.choice,  ii_frame, 0);
+            mbic(i_subject,i_novel,2) = model_bic(model.df, model.correct, human.correct, ii_frame, 0);
 
             mcor(i_subject,i_novel,1) = 255*mean(model.choice(ii_frame)); %uint8 rescaling
             mcor(i_subject,i_novel,2) = 255*mean(model.correct(ii_frame));%uint8 rescaling

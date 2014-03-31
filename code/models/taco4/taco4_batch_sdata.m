@@ -49,8 +49,8 @@ function taco4_batch_sdata(u_alpham,u_alphart,u_alpharc,u_tau,model_file,model_n
     % initialise
     models.(model_name).choice  = nan(size(models.human.choice));
     models.(model_name).correct = nan(size(models.human.correct));
-    fittings           = nan(nb_subject,nb_novel,df);
-    optimals           = nan(nb_subject,nb_novel,df);
+    fittings           = nan(nb_subject,nb_novel,4);
+    optimals           = nan(nb_subject,nb_novel,4);
 
     % loop
     tools_parforprogress(numel(min_greedbic));
