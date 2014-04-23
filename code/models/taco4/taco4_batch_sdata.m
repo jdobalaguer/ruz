@@ -70,6 +70,16 @@ function taco4_batch_sdata(u_alpham,u_alphart,u_alpharc,u_tau,model_file,model_n
         key      = [alpha_m,alpha_rt,alpha_rc,tau];
         optimals(i_subject,i_novel,:) = key;
 
+        % model optimals
+        optim_name = [model_name,'opt'];
+        [~,model] = taco4_batch_run_par(sdata,numbers,[],alpha_m,alpha_rt,alpha_rc,tau,false);
+        u_field = fieldnames(model);
+        for i_field = 1:length(u_field)
+            field = u_field{i_field};
+            if ~isfield(models.(optim_name),field), models.(optim_name).(field) = nan(size(ii_frame)); end
+            models.(optim_name).(field)(ii_frame) = model.(field)(ii_frame);
+        end
+
         % fittings
         alpha_m  = xx_alpham(min_greedbic(i_subject,i_novel));
         alpha_rt = xx_alphart(min_greedbic(i_subject,i_novel));
@@ -78,10 +88,8 @@ function taco4_batch_sdata(u_alpham,u_alphart,u_alpharc,u_tau,model_file,model_n
         key      = [alpha_m,alpha_rt,alpha_rc,tau];
         fittings(i_subject,i_novel,:) = key;
 
-        % model
+        % model fittings
         [~,model] = taco4_batch_run_par(sdata,numbers,[],alpha_m,alpha_rt,alpha_rc,tau,false);
-        
-        % save fields
         u_field = fieldnames(model);
         for i_field = 1:length(u_field)
             field = u_field{i_field};

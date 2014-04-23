@@ -6,7 +6,7 @@
 % best-fitting linear trend.
 % 
 
-function figure_2C()
+function [corrs,probs] = figure_2C()
     %% defaults
     fontname = 'Sans Serif';
     model = model_valid();
@@ -57,7 +57,8 @@ function figure_2C()
         for i_novel = 1:nb_novel
             ii_subject  = (sdata.exp_subject == u_subject(i_subject));
             ii_novel    = (sdata.vb_novel    == u_novel(i_novel));
-            performance(i_subject,i_novel) = mean(models.human.correct(ii_subject & ii_novel));
+            ii_odd      = (mod(sdata.exp_block,2) == 1);
+            performance(i_subject,i_novel) = mean(models.human.correct(ii_subject & ii_novel & ii_odd));
         end
     end
     
@@ -65,23 +66,27 @@ function figure_2C()
     fittings(:,:,dim_out) = [];
     
     %% plot
-    set(0, 'DefaultAxesFontName', fontname);
-    
-    % fig_figure
-    figure();
-    hold('on');
+    if ~nargout
+        set(0, 'DefaultAxesFontName', fontname);
+        % fig_figure
+        figure();
+        hold('on');
+    end
     
     % colours
     colour = {[1,0,0] , [0,1,0]};
     
     j_subplot = 0;
     corrs = nan(nb_novel,nb_pars);
+    probs = nan(nb_novel,nb_pars);
     for i_novel = 1:nb_novel
         for i_pars = 1:nb_pars
             % subplot
-            j_subplot = j_subplot + 1;
-            subplot(nb_novel,nb_pars,j_subplot);
-            hold('on');
+            if ~nargout
+                j_subplot = j_subplot + 1;
+                subplot(nb_novel,nb_pars,j_subplot);
+                hold('on');
+            end
             
             % linear regression
             y = performance(:,i_novel);
@@ -92,34 +97,34 @@ function figure_2C()
             z = u * b;
             
             % plot
-            plot(u(:,1),z,'color','k','linestyle','--','marker','none','markersize',10,'linewidth',1.5);
-            
-            % plot
-            plot(x,y,'color',colour{i_novel},'linestyle','none','marker','.','markersize',10,'linewidth',1.5);
+            if ~nargout
+                plot(u(:,1),z,'color','k','linestyle','--','marker','none','markersize',10,'linewidth',1.5);
+                plot(x,y,'color',colour{i_novel},'linestyle','none','marker','.','markersize',10,'linewidth',1.5);
+            end
             
             % correlation
-            corrs(i_novel,i_pars) = corr(x,y);
+            [corrs(i_novel,i_pars),probs(i_novel,i_pars)] = corr(x,y);
             
             % fig_axis
-            sa = struct();
-            sa.ylim       = [0,1];
-            sa.ytick      = 0:0.5:1;
-            sa.ygrid      = 'on';
-            fig_axis(sa);
+            if ~nargout
+                sa = struct();
+                sa.title      = labels{i_pars};
+                sa.ylim       = [0,1];
+                sa.ytick      = 0:0.5:1;
+                sa.ygrid      = 'on';
+                fig_axis(sa);
+            end
         end
     end
-    
-    corrs
-    
         
-    % fig_figure
-    fig_figure(gcf());
-    
-    % font
-    fig_fontsize([],18);
-
-    %% export
-    mkdirp('docs/figures');
-    fig_export('docs/figures/figure_2C.pdf');
+    if ~nargout
+        % fig_figure
+        fig_figure(gcf());
+        % font
+        fig_fontsize([],18);
+        %% export
+        mkdirp('docs/figures');
+        fig_export('docs/figures/figure_2C.pdf');
+    end
     
 end

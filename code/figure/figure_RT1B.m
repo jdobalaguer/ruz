@@ -1,5 +1,5 @@
 
-function figure_RT1B()
+function rts = figure_RT1B()
     %% defaults
     fontname = 'Sans Serif';
     
@@ -23,7 +23,7 @@ function figure_RT1B()
     set(0, 'DefaultAxesFontName', fontname);
     
     % figure
-    figure();
+    if ~nargout, figure(); end
     
     % colour
     colour        = fig_color('red',3)./255;
@@ -34,6 +34,7 @@ function figure_RT1B()
     
     % loop (novel)
     j_subplot = 0;
+    rts = nan(nb_subject,nb_correct,nb_choice,nb_novel);
     for i_novel = 1:nb_novel
         % values
         rt = nan(nb_subject,nb_correct,nb_choice);
@@ -62,52 +63,57 @@ function figure_RT1B()
                 end
             end
         end
+        rts(:,:,:,i_novel) = rt;
         
-        % subplot
-        j_subplot = j_subplot + 1;
-        subplot(1,nb_novel,j_subplot);
-        hold('on');
-        
-        % barweb (rt)
-        y = squeeze(nanmean(rt));
-        e = squeeze(nanste(rt));
-        c = squeeze(colour(:,:,i_novel));
-        web = fig_barweb(   y,e,...                                                height and error
-                            [],...                                                 width
-                            {'wrong','correct'},...                                group names
-                            [],...                                                 title
-                            [],...                                                 xlabel
-                            'slow down (ms)',...                                   ylabel
-                            c,...                                                  colour
-                            [],...                                                 grid
-                            [],...                                                 legend
-                            2,...                                                  error sides (1, 2)
-                            'plot'...                                              legend ('plot','axis')
-                            );
-        % axis (rt)
-        sa.title      =   titles{i_novel};
-        sa.ytick      =    -200:50:+200;
-        sa.yticklabel =    -200:50:+200;
-        sa.ylim       =   [-200,   +200];
-        fig_axis(sa);
+        if ~nargout
+            % subplot
+            j_subplot = j_subplot + 1;
+            subplot(1,nb_novel,j_subplot);
+            hold('on');
+
+            % barweb (rt)
+            y = squeeze(nanmean(rt));
+            e = squeeze(nanste(rt));
+            c = squeeze(colour(:,:,i_novel));
+            web = fig_barweb(   y,e,...                                                height and error
+                                [],...                                                 width
+                                {'wrong','correct'},...                                group names
+                                [],...                                                 title
+                                [],...                                                 xlabel
+                                'slow down (ms)',...                                   ylabel
+                                c,...                                                  colour
+                                [],...                                                 grid
+                                [],...                                                 legend
+                                2,...                                                  error sides (1, 2)
+                                'plot'...                                              legend ('plot','axis')
+                                );
+            % axis (rt)
+            sa.title      =   titles{i_novel};
+            sa.ytick      =    -200:50:+200;
+            sa.yticklabel =    -200:50:+200;
+            sa.ylim       =   [-200,   +200];
+            fig_axis(sa);
+        end
 
     end
     
-    % fig_figure
-    fig_figure(gcf());
-    
-    % font
-    fig_fontsize([],18);
+    if ~nargout
+        % fig_figure
+        fig_figure(gcf());
 
-    %% smaller figure
-    % paper size
-    set(gcf(),'PaperPositionMode','auto');
-    psi = get(gcf(),'PaperSize');
-    psi(2) = 0.6*psi(2);
-    set(gcf(),'PaperSize',psi);
-    
-    %% export
-    mkdirp('docs/figures');
-    fig_export('docs/figures/figure_RT1B.pdf');
+        % font
+        fig_fontsize([],18);
+
+        %% smaller figure
+        % paper size
+        set(gcf(),'PaperPositionMode','auto');
+        psi = get(gcf(),'PaperSize');
+        psi(2) = 0.6*psi(2);
+        set(gcf(),'PaperSize',psi);
+
+        %% export
+        mkdirp('docs/figures');
+        fig_export('docs/figures/figure_RT1B.pdf');
+    end
     
 end

@@ -20,33 +20,37 @@ function figure_2A()
         case 'ta2'
             dim_out = 1;
             dim_sub = 4;
+            max_par = [1,1]';
             s_par1  = 'u_alphar';       s_par2  = 'u_tau';
             t_par1  = 'ALPHA';          t_par2  = 'TAU';
-            l_par1  = {'not','target'}; l_par2  = {'max','min'};
+            l_par1  = {'nontarget','target'}; l_par2  = {'max','min'};
         case 'ta3'
             dim_out = 3;
             dim_sub = 4;
-            s_par1  = 'u_tau';          s_par2  = 'u_alphar';
-            t_par1  = 'TAU';            t_par2  = 'ALPHA_R';
-            l_par1  = {'max','min'};    l_par2  = {'not','target'};
+            max_par = [2,1]';
+            s_par1  = 'u_alpham';       s_par2  = 'u_alphar';
+            t_par1  = 'ALPHA_M';        t_par2  = 'ALPHA_R';
+            l_par1  = {'dont','learn'}; l_par2  = {'nontarget','target'};
         case 'co2'
             dim_out = 1;
             dim_sub = 4;
+            max_par = [1,1]';
             s_par1  = 'u_alphar';       s_par2  = 'u_tau';
             t_par1  = 'ALPHA';          t_par2  = 'TAU';
-            l_par1  = {'not','target'}; l_par2  = {'max','min'};
         case 'co3'
             dim_out = 3;
             dim_sub = 4;
-            s_par1  = 'u_tau';          s_par2  = 'u_alphar';
-            t_par1  = 'TAU';            t_par2  = 'ALPHA_R';
-            l_par1  = {'max','min'}; l_par2  = {'not','target'};
+            max_par = [2,1]';
+            s_par1  = 'u_alpham';       s_par2  = 'u_alphar';
+            t_par1  = 'ALPHA_M';        t_par2  = 'ALPHA_R';
+            l_par1  = {'dont','learn'}; l_par2  = {'nontarget','target'};
         case 'taco4'
-            dim_out = [1,4];
+            dim_out = [1,1];
             dim_sub = 5;
+            max_par = [1,1]';
             s_par1  = 'u_alphart';      s_par2  = 'u_alpharc';
             t_par1  = 'ALPHA_{RT}';     t_par2  = 'ALPHA_{RC}';
-            l_par1  = {'not','target'}; l_par2  = {'wrong','correct'};
+            l_par1  = {'nontarget','target'}; l_par2  = {'wrong','correct'};
         otherwise
             error('figure_2A: error. model "%s" does not exist',model);
     end
@@ -60,6 +64,7 @@ function figure_2A()
     % fitting parameters
     fittings = models.(model).fittings;
     fittings(:,:,dim_out) = [];
+    for i = 1:length(max_par), fittings(:,:,i) = fittings(:,:,i)/max_par(i); end
     
     %% numbers
     u_subject  = numbers.shared.u_subject;
@@ -96,11 +101,9 @@ function figure_2A()
         hold on;
         
         % plot cor
-        %imagesc(u_par1,u_par2,greed_cor(:,:,i_novel)');
-        [c,h] = contourf(u_par1,u_par2,greed_cor(:,:,i_novel)',0.5:0.04:1.0);
-        [c,h] = contour(u_par1,u_par2,greed_cor(:,:,i_novel)',...
-                        0.5:0.04:1.0, ...
-                        'linewidth',2,'linecolor',[0,0,0]);
+        imagesc(u_par1,u_par2,greed_cor(:,:,i_novel)');
+        [c,h] = contourf(u_par1,u_par2,greed_cor(:,:,i_novel)',0.5:0.03:1.0);
+        [c,h] = contour( u_par1,u_par2,greed_cor(:,:,i_novel)',0.5:0.03:1.0,'linewidth',1.8,'linecolor',[0,0,0]);
         %clabel(c, h);
         colormap(fig_color('gray',21)./255);
         xlim([0,1]);

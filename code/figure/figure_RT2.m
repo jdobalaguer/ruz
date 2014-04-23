@@ -2,10 +2,12 @@
 function figure_RT2()
     %% defaults
     fontname = 'Sans Serif';
+    model = model_valid();
+    n = 5;
     
     %% load
     load('data/sdata');
-    [mmmaVc,q_mmm] = jb_discretize(abs(models.taco4.mmmaVc) , 6);
+    [mmmaVc,q_mmm] = jb_discretize((models.(model).mmmaVc) , n);
     
     %% numbers
     u_novel       = numbers.shared.u_novel;
@@ -58,10 +60,10 @@ function figure_RT2()
         sa.xlabel   = 'mmmaVc';
         sa.ylabel   = 'reaction time (sec)';
         sa.xtick    = [1,nb_mmm];
-        sa.xticklabel = {'null','max'};
+        sa.xticklabel = {'min','max'};
         sa.xlim     = [1,nb_mmm];
-        sa.ytick    = 1.1:0.1:1.4;
-        sa.ylim     = [1.1,1.4];
+        sa.ytick    = 1.0:0.1:1.4;
+        sa.ylim     = [1.0,1.4];
         fig_axis(sa);
     end
 

@@ -13,20 +13,27 @@
 %#ok<*NODEF>
 
 %% figure 2D
-function figure_2D()
+function v = figure_2D()
+    fig = ~nargout;
     fontname = 'Sans Serif';                                % defaults
     model = model_valid();
-    fig_figure(); set(0, 'DefaultAxesFontName', fontname);  % figure
-    run_janprobs(model);                                    % plot model
-    run_janprobs('human');                                  % plot humans
-    fig_figure(gcf());                                      % figure
-    fig_fontsize([],18);
-    mkdirp('docs/figures');                                 % export
-    fig_export('docs/figures/figure_2D.pdf');
+    if fig,
+        fig_figure();                                       % figure
+        set(0, 'DefaultAxesFontName', fontname);            % font
+    end
+    v{1} = run_janprobs(model, fig);                        % plot model
+    v{2} = run_janprobs('human', fig);                      % plot humans
+    if fig,
+        fig_figure(gcf());                                  % figure
+        fig_fontsize([],18);                                % font
+        mkdirp('docs/figures');                             % export
+        fig_export('docs/figures/figure_2D.pdf');
+        v = [];
+    end
 end
 
 %% run janprobs
-function run_janprobs(model)
+function allvalues = run_janprobs(model,fig)
     %% default
     max_count       = 4;
     using_average   = true;
@@ -147,56 +154,60 @@ function run_janprobs(model)
     
     % plot
     j_subplot = 0;
+    allvalues = nan(nb_side,nb_novel,nb_subject,nb_target,nb_count);
     for i_side = 1:nb_side
         for i_novel = 1:nb_novel
-
-            % subplot
-            j_subplot = j_subplot+1;
-            subplot(nb_novel,nb_side,j_subplot);
-            hold('on');
 
             values = nan(nb_subject,nb_target,nb_count);
             for i_target = 1:nb_target
                 values(:,i_target,:) = squeeze(probs(:,i_novel,i_side,i_target,:));
             end
+            allvalues(i_side,i_novel,:,:,:) = values;
             
-            % plot human
-            if strcmp(model,'human')
-                for i_target = 1:nb_target
-                    for i_count = 1:nb_count
-                        m = squeeze(nanmean(values(:,i_target,i_count)));
-                        e = squeeze( nanste(values(:,i_target,i_count)));
-                        c = colour{i_novel}{i_target};
-                        plot(i_count,m,                  'color','k','linestyle','none','marker','o','markersize',10,'linewidth',1.0,'markerfacecolor',c);
-                        plot([i_count,i_count],m+[-e,+e],'color','k','linestyle','-',   'marker','none',             'linewidth',1.0);
+            if fig
+                % subplot
+                j_subplot = j_subplot+1;
+                subplot(nb_novel,nb_side,j_subplot);
+                hold('on');
+
+                % plot human
+                if strcmp(model,'human')
+                    for i_target = 1:nb_target
+                        for i_count = 1:nb_count
+                            m = squeeze(nanmean(values(:,i_target,i_count)));
+                            e = squeeze( nanste(values(:,i_target,i_count)));
+                            c = colour{i_novel}{i_target};
+                            plot(i_count,m,                  'color','k','linestyle','none','marker','o','markersize',10,'linewidth',1.0,'markerfacecolor',c);
+                            plot([i_count,i_count],m+[-e,+e],'color','k','linestyle','-',   'marker','none',             'linewidth',1.0);
+                        end
+                    end
+
+
+                % plot hbm
+                elseif strcmp(model,'hbm')
+                    for i_target = 1:nb_target
+                        s = style{i_target};
+                        plot(squeeze(mean(values(:,i_target,:),1)),'color','k','linestyle',s,'LineWidth',2);
+                    end
+
+                % plot other
+                else
+                    for i_target = 1:nb_target
+                        c = colour{i_novel}{1};
+                        s = style{i_target};
+                        plot(squeeze(mean(values(:,i_target,:),1)),'color',c,'linestyle',s,'LineWidth',2);
                     end
                 end
-                
-                
-            % plot hbm
-            elseif strcmp(model,'hbm')
-                for i_target = 1:nb_target
-                    s = style{i_target};
-                    plot(squeeze(mean(values(:,i_target,:),1)),'color','k','linestyle',s,'LineWidth',2);
-                end
-            
-            % plot other
-            else
-                for i_target = 1:nb_target
-                    c = colour{i_novel}{1};
-                    s = style{i_target};
-                    plot(squeeze(mean(values(:,i_target,:),1)),'color',c,'linestyle',s,'LineWidth',2);
-                end
+
+                % fig_axis
+                sa.xlim         = [0.5 , nb_count+0.5];
+                sa.xtick        = 1:nb_count;
+                sa.xticklabel   = num2leg(u_count);
+                sa.ytick        = 0:.5:1;
+                sa.ylim         = [0,1];
+                sa.xlabel       = x_sides{i_side};
+                fig_axis(sa);
             end
-            
-            % fig_axis
-            sa.xlim         = [0.5 , nb_count+0.5];
-            sa.xtick        = 1:nb_count;
-            sa.xticklabel   = num2leg(u_count);
-            sa.ytick        = 0:.5:1;
-            sa.ylim         = [0,1];
-            sa.xlabel       = x_sides{i_side};
-            fig_axis(sa);
         end
     end
 end

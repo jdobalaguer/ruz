@@ -2,8 +2,8 @@
 function ta2_batch()
     %% variables
     u_alpham   = 0.5;
-    u_alphar   = linspace(0,1,2);
-    u_tau      = linspace(0,1,2);
+    u_alphar   = linspace(0,1,21);
+    u_tau      = linspace(0,1,21);
     model_name = 'ta2';
     model_df   = 2;
     model_file = 'data/models_ta2.mat';

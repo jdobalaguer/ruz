@@ -1,12 +1,13 @@
 
-function figure_RT2()
+function figure_RT2bis()
     %% defaults
     fontname = 'Sans Serif';
-    n = 6;
+    model = model_valid();
+    n = 5;
     
     %% load
     load('data/sdata');
-    [mmmaVc,q_mmm] = jb_discretize(abs(models.taco4.mmmaVc) , n);
+    [mmmaVc,q_mmm] = jb_discretize((models.(model).mmmaVc) , n);
     
     %% numbers
     u_subject   = numbers.shared.u_subject;
@@ -43,8 +44,8 @@ function figure_RT2()
     % axis
     sa.title    = '';
     sa.ylabel   = 'reaction time (sec)';
-    sa.ylim     = [1.1,1.4];
-    sa.ytick    = (1.1:0.1:1.4) - sa.ylim(1);
+    sa.ylim     = [1.0,1.4];
+    sa.ytick    = (1.0:0.1:1.4) - sa.ylim(1);
     sa.yticklabel = num2leg(sa.ytick + sa.ylim(1));
     
     % values
@@ -54,7 +55,7 @@ function figure_RT2()
 
     % fig_barweb
     leg = repmat({''},1,n);
-    leg{1}   = 'null';
+    leg{1}   = 'min';
     leg{end} = 'max';
     web = fig_barweb(m,e,...
                         [],...                                                 width

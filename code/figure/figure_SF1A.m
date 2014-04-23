@@ -46,8 +46,9 @@ function figure_SF1A()
         ii_resp     = (models.human.rt>0);
         ii_subject  = (sdata.exp_subject == u_subject(i_subject));
         ii_novel    = (sdata.vb_novel == u_novel(i_novel));
+        ii_odd      = (mod(sdata.exp_block,2) == 1);
         ii_trial    = (sdata.exp_trial == u_trial(i_trial));
-        ii = (ii_resp & ii_subject & ii_novel & ii_trial);
+        ii = (ii_resp & ii_subject & ii_novel & ii_odd & ii_trial);
         
         human_correct(i_subject,i_novel,i_trial)    = mean(models.(human).correct(ii));
         hbm_correct(i_subject,i_novel,i_trial)      = mean(models.(hbm  ).correct(ii));

@@ -66,6 +66,16 @@ function co3_batch_sdata(u_alpham,u_alphar,u_tau,model_file,model_name,df)
         key     = [alpha_m,alpha_r,tau];
         optimals(i_subject,i_novel,:) = key;
 
+        % model optimals
+        optim_name = [model_name,'opt'];
+        [~,model] = co3_batch_run_par(sdata,numbers,[],alpha_m,alpha_r,tau,false);
+        u_field = fieldnames(model);
+        for i_field = 1:length(u_field)
+            field = u_field{i_field};
+            if ~isfield(models.(optim_name),field), models.(optim_name).(field) = nan(size(ii_frame)); end
+            models.(optim_name).(field)(ii_frame) = model.(field)(ii_frame);
+        end
+        
         % fittings
         alpha_m = xx_alpham(min_greedbic(i_subject,i_novel));
         alpha_r = xx_alphar(min_greedbic(i_subject,i_novel));
@@ -73,10 +83,8 @@ function co3_batch_sdata(u_alpham,u_alphar,u_tau,model_file,model_name,df)
         key     = [alpha_m,alpha_r,tau];
         fittings(i_subject,i_novel,:) = key;
 
-        % model
+        % model fittings
         [~,model] = co3_batch_run_par(sdata,numbers,[],alpha_m,alpha_r,tau,false);
-        
-        % save fields
         u_field = fieldnames(model);
         for i_field = 1:length(u_field)
             field = u_field{i_field};

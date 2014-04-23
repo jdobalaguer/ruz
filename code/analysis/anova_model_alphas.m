@@ -1,5 +1,8 @@
 
 function anova_model_alphas(model)
+    %% default
+    if ~exist('model','var'), model = model_valid(); end
+    
     %% load
     load('data/sdata.mat','numbers','models');
     fittings = models.(model).fittings;
