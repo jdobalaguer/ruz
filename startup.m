@@ -1,4 +1,6 @@
 
+if ~strcmp(hostname(),'minime'), return; end
+
 %% matlabpool
 pctconfig('portrange',[31000,32000]);
 

@@ -49,6 +49,15 @@ function stats_reactiontimes()
     rts = figure_RT1B();
     jb_anova(rts,{'','"correct"','"choice"','"novel"'});
     
+    %% Corrected
+    fprintf('\n');
+    cprintf('_black','"post-error slowing" ... "interacts with novelty and with response" : \n');
+    rts = figure_RT1B();
+    % rts [subject,correct,choice,novel];
+    x = squeeze(rts(:,1,2,:));
+    jb_ttest(x(:,1)-x(:,2));
+    
+    
     %% end
     fprintf('\n');
 end

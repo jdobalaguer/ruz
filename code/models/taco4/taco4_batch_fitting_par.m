@@ -17,8 +17,8 @@ function [mkey,mbic,mcor] = taco4_batch_fitting_par(u_subject,u_novel,human,sdat
     %% mkey, mbic
     if isempty(mbic_keys) || ~ismember(mkey,cell2mat(mbic_keys),'rows')
         %% fitting
-        mbic = uint8(nan(nb_subject,nb_novel,2));
-        mcor = uint8(nan(nb_subject,nb_novel,2));
+        mbic = single(nan(nb_subject,nb_novel,2));
+        mcor = single(nan(nb_subject,nb_novel,2));
         for i_subject = 1:nb_subject
         for i_novel   = 1:nb_novel
 
@@ -31,8 +31,8 @@ function [mkey,mbic,mcor] = taco4_batch_fitting_par(u_subject,u_novel,human,sdat
             mbic(i_subject,i_novel,1) = model_bic(model.df, model.choice,  human.choice,  ii_frame, 0);
             mbic(i_subject,i_novel,2) = model_bic(model.df, model.correct, human.correct, ii_frame, 0);
 
-            mcor(i_subject,i_novel,1) = 255*mean(model.choice(ii_frame)); %uint8 rescaling
-            mcor(i_subject,i_novel,2) = 255*mean(model.correct(ii_frame));%uint8 rescaling
+            mcor(i_subject,i_novel,1) = mean(model.choice(ii_frame)); %single rescaling
+            mcor(i_subject,i_novel,2) = mean(model.correct(ii_frame));%single rescaling
         end
         end
     else

@@ -13,12 +13,7 @@ function anova_model_alphas(model)
     nb_novel   = numbers.shared.nb_novel;
     nb_param   = size(fittings,3);
     
-    %% values
-    fittings = reshape(fittings , [nb_subject , nb_novel*nb_param]);
-    fprintf('anova_model_alphas: warning. removing %d participants \n',sum(any(isnan(fittings),2)));
-    fittings(any(isnan(fittings),2),:) = [];
-    
     %% repanova
-    jb_repanova(fittings,[nb_param , nb_novel]);
+    jb_anova(fittings, {'""','"alpha_M"','"alpha_R"'});
     
 end

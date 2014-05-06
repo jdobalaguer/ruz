@@ -63,8 +63,8 @@ function stats_modelfitting()
     fprintf('mean optimals    : %.2f %.2f \n',mean(alphaR_opt));
     fprintf('std  fittings    : %.2f %.2f \n',std(alphaR_fit));
     fprintf('std  optimals    : %.2f %.2f \n',std(alphaR_opt));
-    fprintf('familiar ttest2  : '); jb_ttest2(alphaR_fit(:,1),alphaR_opt(:,1));
-    fprintf('novel    ttest2  : '); jb_ttest2(alphaR_fit(:,2),alphaR_opt(:,2));
+    fprintf('familiar ttest   : '); jb_ttest(alphaR_fit(:,1)-alphaR_opt(:,1));
+    fprintf('novel    ttest   : '); jb_ttest(alphaR_fit(:,2)-alphaR_opt(:,2));
     
     % similarly, mean values for tau were ... both showing a divergence from the performance-maximising parameters ... that was statistically reliable
     fprintf('\n');
@@ -72,22 +72,42 @@ function stats_modelfitting()
     cprintf('*black','  alpha_m \n');
     fprintf('mean fittings    : %.2f %.2f \n',mean(alphaM_fit));
     fprintf('mean optimals    : %.2f %.2f \n',mean(alphaM_opt));
-    fprintf('familiar ttest2  : '); jb_ttest2(alphaM_fit(:,1),alphaM_opt(:,1));
-    fprintf('novel    ttest2  : '); jb_ttest2(alphaM_fit(:,2),alphaM_opt(:,2));
+    fprintf('std  fittings    : %.2f %.2f \n',std(alphaM_fit));
+    fprintf('std  optimals    : %.2f %.2f \n',std(alphaM_opt));
+    fprintf('familiar ttest2  : '); jb_ttest(alphaM_fit(:,1)-alphaM_opt(:,1));
+    fprintf('novel    ttest2  : '); jb_ttest(alphaM_fit(:,2)-alphaM_opt(:,2));
     cprintf('*black','  tau     \n');
     fprintf('mean fittings    : %.2f %.2f \n',mean(tau_fit));
     fprintf('mean optimals    : %.2f %.2f \n',mean(tau_opt));
-    fprintf('familiar ttest2  : '); jb_ttest2(tau_fit(:,1),tau_opt(:,1));
-    fprintf('novel    ttest2  : '); jb_ttest2(tau_fit(:,2),tau_opt(:,2));
+    fprintf('std  fittings    : %.2f %.2f \n',std(tau_fit));
+    fprintf('std  optimals    : %.2f %.2f \n',std(tau_opt));
+    fprintf('familiar ttest   : '); jb_ttest(tau_fit(:,1)-tau_opt(:,1));
+    fprintf('novel    ttest   : '); jb_ttest(tau_fit(:,2)-tau_opt(:,2));
     cprintf([1,0.5,0],'change tau to alpha_M\n');
     
     % however, values of tau were smaller ... and values of alpha_R were larger ... in the familiar relative to novel cues condition
     fprintf('\n');
     cprintf('_black','"however, values of tau were smaller ... and values of alpha_R were larger" ... "in the familiar relative to novel cues condition" \n');
-    fprintf('alpha_M ttest2  : '); jb_ttest2(alphaM_fit(:,1),alphaM_fit(:,2));
-    fprintf('alpha_R ttest2  : '); jb_ttest2(alphaR_fit(:,1),alphaR_fit(:,2));
-    fprintf('tau     ttest2  : '); jb_ttest2(tau_fit(:,1),   tau_fit(:,2));
+    fprintf('alpha_M ttest  : '); jb_ttest(alphaM_fit(:,1)-alphaM_fit(:,2));
+    fprintf('alpha_R ttest  : '); jb_ttest(alphaR_fit(:,1)-alphaR_fit(:,2));
+    fprintf('tau     ttest  : '); jb_ttest(tau_fit(:,1)   -tau_fit(:,2));
     cprintf([1,0.5,0],'focus on alpha_M and alpha_R\n');
+    
+    %% additional
+    cprintf('_black','"interaction between fittings/optimal and familiar/novel" \n');
+    alpha_R         = alphaR_fit;
+    alpha_R(:,:,2)  = alphaR_opt;
+    tau             = tau_fit;
+    tau(:,:,2)      = tau_opt;
+    % alpha_R = [nb_subject,nb_novel,nb_opt]
+    cprintf('*black','  alpha_R \n');
+    jb_anova(alpha_R,{'"alpha_R"','"cue"','"optimal"'});
+    % tau = [nb_subject,nb_novel,nb_opt]
+    cprintf('*black','  tau \n');
+    jb_anova(tau,{'"alpha_R"','"cue"','"optimal"'});
+    
+
+    
 
     %% end
     fprintf('\n');

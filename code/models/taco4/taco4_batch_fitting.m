@@ -35,8 +35,8 @@ function taco4_batch_fitting(u_alpham,u_alphart,u_alpharc,u_tau,model_file)
     new_keys   = cell(nb_loop,1);
     new_bics   = cell(nb_loop,1);
     new_cors   = cell(nb_loop,1);
-    greed_bic  = uint8(nan(nb_alpham*nb_alphart*nb_alpharc*nb_tau,nb_subject,nb_novel));
-    greed_cor  = uint8(nan(nb_alpham*nb_alphart*nb_alpharc*nb_tau,nb_subject,nb_novel));
+    greed_bic  = single(nan(nb_alpham*nb_alphart*nb_alpharc*nb_tau,nb_subject,nb_novel));
+    greed_cor  = single(nan(nb_alpham*nb_alphart*nb_alpharc*nb_tau,nb_subject,nb_novel));
 
     % variables
     criterion   = @(x,y)x;

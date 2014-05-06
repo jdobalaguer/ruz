@@ -49,7 +49,7 @@ function [corrs,probs] = figure_2C()
     
     nb_subject  = numbers.shared.nb_subject;
     nb_novel    = numbers.shared.nb_novel;
-    nb_pars     = length(labels);
+    nb_pars     = 1;
     
     %% values
     performance = nan(nb_subject,nb_novel);
@@ -79,7 +79,7 @@ function [corrs,probs] = figure_2C()
     j_subplot = 0;
     corrs = nan(nb_novel,nb_pars);
     probs = nan(nb_novel,nb_pars);
-    for i_pars = 1:nb_pars
+    for i_pars = 2
         for i_novel = 1:nb_novel
             % subplot
             if ~nargout
@@ -98,8 +98,8 @@ function [corrs,probs] = figure_2C()
             
             % plot
             if ~nargout
-                plot(u(:,1),z,'color','k','linestyle','--','marker','none','markersize',10,'linewidth',1.5);
-                plot(x,y,'color',colour{i_novel},'linestyle','none','marker','.','markersize',10,'linewidth',1.5);
+                plot(u(:,1),z,'color','k','linestyle','--','marker','none','markersize',36,'linewidth',2.0);
+                plot(x,y,'color',colour{i_novel},'linestyle','none','marker','.','markersize',36,'linewidth',2.0);
             end
             
             % correlation
@@ -108,10 +108,13 @@ function [corrs,probs] = figure_2C()
             % fig_axis
             if ~nargout
                 sa = struct();
-                sa.title      = labels{i_pars};
-                sa.ylim       = [0,1];
-                sa.ytick      = 0:0.5:1;
+                sa.xlim       = [0,1];
+                sa.xtick      = 0:0.5:1;
+                sa.xticklabel = {};
+                sa.ylim       = [0.4,1];
+                sa.ytick      = 0.4:0.2:1;
                 sa.ygrid      = 'on';
+                sa.yticklabel = {};
                 fig_axis(sa);
             end
         end
@@ -121,19 +124,23 @@ function [corrs,probs] = figure_2C()
         % fig_figure
         fig_figure(gcf());
         % font
-        fig_fontsize([],18);
+        fig_fontsize([],24);
         
         %% figure size
         % window position
         pos = get(gcf(),'Position');
-        pos(4) = 2 .* pos(4);
+        pos(4) = 0.5 .* pos(4);
         set(gcf(),'Position',pos);
         % paper size
         set(gcf(),'PaperPositionMode','auto');
+        pos = get(gcf(),'PaperSize');
+        pos(1) = 0.8 .* pos(1);
+        pos(2) = 0.4 .* pos(2);
+        set(gcf(),'Papersize',pos);
         
         %% export
         mkdirp('docs/figures');
-        fig_export('docs/figures/figure_2C.pdf');
+        fig_export('docs/figures/figure_2Cbis.pdf');
     end
     
 end

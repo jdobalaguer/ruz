@@ -44,13 +44,16 @@ function ta3_batch_sdata(u_alpham,u_alphar,u_tau,model_file,model_name,df)
 
     %% sdata
     % initialise
+    optim_name = [model_name,'opt'];
     models.(model_name).choice  = nan(size(models.human.choice));
     models.(model_name).correct = nan(size(models.human.correct));
+    models.(optim_name).choice  = nan(size(models.human.choice));
+    models.(optim_name).correct = nan(size(models.human.correct));
     fittings           = nan(nb_subject,nb_novel,3);
     optimals           = nan(nb_subject,nb_novel,3);
 
     % loop
-    tools_parforprogress(numel(min_greedbic));
+    tools_parforprogress(2*numel(min_greedbic));
     for i_subject = 1:nb_subject
     for i_novel   = 1:nb_novel
 
@@ -67,7 +70,6 @@ function ta3_batch_sdata(u_alpham,u_alphar,u_tau,model_file,model_name,df)
         optimals(i_subject,i_novel,:) = key;
 
         % model optimals
-        optim_name = [model_name,'opt'];
         [~,model] = ta3_batch_run_par(sdata,numbers,[],alpha_m,alpha_r,tau,false);
         u_field = fieldnames(model);
         for i_field = 1:length(u_field)
@@ -102,6 +104,7 @@ function ta3_batch_sdata(u_alpham,u_alphar,u_tau,model_file,model_name,df)
     models.(model_name).optimals = optimals;
 
     %% save
-    save('data/sdata.mat','-append','models');
+    %save('data/sdata.mat','-append','models');
+    save;
 end
 

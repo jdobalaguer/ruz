@@ -91,10 +91,11 @@ function figure_2B()
         sa.xlim       = [0.5,nb_pars+0.5];
         sa.xtick      = 1:nb_pars;
         sa.xminor     = 'off';
-        sa.xticklabel = labels;
+        sa.xticklabel = {};
         sa.ylim       = [0,1];
         sa.ytick      = 0:0.5:1;
         sa.ygrid      = 'on';
+        sa.yticklabel = {};
         fig_axis(sa);
     end
 
@@ -105,9 +106,22 @@ function figure_2B()
     fig_fontsize([],24);
     
     % name
-    set(gcf(),'Name',['parameters on ',model]);    
+    set(gcf(),'Name',['parameters on ',model]);
+    
+    %% paper size
+    % window position
+    pos = get(gcf(),'Position');
+    pos(4) = 0.5 .* pos(4);
+    set(gcf(),'Position',pos);
+    % paper size
+    set(gcf(),'PaperPositionMode','auto');
+    pos = get(gcf(),'PaperSize');
+    pos(1) = 0.8 .* pos(1);
+    pos(2) = 0.4 .* pos(2);
+    set(gcf(),'Papersize',pos);
+    
     %% export
     mkdirp('docs/figures');
-    fig_export('docs/figures/figure_2B.pdf');
+    fig_export('docs/figures/figure_2Bbis.pdf');
     
 end

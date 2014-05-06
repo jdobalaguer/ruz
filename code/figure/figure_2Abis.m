@@ -10,7 +10,7 @@
 % familiar cues conditions respectively.
 % 
 
-function figure_2A()
+function figure_2Abis()
     %% defaults
     fontname = 'Sans Serif';
     model = model_valid();
@@ -109,10 +109,10 @@ function figure_2A()
         
         % plot cor
         imagesc(u_par1,u_par2,greed_cor(:,:,i_novel)');
-%         [c,h] = contourf(u_par1,u_par2,greed_cor(:,:,i_novel)',0.5:0.03:1.0);
-%         [c,h] = contour( u_par1,u_par2,greed_cor(:,:,i_novel)',0.5:0.03:1.0,'linewidth',1.8,'linecolor',[0,0,0]);
-        [c,h] = contourf(u_par1,u_par2,greed_cor(:,:,i_novel)');
-        [c,h] = contour( u_par1,u_par2,greed_cor(:,:,i_novel)','linewidth',1.2,'linecolor',[0,0,0]);
+        [c,h] = contourf(u_par1,u_par2,greed_cor(:,:,i_novel)',[0,0.5,0.6,0.7:0.03:1.0]);
+        [c,h] = contour( u_par1,u_par2,greed_cor(:,:,i_novel)',[0,0.5,0.6,0.7:0.03:1.0],'linewidth',1.2,'linecolor',[0,0,0]);
+        %[c,h] = contourf(u_par1,u_par2,greed_cor(:,:,i_novel)');
+        %[c,h] = contour( u_par1,u_par2,greed_cor(:,:,i_novel)','linewidth',1.2,'linecolor',[0,0,0]);
         %clabel(c, h);
         colormap(fig_color('gray',21)./255);
         xlim([0,1]);
@@ -126,14 +126,12 @@ function figure_2A()
         
         % fig_axis
         sa = struct();
-        sa.title   = titles{i_novel};
-        sa.xlabel  = t_par1;
-        %sa.xtick   = [0,1];
-        %sa.xticklabel = l_par1;
-        %if i_novel==1; sa.ylabel  = t_par2; end
-        %sa.ytick   = [0,1];
-        if i_novel==1; %sa.yticklabel = l_par2;
-        else           sa.yticklabel = {}; end
+        sa.xlim       = [0,1];
+        sa.xtick      = 0:0.5:1;
+        sa.xticklabel = {};
+        sa.ylim       = [0,1];
+        sa.ytick      = 0:0.5:1;
+        sa.yticklabel = {};
         fig_axis(sa);
     end
     
@@ -150,11 +148,13 @@ function figure_2A()
     set(gcf(),'Position',pos);
     % paper size
     set(gcf(),'PaperPositionMode','auto');
-    psi = 4 * pos(3:4) ./ pos(4);
-    set(gcf(),'PaperSize',psi);
+    pos = get(gcf(),'PaperSize');
+    pos(1) = 0.8 .* pos(1);
+    pos(2) = 0.4 .* pos(2);
+    set(gcf(),'Papersize',pos);
    
     %% export
     mkdirp('docs/figures');
-    fig_export('docs/figures/figure_2A.pdf');
+    fig_export('docs/figures/figure_2Abis.pdf');
     
 end
