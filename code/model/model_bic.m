@@ -1,7 +1,9 @@
 
 function bic = model_bic(model_df,model_value,human_value,ii_frame,odd)
     %% load
+    sdata = struct();
     load('data/sdata.mat','sdata','numbers');
+    sdata.exp_trial         = jb_discretize(sdata.exp_trial,2);
     numbers.shared.u_trial  = unique(sdata.exp_trial);
     numbers.shared.nb_trial = length(numbers.shared.u_trial);
     
@@ -27,6 +29,6 @@ function bic = model_bic(model_df,model_value,human_value,ii_frame,odd)
     end
 
     %% BIC
-    size(model_like)
-    bic    = -2 * log(prod(model_like)) + (model_df)*log(nb_trial);
+    disp(prod(model_like));
+    bic    = -2 * sum(log(model_like)) + (model_df)*log(nb_trial);
 end
