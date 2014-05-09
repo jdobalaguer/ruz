@@ -29,6 +29,5 @@ function bic = model_bic(model_df,model_value,human_value,ii_frame,odd)
     end
 
     %% BIC
-    disp(prod(model_like));
     bic    = -2 * sum(log(model_like)) + (model_df)*log(nb_trial);
 end

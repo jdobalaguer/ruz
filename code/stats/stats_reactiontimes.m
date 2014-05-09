@@ -2,7 +2,7 @@
 
 function stats_reactiontimes()
     %% defaults
-    model = model_valid();
+    model = valid_model();
     human = 'human';
     
     %% load

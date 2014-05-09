@@ -1,8 +1,9 @@
 
-if ~strcmp(hostname(),'minime'), return; end
+%% warning
+%#ok<*TRYNC>
 
 %% matlabpool
-pctconfig('portrange',[31000,32000]);
+try pctconfig('portrange',[31000,32000]); end
 
 %% pathdef
 addpath(genpath('/home/jan/workspace/gitmatlab/jbtools/figures/'));

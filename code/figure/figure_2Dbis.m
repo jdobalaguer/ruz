@@ -16,7 +16,7 @@
 function v = figure_2D()
     fig = ~nargout;
     fontname = 'Sans Serif';                                % defaults
-    model = model_valid();
+    model = valid_model();
     if fig,
         fig_figure();                                       % figure
         set(0, 'DefaultAxesFontName', fontname);            % font

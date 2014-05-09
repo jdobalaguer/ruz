@@ -1,7 +1,7 @@
 
 function ranksum_parameters_novel(model)
     %% defaults
-    if ~exist('model','var'), model = model_valid(); end
+    if ~exist('model','var'), model = valid_model(); end
     
     %% load
     load('data/sdata.mat','models');

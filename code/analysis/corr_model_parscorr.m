@@ -1,7 +1,7 @@
 
 function corr_model_parscorr(model)
     %% default
-    if ~exist('model','var'), model = model_valid(); end
+    if ~exist('model','var'), model = valid_model(); end
     
     %% load
     load('data/sdata.mat');

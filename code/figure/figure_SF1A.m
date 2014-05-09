@@ -14,7 +14,7 @@ function figure_SF1A()
     fontname = 'Sans Serif';
     human = 'human';
     hbm   = 'hbm';
-    model = model_valid();
+    model = valid_model();
     
     %% load
     sdata   = struct();

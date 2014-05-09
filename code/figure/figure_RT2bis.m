@@ -2,7 +2,7 @@
 function figure_RT2bis()
     %% defaults
     fontname = 'Sans Serif';
-    model = model_valid();
+    model = valid_model();
     n = 5;
     
     %% load

@@ -12,7 +12,7 @@
 function figure_1B()
     %% defaults
     fontname = 'Sans Serif';
-    model = model_valid();
+    model = valid_model();
     human = 'human';
     
     %% load

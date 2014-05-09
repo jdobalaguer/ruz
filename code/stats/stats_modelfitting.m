@@ -2,7 +2,7 @@
 
 function stats_modelfitting()
     %% defaults
-    model = model_valid();
+    model = valid_model();
     human = 'human';
     
     %% load
@@ -49,12 +49,12 @@ function stats_modelfitting()
     cprintf([1,0.5,0],'interaction between conditions\n');
     
     %% Paragraph 2
-    alphaM_fit = models.(model_valid).fittings(:,:,1);
-    alphaM_opt = models.(model_valid).optimals(:,:,1);
-    alphaR_fit = models.(model_valid).fittings(:,:,2);
-    alphaR_opt = models.(model_valid).optimals(:,:,2);
-    tau_fit    = models.(model_valid).fittings(:,:,3);
-    tau_opt    = models.(model_valid).optimals(:,:,3);
+    alphaM_fit = models.(valid_model).fittings(:,:,1);
+    alphaM_opt = models.(valid_model).optimals(:,:,1);
+    alphaR_fit = models.(valid_model).fittings(:,:,2);
+    alphaR_opt = models.(valid_model).optimals(:,:,2);
+    tau_fit    = models.(valid_model).fittings(:,:,3);
+    tau_opt    = models.(valid_model).optimals(:,:,3);
     
     % specifically, mean values of alpha_R for blocks with familiar and novel cues respectively diverging reliably from the respective parameters that yielded maximal performance under this model in both cases
     fprintf('\n');

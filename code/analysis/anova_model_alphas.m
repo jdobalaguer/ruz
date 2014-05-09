@@ -1,7 +1,7 @@
 
 function anova_model_alphas(model)
     %% default
-    if ~exist('model','var'), model = model_valid(); end
+    if ~exist('model','var'), model = valid_model(); end
     
     %% load
     load('data/sdata.mat','numbers','models');

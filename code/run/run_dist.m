@@ -1,22 +1,22 @@
 %
-% RUN_BIC
-% calculate bic values for all models
+% RUN_DIST
+% calculate distances for all models
 %
 
 %% warning
 %#ok<*NODEF>
 
-function varargout = run_bic(criterion)
+function varargout = run_dist(criterion)
     %%
-    % help('run_bic')
+    % help('run_dist')
     %
     % syntax:       run_bic([criterion])
     % description:  estimates de bayesian information criterion for each model
     % arguments:    criterion: criterion to use
     % 
-    % examples:     run_bic()
-    % examples:     run_bic(@(ch,co)ch)
-    % examples:     run_bic(@(ch,co)co)
+    % examples:     run_dist()
+    % examples:     run_dist(@(ch,co)ch)
+    % examples:     run_dist(@(ch,co)co)
     % 
     
     %% criterion
@@ -54,8 +54,8 @@ function varargout = run_bic(criterion)
                 ii_novel    = (sdata.vb_novel == u_novel(i_novel));
 
                 % bic
-                bic_ch(i_odd,i_model,i_novel) = model_bic(model.df, model.choice ,human.choice, ii_novel, u_odd(i_odd));
-                bic_co(i_odd,i_model,i_novel) = model_bic(model.df, model.correct,human.correct,ii_novel, u_odd(i_odd));
+                bic_ch(i_odd,i_model,i_novel) = model_dist(model.df, model.choice ,human.choice, ii_novel, u_odd(i_odd));
+                bic_co(i_odd,i_model,i_novel) = model_dist(model.df, model.correct,human.correct,ii_novel, u_odd(i_odd));
             end
         end
     end

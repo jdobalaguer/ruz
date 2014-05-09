@@ -13,7 +13,7 @@
 function figure_2Abis()
     %% defaults
     fontname = 'Sans Serif';
-    model = model_valid();
+    model = valid_model();
     
     %% model
     switch model

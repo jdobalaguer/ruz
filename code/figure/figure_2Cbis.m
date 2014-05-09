@@ -9,11 +9,11 @@
 function [corrs,probs] = figure_2C()
     %% defaults
     fontname = 'Sans Serif';
-    model = model_valid();
+    model = valid_model();
     
     %% model
     fontname = 'Sans Serif';
-    model = model_valid();
+    model = valid_model();
     switch model
         case 'ta2'
             dim_out = 1;

@@ -9,7 +9,7 @@
 function figure_2B()
     %% defaults
     fontname = 'Sans Serif';
-    model = model_valid();
+    model = valid_model();
     
     %% model
     switch model
