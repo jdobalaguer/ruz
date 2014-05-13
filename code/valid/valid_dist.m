@@ -1,4 +1,4 @@
 
 function dist_name = valid_dist()
-    dist_name = 'sqdist';
+    dist_name = 'bic';
 end
