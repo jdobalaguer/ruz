@@ -15,9 +15,9 @@ nb_trial = length(vb_target);
 % log variables
 mdata.choice        = false(nb_trial, 1);
 mdata.correct       = false(nb_trial, 1);
-% mdata.minaVc        = nan(nb_trial,1);
+mdata.minaVc        = nan(nb_trial,1);
 mdata.maxaVc        = nan(nb_trial,1);
-% mdata.mmmaVc        = nan(nb_trial,1);
+mdata.mmmaVc        = nan(nb_trial,1);
 % mdata.menaVc        = nan(nb_trial,1);
 % mdata.varaVc        = nan(nb_trial,1);
 % mdata.skwaVc        = nan(nb_trial,1);
@@ -48,9 +48,9 @@ for i_trial = 1:nb_trial
         i_stim = vb_stimord(i_trial,i_side);
         aVc(i_side) = Ho(i_side,i_stim);
     end
-%     minaVc = min(aVc);
+    minaVc = min(aVc);
     maxaVc = max(aVc);
-%     mmmaVc = (tau*minaVc) + ((1-tau)*maxaVc);
+    mmmaVc = (tau*minaVc) + ((1-tau)*maxaVc);
 %     menaVc = mean(aVc);
 %     varaVc = var(aVc);
 %     skwaVc = skewness(aVc);
@@ -68,7 +68,7 @@ for i_trial = 1:nb_trial
     %choice = (maxaVc >= tau);
     %choice = (mmmaVc >= menHo);
     %choice = (menaVc >= menHo);
-    choice = (maxaVc + tau >= 0);
+    choice = (maxaVc + 2*tau -1 >= 0);
     
     % target
     target = vb_target(i_trial);
@@ -96,9 +96,9 @@ for i_trial = 1:nb_trial
     %% save log
     mdata.choice(i_trial)   = choice;
     mdata.correct(i_trial)  = correct;
-%     mdata.minaVc(i_trial)   = minaVc;
+    mdata.minaVc(i_trial)   = minaVc;
     mdata.maxaVc(i_trial)   = maxaVc;
-%     mdata.mmmaVc(i_trial)   = mmmaVc;
+    mdata.mmmaVc(i_trial)   = mmmaVc;
 %     mdata.menaVc(i_trial)   = menaVc;
 %     mdata.varaVc(i_trial)   = varaVc;
 %     mdata.skwaVc(i_trial)   = skwaVc;
