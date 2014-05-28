@@ -1,7 +1,7 @@
 
 function co3_batch()
     %% variables
-    u_alpham   = linspace(0,2,21);
+    u_alpham   = linspace(0,2,21); u_alpham(1) = [];
     u_alphar   = linspace(0,1,21);
     u_tau      = linspace(0,1,21);
     model_name = 'co3';

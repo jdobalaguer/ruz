@@ -64,11 +64,7 @@ for i_trial = 1:nb_trial
     %% choice and feedback
     
     % choice
-    %choice = (mmmaVc >= 0);
-    %choice = (maxaVc >= tau);
-    %choice = (mmmaVc >= menHo);
-    %choice = (menaVc >= menHo);
-    choice = (maxaVc + 2*tau -1 >= 0);
+    choice = (mmmaVc >= 0);
     
     % target
     target = vb_target(i_trial);
