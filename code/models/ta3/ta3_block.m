@@ -18,6 +18,7 @@ mdata.correct       = false(nb_trial, 1);
 mdata.minaVc        = nan(nb_trial,1);
 mdata.maxaVc        = nan(nb_trial,1);
 mdata.mmmaVc        = nan(nb_trial,1);
+mdata.mHo           = nan(nb_trial,1);
 
 %% model variables
 Ho          = zeros(nb_side,nb_value);
@@ -42,13 +43,14 @@ for i_trial = 1:nb_trial
     minaVc = min(aVc);
     maxaVc = max(aVc);
     mmmaVc = (tau*minaVc) + ((1-tau)*maxaVc);
+    mHo    = mean(Ho(:));
     
     %% choice and feedback
     
     % choice
-    %choice = any(mmmaVc >= 0);
-    %choice = any(maxaVc >= tau);
-    choice = any(mmmaVc >= mean(Ho(:)));
+    %choice = (mmmaVc >= 0);
+    %choice = (maxaVc >= tau);
+    choice = (mmmaVc >= mHo);
     
     % target
     target = vb_target(i_trial);
@@ -79,6 +81,7 @@ for i_trial = 1:nb_trial
     mdata.minaVc(i_trial)      = minaVc;
     mdata.maxaVc(i_trial)      = maxaVc;
     mdata.mmmaVc(i_trial)      = mmmaVc;
+    mdata.mHo(i_trial)         = mHo;
     
 end
 
