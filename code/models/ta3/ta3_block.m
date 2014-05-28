@@ -18,7 +18,15 @@ mdata.correct       = false(nb_trial, 1);
 mdata.minaVc        = nan(nb_trial,1);
 mdata.maxaVc        = nan(nb_trial,1);
 mdata.mmmaVc        = nan(nb_trial,1);
-mdata.mHo           = nan(nb_trial,1);
+mdata.menaVc        = nan(nb_trial,1);
+mdata.varaVc        = nan(nb_trial,1);
+mdata.skwaVc        = nan(nb_trial,1);
+mdata.minHo         = nan(nb_trial,1);
+mdata.maxHo         = nan(nb_trial,1);
+mdata.mmmHo         = nan(nb_trial,1);
+mdata.menHo         = nan(nb_trial,1);
+mdata.varHo         = nan(nb_trial,1);
+mdata.skwHo         = nan(nb_trial,1);
 
 %% model variables
 Ho          = zeros(nb_side,nb_value);
@@ -43,14 +51,23 @@ for i_trial = 1:nb_trial
     minaVc = min(aVc);
     maxaVc = max(aVc);
     mmmaVc = (tau*minaVc) + ((1-tau)*maxaVc);
-    mHo    = mean(Ho(:));
+    menaVc = mean(aVc);
+    varaVc = var(aVc);
+    skwaVc = skewness(aVc);
+    minHo = min(Ho(:));
+    maxHo = max(Ho(:));
+    mmmHo = (tau*minHo) + ((1-tau)*maxHo);
+    menHo = mean(Ho(:));
+    varHo = var(Ho(:));
+    skwHo = skewness(Ho(:));
     
     %% choice and feedback
     
     % choice
-    %choice = (mmmaVc >= 0);
+    choice = (mmmaVc >= 0);
     %choice = (maxaVc >= tau);
-    choice = (mmmaVc >= mHo);
+    %choice = (mmmaVc >= menHo);
+    %choice = (menaVc >= menHo);
     
     % target
     target = vb_target(i_trial);
@@ -76,12 +93,20 @@ for i_trial = 1:nb_trial
     end
     
     %% save log
-    mdata.choice(i_trial)      = choice;
-    mdata.correct(i_trial)     = correct;
-    mdata.minaVc(i_trial)      = minaVc;
-    mdata.maxaVc(i_trial)      = maxaVc;
-    mdata.mmmaVc(i_trial)      = mmmaVc;
-    mdata.mHo(i_trial)         = mHo;
+    mdata.choice(i_trial)   = choice;
+    mdata.correct(i_trial)  = correct;
+    mdata.minaVc(i_trial)   = minaVc;
+    mdata.maxaVc(i_trial)   = maxaVc;
+    mdata.mmmaVc(i_trial)   = mmmaVc;
+    mdata.menaVc(i_trial)   = menaVc;
+    mdata.varaVc(i_trial)   = varaVc;
+    mdata.skwaVc(i_trial)   = skwaVc;
+    mdata.minHo(i_trial)    = minHo;
+    mdata.maxHo(i_trial)    = maxHo;
+    mdata.mmmHo(i_trial)    = mmmHo;
+    mdata.menHo(i_trial)    = menHo;
+    mdata.varHo(i_trial)    = varHo;
+    mdata.skwHo(i_trial)    = skwHo;
     
 end
 

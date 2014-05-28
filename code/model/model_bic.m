@@ -3,7 +3,7 @@ function bic = model_bic(model_df,model_value,human_value,ii_frame,odd)
     %% load
     sdata = struct();
     load('data/sdata.mat','sdata','numbers');
-    sdata.exp_trial         = jb_discretize(sdata.exp_trial,2);
+    sdata.exp_trial         = jb_discretize(sdata.exp_trial,4);
     numbers.shared.u_trial  = unique(sdata.exp_trial);
     numbers.shared.nb_trial = length(numbers.shared.u_trial);
     

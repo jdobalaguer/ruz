@@ -102,6 +102,8 @@ function ta3_batch_sdata(u_alpham,u_alphar,u_tau,model_file,model_name,df)
     models.(model_name).df       = df;
     models.(model_name).fittings = fittings;
     models.(model_name).optimals = optimals;
+    models.(optim_name).df       = df;
+    models.(optim_name).fittings = optimals;
 
     %% save
     save('data/sdata.mat','-append','models');
