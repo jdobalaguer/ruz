@@ -6,8 +6,7 @@ tmp*
 !.gitignore
 
 data/*
-data copy/*
-data_*
 !data/sdata.mat
 !data/sdata_human.mat
 
+data*

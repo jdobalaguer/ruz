@@ -47,7 +47,8 @@ for i_trial = 1:nb_trial
     
     % choice
     %choice = any(mmmaVc >= 0);
-    choice = any(maxaVc >= tau);
+    %choice = any(maxaVc >= tau);
+    choice = any(mmmaVc >= mean(Ho(:)));
     
     % target
     target = vb_target(i_trial);
