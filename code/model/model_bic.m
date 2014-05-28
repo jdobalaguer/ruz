@@ -19,11 +19,11 @@ function bic = model_bic(model_df,model_value,human_value,ii_frame,odd)
     %% likelihood
     model_like = nan(1,nb_trial);
     for i_trial = 1:nb_trial
-        ii_odd                  = (mod(sdata.exp_block,2) == odd);
+        ii_odd                  = (sdata.vb_odd == odd);
         ii_trial                = (sdata.exp_trial == u_trial(i_trial));    ... index
         ii_condition            = (ii_frame & ii_trial & ii_odd);           ... odd blocks
-        frame_sum               =  sum(ii_condition);                       ... values
-        model_sum               =  sum(model_value(ii_condition));
+        frame_sum               = sum(ii_condition);                        ... values
+        model_sum               = sum(model_value(ii_condition));
         human_mean              = mean(human_value(ii_condition));
         model_like(i_trial)     = binopdf(model_sum,frame_sum,human_mean);  ... likelihood
     end

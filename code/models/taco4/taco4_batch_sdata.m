@@ -1,4 +1,5 @@
 
+
 function taco4_batch_sdata(u_alpham,u_alphart,u_alpharc,u_tau,model_file,model_name,df)
     %% load
     sdata     = struct();
@@ -47,13 +48,16 @@ function taco4_batch_sdata(u_alpham,u_alphart,u_alpharc,u_tau,model_file,model_n
 
     %% sdata
     % initialise
+    optim_name = [model_name,'opt'];
     models.(model_name).choice  = nan(size(models.human.choice));
     models.(model_name).correct = nan(size(models.human.correct));
+    models.(optim_name).choice  = nan(size(models.human.choice));
+    models.(optim_name).correct = nan(size(models.human.correct));
     fittings           = nan(nb_subject,nb_novel,4);
     optimals           = nan(nb_subject,nb_novel,4);
 
     % loop
-    tools_parforprogress(numel(min_greedbic));
+    tools_parforprogress(2*numel(min_greedbic));
     for i_subject = 1:nb_subject
     for i_novel   = 1:nb_novel
 
@@ -105,6 +109,8 @@ function taco4_batch_sdata(u_alpham,u_alphart,u_alpharc,u_tau,model_file,model_n
     models.(model_name).df       = df;
     models.(model_name).fittings = fittings;
     models.(model_name).optimals = optimals;
+    models.(optim_name).df       = df;
+    models.(optim_name).fittings = optimals;
 
     %% save
     save('data/sdata.mat','-append','models');
