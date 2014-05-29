@@ -26,6 +26,9 @@ function bic = model_bic(model_df,model_value,human_value,ii_frame,odd)
         model_sum               = sum(model_value(ii_condition));
         human_mean              = mean(human_value(ii_condition));
         model_like(i_trial)     = binopdf(model_sum,frame_sum,human_mean);  ... likelihood
+%         human_sum               = sum(human_value(ii_condition));
+%         model_mean              = mean(model_value(ii_condition));
+%         model_like(i_trial)     = binopdf(human_sum,frame_sum,model_mean);  ... likelihood
     end
 
     %% BIC

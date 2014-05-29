@@ -8,7 +8,7 @@ function [mkey,mbic,mcor] = taco4_batch_fitting_par(u_subject,u_novel,human,sdat
     % key
     mkey = [alpha_m,alpha_rt,alpha_rc,tau];
     % criterion
-    criterion  = model_criterion();
+    criterion  = valid_criterion();
     % model
     model       = mdata(mkey);
     model.value = criterion(model.choice,model.correct);

@@ -39,7 +39,7 @@ function ta3_batch_fitting(u_alpham,u_alphar,u_tau,model_file)
 
     % variables
     criterion   = @(x,y)x;
-    criterion   = model_criterion();
+    criterion   = valid_criterion();
     human       = models.human;
 
     % parameters

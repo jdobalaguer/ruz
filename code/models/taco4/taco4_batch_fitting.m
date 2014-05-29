@@ -40,7 +40,7 @@ function taco4_batch_fitting(u_alpham,u_alphart,u_alpharc,u_tau,model_file)
 
     % variables
     criterion   = @(x,y)x;
-    criterion   = model_criterion();
+    criterion   = valid_criterion();
     human       = models.human;
 
     % parameters

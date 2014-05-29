@@ -8,7 +8,7 @@ function [mkey,mbic,mcor] = ta3_batch_fitting_par(u_subject,u_novel,human,sdata,
     % key
     mkey = [alpha_m,alpha_r,tau];
     % criterion
-    criterion  = model_criterion();
+    criterion  = valid_criterion();
     % model
     model      = mdata(mkey);
     model.value = criterion(model.choice,model.correct);

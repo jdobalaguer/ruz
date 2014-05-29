@@ -21,7 +21,7 @@ function varargout = run_dist(criterion)
     
     %% criterion
     if ~exist('criterion','var')
-        criterion = model_criterion();
+        criterion = valid_criterion();
     end
     
     %% load

@@ -19,8 +19,17 @@ function sqdist = model_sqdist(model_df,model_value,human_value,ii_frame,odd)
     u_trial         = numbers.shared.u_trial;
     nb_trial        = numbers.shared.nb_trial;
     
+    %% likelihood
+    model_sqdist = nan(1,nb_trial);
+    for i_trial = 1:nb_trial
+        ii_odd                  = (sdata.vb_odd == odd);
+        ii_trial                = (sdata.exp_trial == u_trial(i_trial));    ... index
+        ii_condition            = (ii_frame & ii_trial & ii_odd);           ... odd blocks
+        d = (model_value(ii_condition) - human_value(ii_condition));
+        model_sqdist(i_trial)   = sum(d.*d);                                ... sqdist
+    end
+
     %% square distance
-    d   = model_value(ii_frame)-human_value(ii_frame);
-    sqdist = sum(d.*d);
+    sqdist = mean(model_sqdist);
     
 end
