@@ -46,7 +46,7 @@ function figure_1B()
         ii_subject  = (sdata.exp_subject == u_subject(i_subject));
         ii_novel    = (sdata.vb_novel    == u_novel(i_novel));
         ii_trial    = (sdata.exp_trial   == u_trial(i_trial));
-        ii_odd      = (sdata.vb_odd      == 0);
+        ii_odd      = (sdata.vb_odd      == 1);
         ii = (ii_resp & ii_subject & ii_novel & ii_odd & ii_trial);
         
         human_choice(i_subject,i_novel,i_trial)     = mean(models.(human).choice(ii));
