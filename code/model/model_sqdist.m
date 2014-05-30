@@ -25,7 +25,9 @@ function sqdist = model_sqdist(model_df,model_value,human_value,ii_frame,odd)
         ii_odd                  = (sdata.vb_odd == odd);
         ii_trial                = (sdata.exp_trial == u_trial(i_trial));    ... index
         ii_condition            = (ii_frame & ii_trial & ii_odd);           ... odd blocks
-        d = (model_value(ii_condition) - human_value(ii_condition));
+        mean_model              = mean(model_value(ii_condition));
+        mean_human              = mean(human_value(ii_condition));
+        d = (mean_model - mean_human);
         model_sqdist(i_trial)   = sum(d.*d);                                ... sqdist
     end
 
