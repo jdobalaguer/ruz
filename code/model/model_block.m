@@ -17,6 +17,12 @@ function [mdata] = model_block(model,vb_stimord,vb_novel,vb_target,vb_rules)
         case 'ta3'
             ta3_block;
             
+        %% choice model
+        case 'ch2'
+            ch2_block;
+        case 'ch3'
+            ch3_block;
+            
         %% correct model
         case 'co2'
             co2_block;

@@ -17,6 +17,16 @@ function model_assert(model)
             assert(isfield(model,'alpha_r'),     'model_assert: error. ta3. alpha_r field missing');
             assert(isfield(model,'tau'),         'model_assert: error. ta3. tau field missing');
             
+        %% choice model
+        case 'ch2'
+            assert(isfield(model,'alpha_m'),     'model_assert: error. ch2. alpha_m field missing');
+            assert(isfield(model,'alpha_r'),     'model_assert: error. ch2. alpha_r field missing');
+            assert(isfield(model,'tau'),         'model_assert: error. ch2. tau field missing');
+        case 'ch3'
+            assert(isfield(model,'alpha_m'),     'model_assert: error. ch3. alpha_m field missing');
+            assert(isfield(model,'alpha_r'),     'model_assert: error. ch3. alpha_r field missing');
+            assert(isfield(model,'tau'),         'model_assert: error. ch3. tau field missing');
+            
         %% correct model
         case 'co2'
             assert(isfield(model,'alpha_m'),     'model_assert: error. co2. alpha_m field missing');
