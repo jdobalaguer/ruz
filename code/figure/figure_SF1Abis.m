@@ -81,8 +81,10 @@ function figure_SF1A()
         
         sa.xlim    = [1,16];
         sa.xtick   = 5:5:15;
+        sa.xticklabel = {''};
         sa.ylim    = [0.4,1.0];
         sa.ytick   = 0.4:0.2:1.0;
+        sa.yticklabel = {''};
         fig_axis(sa);
         
     end
@@ -105,6 +107,6 @@ function figure_SF1A()
     
     %% export
     mkdirp('docs/figures');
-    fig_export('docs/figures/figure_SF1A.pdf');
+    fig_export('docs/figures/figure_SF1Abis.pdf');
     
 end

@@ -14,6 +14,7 @@ function run_batch(modelname)
             run_batch hbm;
             run_batch ta3;
             run_batch co3;
+            run_batch ch3;
             run_batch taco4;
             
         %% god (perfect)
@@ -29,6 +30,12 @@ function run_batch(modelname)
             ta2_batch();
         case 'ta3'
             ta3_batch();
+
+        %% choice model
+        case 'ch2'
+            ch2_batch();
+        case 'ch3'
+            ch3_batch();
 
         %% correct model
         case 'co2'
