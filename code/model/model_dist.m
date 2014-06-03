@@ -1,12 +1,12 @@
 
 function dist = model_dist(model_df,model_value,human_value,ii_frame,odd)
     switch(valid_dist())
-        case 'bic'
-            dist = model_bic(     model_df,model_value,human_value,ii_frame,odd);
-        case 'sqdist'
-            dist = model_sqdist(  model_df,model_value,human_value,ii_frame,odd);
-        case 'sqrtdist'
-            dist = model_sqrtdist(model_df,model_value,human_value,ii_frame,odd);
+        case 'BIC'
+            dist = model_BIC(model_df,model_value,human_value,ii_frame,odd);
+        case 'MAE'
+            dist = model_MAE(model_df,model_value,human_value,ii_frame,odd);
+        case 'MSE'
+            dist = model_MSE(model_df,model_value,human_value,ii_frame,odd);
         otherwise
             error('distance "%s" not valid',valid_dist());
     end

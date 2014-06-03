@@ -43,7 +43,7 @@ function figure_2B()
     %% numbers
     nb_novel = numbers.shared.nb_novel;
     nb_pars  = length(labels);
-    nb_pars  = 2; % exclude TAU
+    nb_pars  = length(max_par)-1; % exclude TAU
     
     %% values
     fittings = models.(model).fittings;

@@ -74,8 +74,7 @@ function varargout = run_dist(criterion)
         return;
     end
     
-    %% print
-    varargout = {};
+    %% print BIC scores
     
     % criterion
     fprintf('\n');
@@ -88,12 +87,52 @@ function varargout = run_dist(criterion)
         for i_model = 1:nb_model
             str_mod = sprintf('BIC(%s)',u_model{i_model});
             str_mod(end+1:15) = ' ';
-            str_bif = sprintf('= %.2f',mean(bic(i_odd,i_model,1,:),4));
-            str_bif(end+1:10) = ' ';
-            str_bin = sprintf('= %.2f',mean(bic(i_odd,i_model,2,:),4));
-            str_bin(end+1:10) = ' ';
-            fprintf([str_mod,str_bif,str_bin,'\n']);
+            str_bmf = sprintf('= %.4f',mean(bic(i_odd,i_model,1,:),4));
+            str_bmf(end+1:10) = ' ';
+            str_bef = sprintf('± %.4f',ste( bic(i_odd,i_model,1,:),4));
+            str_bef(end+1:10) = ' ';
+            str_bmn = sprintf('= %.4f',mean(bic(i_odd,i_model,2,:),4));
+            str_bmn(end+1:10) = ' ';
+            str_ben = sprintf('± %.4f',ste( bic(i_odd,i_model,2,:),4));
+            str_ben(end+1:10) = ' ';
+            fprintf([str_mod,str_bmf,str_bef,str_bmn,str_ben,'\n']);
         end
         fprintf('\n');
     end
+    
+    %% print t-test
+    
+    % criterion
+    fprintf('\n');
+    fprintf('run_bic: criterion "%s" \n',func2str(criterion));
+    fprintf('\n');
+    
+    for i_odd   = 1:nb_odd
+        for i_novel   = 1:nb_novel
+            fprintf('run_bic: oddity %d novel %d \n',u_odd(i_odd),u_novel(i_novel));
+            for i_model1 = 1:nb_model
+                str_mod = sprintf('BIC(%s)',u_model{i_model1});
+                str_mod(end+1:15) = ' ';
+                fprintf(str_mod);
+                for i_model2 = 1:nb_model
+                    bic1    = squeeze(bic(i_odd,i_model1,i_novel,:));
+                    bic2    = squeeze(bic(i_odd,i_model2,i_novel,:));
+                    [h,p]   = ttest(bic1,bic2,'tail','left');
+                    if isnan(h), h = 0; end
+                    if isnan(p), p = 1; end
+                    if h
+                        cprintf('red',  ' %0.02f',p);
+                    else
+                        cprintf('black',' %0.02f',p);
+                    end
+                end
+                fprintf('\n');
+            end
+            fprintf('\n');
+        end
+    end
+    
+    %% return
+    varargout = {};
+    
 end
