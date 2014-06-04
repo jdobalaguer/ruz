@@ -6,7 +6,7 @@
 %% warning
 %#ok<*NODEF>
 
-%function varargout = run_dist(criterion)
+function varargout = run_dist(criterion)
     %%
     % help('run_dist')
     %
@@ -139,4 +139,4 @@
     %% return
     varargout = {};
     
-%end
+end
