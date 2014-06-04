@@ -1,5 +1,5 @@
 
-function bic = model_bic(model_df,model_value,human_value,ii_frame,odd)
+function bic = model_BIC(model_df,model_value,human_value,ii_frame,odd)
     %% load
     sdata = struct();
     load('data/sdata.mat','sdata','numbers');
@@ -25,7 +25,7 @@ function bic = model_bic(model_df,model_value,human_value,ii_frame,odd)
         frame_sum               = sum(ii_condition);                        ... values
         model_sum               = sum(model_value(ii_condition));
         human_mean              = mean(human_value(ii_condition));
-        model_like(i_trial)     = binopdf(model_sum,frame_sum,human_mean);  ... likelihood
+        model_like(i_trial)     = 0.005 + 0.095 * binopdf(model_sum,frame_sum,human_mean);  ... likelihood
 %         human_sum               = sum(human_value(ii_condition));
 %         model_mean              = mean(model_value(ii_condition));
 %         model_like(i_trial)     = binopdf(human_sum,frame_sum,model_mean);  ... likelihood

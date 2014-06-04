@@ -31,6 +31,20 @@ function figure_2Abis()
             s_par1  = 'u_alpham';       s_par2  = 'u_alphar';
             t_par1  = 'ALPHA_M';        t_par2  = 'ALPHA_R';
             l_par1  = {'dont','learn'}; l_par2  = {'nontarget','target'};
+        case 'ch2'
+            dim_out = 1;
+            dim_sub = 4;
+            max_par = [1,1]';
+            s_par1  = 'u_alphar';       s_par2  = 'u_tau';
+            t_par1  = 'ALPHA';          t_par2  = 'TAU';
+            l_par1  = {'nonchoice','choice'}; l_par2  = {'max','min'};
+        case 'ch3'
+            dim_out = 3;
+            dim_sub = 4;
+            max_par = [2,1]';
+            s_par1  = 'u_alpham';       s_par2  = 'u_alphar';
+            t_par1  = 'ALPHA_M';        t_par2  = 'ALPHA_R';
+            l_par1  = {'dont','learn'}; l_par2  = {'nonchoice','choice'};
         case 'co2'
             dim_out = 1;
             dim_sub = 4;

@@ -6,7 +6,7 @@
 %% warning
 %#ok<*NODEF>
 
-function varargout = run_dist(criterion)
+%function varargout = run_dist(criterion)
     %%
     % help('run_dist')
     %
@@ -117,13 +117,17 @@ function varargout = run_dist(criterion)
                 for i_model2 = 1:nb_model
                     bic1    = squeeze(bic(i_odd,i_model1,i_novel,:));
                     bic2    = squeeze(bic(i_odd,i_model2,i_novel,:));
-                    [h,p]   = ttest(bic1,bic2,'tail','left');
+                    [h,p,c,s]   = ttest(bic1,bic2,'tail','left');
+                    t = s.tstat;
                     if isnan(h), h = 0; end
                     if isnan(p), p = 1; end
+                    if isnan(t), t = 0; end
+                    str_val = sprintf('%+0.4f',p);
+                    str_val(end:7) = ' '; 
                     if h
-                        cprintf('red',  ' %0.02f',p);
+                        cprintf('red',str_val);
                     else
-                        cprintf('black',' %0.02f',p);
+                        cprintf('black',str_val);
                     end
                 end
                 fprintf('\n');
@@ -135,4 +139,4 @@ function varargout = run_dist(criterion)
     %% return
     varargout = {};
     
-end
+%end

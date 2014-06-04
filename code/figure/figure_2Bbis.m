@@ -21,6 +21,14 @@ function figure_2B()
             dim_out = [];
             labels  = {'alpha_M','alpha_R','tau'};
             max_par = [2,1,1]';
+        case 'ch2'
+            dim_out = 1;
+            labels  = {'alpha','tau'};
+            max_par = [2,1,1]';
+        case 'ch3'
+            dim_out = [];
+            labels  = {'alpha_M','alpha_R','tau'};
+            max_par = [2,1,1]';
         case 'co2'
             dim_out = 1;
             labels  = {'alpha','tau'};
