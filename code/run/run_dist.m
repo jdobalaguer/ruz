@@ -123,7 +123,7 @@ function varargout = run_dist(criterion)
                     if isnan(p), p = 1; end
                     if isnan(t), t = 0; end
                     str_val = sprintf('%+0.4f',p);
-                    str_val(end:7) = ' '; 
+                    str_val(end:13) = ' '; 
                     if h
                         cprintf('red',str_val);
                     else

@@ -108,6 +108,17 @@ function figure_1B()
     % font
     fig_fontsize([],18);
  
+    %% paper size
+    % window position
+    pos = get(gcf(),'Position');
+    set(gcf(),'Position',pos);
+    % paper size
+    set(gcf(),'PaperPositionMode','auto');
+    pos = get(gcf(),'PaperSize');
+    pos(1) = 0.8 .* pos(1);
+    pos(2) = 0.5 .* pos(2);
+    set(gcf(),'Papersize',pos);
+    
     %% export
     mkdirp('docs/figures');
     fig_export('docs/figures/figure_1Bbis.pdf');
